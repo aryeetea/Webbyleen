@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import PortraitCard from '../components/PortraitCard'
 
 const values = [
   { name: 'Custom Builds', desc: 'No templates. Every site is written from scratch, tailored entirely to you.' },
@@ -21,8 +22,8 @@ export default function About() {
   return (
     <>
       {/* HERO */}
-      <div style={{ padding: '140px 5% 80px', background: 'var(--cream)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: 0, left: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, var(--brown-pale) 0%, transparent 70%)', opacity: 0.35, pointerEvents: 'none' }} />
+      <div style={{ padding: '140px 5% 80px', background: 'linear-gradient(180deg, var(--cream), var(--white))', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: 0, left: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, var(--hero-glow) 0%, transparent 70%)', opacity: 1, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div className="section-label fade-in delay-1">About Web By Leen</div>
           <h1 className="fade-in delay-2" style={{ fontSize: 'clamp(40px,5.5vw,76px)', maxWidth: 760, lineHeight: 1.08, marginBottom: 28 }}>
@@ -41,13 +42,7 @@ export default function About() {
 
           {/* LEFT — Visual */}
           <div style={{ position: 'sticky', top: 100 }}>
-            <div style={{ width: '100%', aspectRatio: '3 / 4', background: 'var(--brown-pale)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 100, color: 'var(--brown-light)', lineHeight: 1 }}>W</span>
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'var(--black)', padding: '20px 24px' }}>
-                <div style={{ fontSize: 11, letterSpacing: '0.12em', color: 'var(--brown-light)', textTransform: 'uppercase', marginBottom: 4 }}>Web By Leen</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontWeight: 300 }}>Custom Web Design & Development</div>
-              </div>
-            </div>
+            <PortraitCard />
 
             {/* Mini stats */}
             <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>

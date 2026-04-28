@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import PortraitCard from '../components/PortraitCard'
+import ThemeSwitcher from '../components/ThemeSwitcher'
 
 const services = [
   {
@@ -69,33 +71,55 @@ const faqs = [
   },
 ]
 
-export default function Home() {
+export default function Home({ activeTheme, onThemeChange }) {
   const [openFaq, setOpenFaq] = useState(0)
 
   return (
     <>
       {/* HERO */}
-      <div style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '140px 5% 80px', background: 'var(--cream)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, var(--brown-pale) 0%, transparent 70%)', opacity: 0.4, pointerEvents: 'none' }} />
+      <div style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '140px 5% 80px', background: 'linear-gradient(180deg, var(--cream), var(--white))', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, var(--hero-glow) 0%, transparent 70%)', opacity: 1, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-8%', left: '-2%', width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)', opacity: 0.65, pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-          <div className="section-label fade-in delay-1">Web Design & Development</div>
-          <h1 className="fade-in delay-2" style={{ fontSize: 'clamp(40px,6vw,80px)', maxWidth: 820, marginBottom: 28, lineHeight: 1.08 }}>
-            Web By Leen builds<br />
-            <em style={{ fontStyle: 'italic', color: 'var(--brown)' }}>clean, custom websites</em><br />
-            that elevate your brand
-          </h1>
-          <p className="fade-in delay-3" style={{ fontSize: 17, color: 'var(--gray)', maxWidth: 480, marginBottom: 48, fontWeight: 300, lineHeight: 1.8 }}>
-            Custom-coded from scratch. Design-first. Built to convert. Every project crafted with intention — no templates, no shortcuts.
-          </p>
-          <div className="fade-in delay-4" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link to="/contact" className="btn-primary">Start Your Project</Link>
-            <Link to="/portfolio" className="btn-outline">View Work</Link>
+          <div className="hero-grid">
+            <div>
+              <div className="section-label fade-in delay-1">Web Design & Development</div>
+              <div className="fade-in delay-2" style={{ marginBottom: 26 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '8px 14px', borderRadius: 999, background: 'var(--white)', border: '1px solid var(--brown-pale)', marginBottom: 22, boxShadow: '0 12px 28px rgba(31, 23, 38, 0.06)' }}>
+                  <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--accent-strong)', boxShadow: '0 0 0 6px var(--accent-soft)' }} />
+                  <span style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--gray)' }}>Choose your vibe below</span>
+                </div>
+                <h1 style={{ fontSize: 'clamp(40px,6vw,80px)', maxWidth: 820, marginBottom: 28, lineHeight: 1.02 }}>
+                  Web By Leen now feels
+                  <br />
+                  <em style={{ fontStyle: 'italic', color: 'var(--brown)' }}>more personal, more alive</em>
+                  <br />
+                  and a lot less safe
+                </h1>
+              </div>
+              <p className="fade-in delay-3" style={{ fontSize: 17, color: 'var(--gray)', maxWidth: 560, marginBottom: 32, fontWeight: 300, lineHeight: 1.8 }}>
+                Custom-coded from scratch. Design-first. Built to convert. Pick the color direction that feels most like you, and the entire site updates with it.
+              </p>
+              <div className="fade-in delay-3" style={{ marginBottom: 38 }}>
+                <ThemeSwitcher activeTheme={activeTheme} onThemeChange={onThemeChange} />
+              </div>
+              <div className="fade-in delay-4" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                <Link to="/contact" className="btn-primary">Start Your Project</Link>
+                <Link to="/portfolio" className="btn-outline">View Work</Link>
+              </div>
+              <p className="fade-in delay-4" style={{ fontSize: 13, color: 'var(--gray)', marginTop: 16 }}>
+                `Start Your Project` opens your inquiry form so potential clients can send project details, budget, and timeline.
+              </p>
+            </div>
+            <div className="fade-in delay-3">
+              <PortraitCard />
+            </div>
           </div>
         </div>
       </div>
 
       {/* INTRO BAND */}
-      <div style={{ background: 'var(--black)', padding: '80px 5%' }}>
+      <div style={{ background: 'linear-gradient(135deg, var(--surface-dark), var(--surface-dark-soft))', padding: '80px 5%' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
           <div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.5vw,46px)', color: '#fff', lineHeight: 1.18, marginBottom: 32 }}>
@@ -147,7 +171,7 @@ export default function Home() {
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(139,111,78,0.12)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(31,23,38,0.12)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.transform = ''
@@ -180,7 +204,7 @@ export default function Home() {
       </section>
 
       {/* PORTFOLIO PREVIEW */}
-      <section style={{ padding: '100px 5%', background: 'var(--cream)' }}>
+      <section style={{ padding: '100px 5%', background: 'linear-gradient(180deg, var(--white), var(--cream))' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div className="section-label">Selected Work</div>
           <h2 style={{ fontSize: 'clamp(30px,4vw,52px)', marginBottom: 16, color: 'var(--black)' }}>

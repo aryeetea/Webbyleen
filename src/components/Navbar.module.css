@@ -1,6 +1,6 @@
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(250,248,244,0.92);
+  background: color-mix(in srgb, var(--cream) 82%, white 18%);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--brown-pale);
   padding: 0 5%;
@@ -18,11 +18,12 @@
 .links a { color: var(--gray); font-size: 14px; letter-spacing: 0.04em; transition: color 0.2s; }
 .links a:hover, .links a.active { color: var(--black); }
 .cta {
-  background: var(--black) !important; color: var(--white) !important;
-  padding: 10px 22px; border-radius: 2px;
+  background: linear-gradient(135deg, var(--black), var(--brown)) !important; color: var(--white) !important;
+  padding: 10px 22px; border-radius: 999px;
   font-size: 13px !important; letter-spacing: 0.06em !important;
+  box-shadow: 0 14px 26px rgba(31, 23, 38, 0.12);
 }
-.cta:hover { background: var(--brown) !important; }
+.cta:hover { filter: saturate(1.08); }
 .hamburger {
   display: none; flex-direction: column; gap: 5px;
   background: none; border: none; cursor: pointer; padding: 4px;
