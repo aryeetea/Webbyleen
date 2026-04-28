@@ -104,11 +104,11 @@ export default function Home({ activeTheme, onThemeChange }) {
                 <ThemeSwitcher activeTheme={activeTheme} onThemeChange={onThemeChange} />
               </div>
               <div className="fade-in delay-4" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                <Link to="/contact" className="btn-primary">Start Your Project</Link>
+                <Link to="/services" className="btn-primary">Shop Packages</Link>
                 <Link to="/portfolio" className="btn-outline">View Work</Link>
               </div>
               <p className="fade-in delay-4" style={{ fontSize: 13, color: 'var(--gray)', marginTop: 16 }}>
-                `Start Your Project` opens your inquiry form so potential clients can send project details, budget, and timeline.
+                `Shop Packages` takes clients to your package page, where they can choose an offer and submit an order.
               </p>
             </div>
             <div className="fade-in delay-3">

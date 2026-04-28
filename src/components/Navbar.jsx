@@ -28,7 +28,7 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Link to="/contact" className={styles.cta}>Start a Project</Link>
+            <Link to="/services" className={styles.cta}>Shop Packages</Link>
           </li>
         </ul>
         <button className={styles.hamburger} onClick={() => setOpen(!open)}>

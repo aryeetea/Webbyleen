@@ -1,71 +1,5 @@
 import { Link } from 'react-router-dom'
-
-const packages = [
-  {
-    tier: '01 — Basic',
-    name: 'Starter',
-    price: '$150 – $250',
-    who: 'Perfect for freelancers, creatives, and individuals who need a clean, professional presence online — fast.',
-    includes: [
-      '1-page fully custom website',
-      'Mobile responsive design',
-      'Clean, modern aesthetic',
-      'Basic contact section',
-      'Smooth scroll & hover effects',
-      '2 rounds of revisions',
-      'Final file handover',
-    ],
-    addons: [
-      { label: 'Extra section', price: '$30 – $60' },
-      { label: 'Fast delivery', price: '$50 – $100' },
-      { label: 'Extra revision round', price: '$20 – $40' },
-    ],
-  },
-  {
-    tier: '02 — Standard',
-    name: 'Professional',
-    price: '$400 – $700',
-    who: 'Ideal for small businesses and brands ready to make a real impression across multiple pages.',
-    includes: [
-      '3–5 fully custom pages',
-      'Mobile responsive & optimized',
-      'Contact form integration',
-      'Basic animations & transitions',
-      'SEO-ready structure',
-      '3 rounds of revisions',
-      'Final file handover',
-    ],
-    addons: [
-      { label: 'Extra page', price: '$50 – $100' },
-      { label: 'Fast delivery', price: '$75 – $150' },
-      { label: 'Extra revision round', price: '$30 – $50' },
-      { label: 'Forms + animations', price: '$50 – $120' },
-    ],
-    featured: true,
-  },
-  {
-    tier: '03 — Premium',
-    name: 'Signature',
-    price: '$800 – $1300',
-    who: 'For established businesses and ambitious brands who want a fully custom, high-end digital experience.',
-    includes: [
-      '6–10 fully custom pages',
-      'Advanced animations & interactions',
-      'Custom features & functionality',
-      'Full mobile optimization',
-      'SEO structure & performance',
-      '5 rounds of revisions',
-      'Priority support & communication',
-      'Final file handover',
-    ],
-    addons: [
-      { label: 'Extra page', price: '$70 – $120' },
-      { label: 'Fast delivery', price: '$100 – $200' },
-      { label: 'Extra revision round', price: '$40 – $70' },
-      { label: 'Custom features / animations', price: '$100+' },
-    ],
-  },
-]
+import { packages } from '../data/packages'
 
 const comparisons = [
   { label: 'Pages',           basic: '1',         standard: '3–5',       premium: '6–10' },
@@ -163,7 +97,7 @@ export default function Services() {
 
                   {/* CTA */}
                   <Link
-                    to="/contact"
+                    to={`/contact?package=${pkg.slug}`}
                     style={{
                       display: 'block',
                       textAlign: 'center',
@@ -179,7 +113,7 @@ export default function Services() {
                     onMouseEnter={e => e.currentTarget.style.background = pkg.featured ? 'var(--black)' : 'var(--brown)'}
                     onMouseLeave={e => e.currentTarget.style.background = pkg.featured ? 'var(--brown)' : 'var(--black)'}
                   >
-                    Get Started
+                    Order This Package
                   </Link>
                 </div>
               </div>
@@ -239,7 +173,7 @@ export default function Services() {
               Message me with your idea and I'll recommend the best fit — no pressure, no commitment. Every project starts with a conversation.
             </p>
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/contact" className="btn-primary">Let's Talk</Link>
+              <Link to="/contact" className="btn-primary">Custom Quote Instead</Link>
               <a
                 href="https://fiverr.com/yourprofile"
                 target="_blank"
@@ -258,10 +192,10 @@ export default function Services() {
       {/* BOTTOM CTA BAND */}
       <div style={{ background: 'var(--brown)', padding: '80px 5%', textAlign: 'center' }}>
         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,52px)', color: '#fff', marginBottom: 20, maxWidth: 640, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.15 }}>
-          Ready to get started?
+          Ready to place your order?
         </h2>
         <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 17, marginBottom: 40, fontWeight: 300 }}>
-          Pick a package, reach out, and let's build something great together.
+          Choose a package, send your order details, and I'll confirm the deposit and timeline with you.
         </p>
         <Link
           to="/contact"
@@ -270,7 +204,7 @@ export default function Services() {
           onMouseEnter={e => { e.currentTarget.style.background = 'var(--black)'; e.currentTarget.style.color = '#fff' }}
           onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = 'var(--brown)' }}
         >
-          Start Your Project
+          Order Your Package
         </Link>
       </div>
     </>
