@@ -1,0 +1,20 @@
+.footer { background: var(--black); color: var(--white); padding: 80px 5% 40px; }
+.inner { max-width: 1200px; margin: 0 auto; }
+.top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px; padding-bottom: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--white); display: block; margin-bottom: 16px; }
+.logo span { color: var(--brown-light); }
+.brand p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; font-weight: 300; max-width: 260px; }
+.col h4 { font-family: 'Cormorant Garamond', serif; font-size: 18px; margin-bottom: 20px; }
+.col a { display: block; color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+.col a:hover { color: var(--brown-light); }
+.bottom { padding-top: 32px; display: flex; justify-content: space-between; }
+.bottom p { font-size: 13px; color: rgba(255,255,255,0.35); }
+@media (max-width: 900px) { .top { grid-template-columns: 1fr 1fr; gap: 40px; } }
+@media (max-width: 640px) {
+  .top { grid-template-columns: 1fr; }
+  .bottom { flex-direction: column; gap: 8px; }
+}

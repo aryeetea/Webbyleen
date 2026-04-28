@@ -1,0 +1,284 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+const services = [
+  {
+    num: '01',
+    name: 'Starter',
+    price: '$150 – $250',
+    desc: 'For freelancers and individuals who need a sharp, professional one-page presence — delivered quickly.',
+    features: ['1-page custom website', 'Mobile responsive design', 'Clean, modern aesthetic', 'Basic contact section', '2 rounds of revisions'],
+  },
+  {
+    num: '02',
+    name: 'Professional',
+    price: '$400 – $700',
+    desc: 'For small businesses ready to make a real impression across multiple pages.',
+    features: ['3–5 pages', 'Contact form included', 'Custom animations', 'SEO-ready structure', '3 rounds of revisions'],
+    featured: true,
+  },
+  {
+    num: '03',
+    name: 'Signature',
+    price: '$800 – $1300',
+    desc: 'For established brands who want a fully custom, high-end digital experience that stands out.',
+    features: ['6–10 pages', 'Advanced animations', 'Custom features', 'Priority support', '5 rounds of revisions'],
+  },
+]
+
+const portfolioPreviews = [
+  {
+    name: 'Lumora Studio',
+    desc: 'Minimal editorial site for a London photography studio.',
+    tag: 'Photography',
+    initial: 'Lumora',
+    bg: 'linear-gradient(135deg,#2C2C2A,#444441)',
+  },
+  {
+    name: 'Terroir Co.',
+    desc: 'Landing page for an artisan coffee brand. Warm, bold typography.',
+    tag: 'E-Commerce',
+    initial: 'Terroir',
+    bg: 'linear-gradient(135deg,#3B2A1A,#8B6F4E)',
+  },
+  {
+    name: 'Kova Legal',
+    desc: 'Professional site for a boutique law firm. Trust-building and clean.',
+    tag: 'Professional',
+    initial: 'Kova',
+    bg: 'linear-gradient(135deg,#1a2535,#2d4a6e)',
+  },
+]
+
+const faqs = [
+  {
+    q: 'How long does a website take?',
+    a: 'Basic sites take 3–5 days. Standard packages take 7–14 days. Premium builds are 2–4 weeks. Rush delivery is available as an add-on.',
+  },
+  {
+    q: 'Do you offer revisions?',
+    a: 'Yes — every package includes revisions. Basic includes 2, Standard 3, and Premium 5. Additional revision rounds can be purchased as an add-on.',
+  },
+  {
+    q: 'Do I need to provide content?',
+    a: 'For the best results, yes. Providing your own copy, images, and brand assets ensures the site is truly yours.',
+  },
+  {
+    q: 'How does payment work?',
+    a: 'A 50% deposit is required to begin. The remaining 50% is due on completion. Payments accepted via Fiverr, PayPal, or bank transfer.',
+  },
+]
+
+export default function Home() {
+  const [openFaq, setOpenFaq] = useState(0)
+
+  return (
+    <>
+      {/* HERO */}
+      <div style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '140px 5% 80px', background: 'var(--cream)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, var(--brown-pale) 0%, transparent 70%)', opacity: 0.4, pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+          <div className="section-label fade-in delay-1">Web Design & Development</div>
+          <h1 className="fade-in delay-2" style={{ fontSize: 'clamp(40px,6vw,80px)', maxWidth: 820, marginBottom: 28, lineHeight: 1.08 }}>
+            Web By Leen builds<br />
+            <em style={{ fontStyle: 'italic', color: 'var(--brown)' }}>clean, custom websites</em><br />
+            that elevate your brand
+          </h1>
+          <p className="fade-in delay-3" style={{ fontSize: 17, color: 'var(--gray)', maxWidth: 480, marginBottom: 48, fontWeight: 300, lineHeight: 1.8 }}>
+            Custom-coded from scratch. Design-first. Built to convert. Every project crafted with intention — no templates, no shortcuts.
+          </p>
+          <div className="fade-in delay-4" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <Link to="/contact" className="btn-primary">Start Your Project</Link>
+            <Link to="/portfolio" className="btn-outline">View Work</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* INTRO BAND */}
+      <div style={{ background: 'var(--black)', padding: '80px 5%' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+          <div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.5vw,46px)', color: '#fff', lineHeight: 1.18, marginBottom: 32 }}>
+              Design-first development that{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--brown-light)' }}>actually works</em>{' '}
+              for your business
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+              {[
+                ['100%', 'Custom builds'],
+                ['3', 'Flexible packages'],
+                ['∞', 'Creative possibilities'],
+                ['1', 'Focused designer'],
+              ].map(([n, l]) => (
+                <div key={l} style={{ borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: 20 }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 42, fontWeight: 300, color: '#fff', lineHeight: 1 }}>{n}</div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.06em', marginTop: 6 }}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 17, lineHeight: 1.9, fontWeight: 300 }}>
+            Web By Leen creates websites from scratch — no page builders, no bloated templates. Each site is thoughtfully designed to reflect your brand and built to perform. Whether you're a solo creative, a small business, or a growing brand, there's a package built for you.
+          </p>
+        </div>
+      </div>
+
+      {/* SERVICES PREVIEW */}
+      <section style={{ padding: '100px 5%', background: 'var(--white)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div className="section-label">What I Offer</div>
+          <h2 style={{ fontSize: 'clamp(30px,4vw,52px)', marginBottom: 16, color: 'var(--black)' }}>
+            Packages built for<br />every stage of growth
+          </h2>
+          <p style={{ color: 'var(--gray)', fontSize: 17, fontWeight: 300, maxWidth: 520, marginBottom: 52, lineHeight: 1.75 }}>
+            Three tiers of service, each designed with clarity and purpose. No hidden fees — just honest, quality work.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            {services.map(s => (
+              <div
+                key={s.num}
+                style={{
+                  background: s.featured ? 'var(--black)' : 'var(--white)',
+                  border: `1px solid ${s.featured ? 'var(--black)' : 'var(--brown-pale)'}`,
+                  borderRadius: 4,
+                  padding: '36px 28px',
+                  position: 'relative',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(139,111,78,0.12)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = ''
+                  e.currentTarget.style.boxShadow = ''
+                }}
+              >
+                {s.featured && (
+                  <span style={{ position: 'absolute', top: 20, right: 20, background: 'var(--brown)', color: '#fff', fontSize: 11, letterSpacing: '0.08em', padding: '4px 12px', borderRadius: 20, textTransform: 'uppercase' }}>
+                    Popular
+                  </span>
+                )}
+                <div style={{ fontSize: 12, color: 'var(--brown-light)', letterSpacing: '0.1em', marginBottom: 16 }}>{s.num}</div>
+                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, color: s.featured ? '#fff' : 'var(--black)', marginBottom: 8 }}>{s.name}</h3>
+                <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--brown)', marginBottom: 16 }}>{s.price}</div>
+                <p style={{ fontSize: 14, color: s.featured ? 'rgba(255,255,255,0.6)' : 'var(--gray)', marginBottom: 24, fontWeight: 300, lineHeight: 1.7 }}>{s.desc}</p>
+                <ul style={{ listStyle: 'none' }}>
+                  {s.features.map(f => (
+                    <li key={f} style={{ fontSize: 14, color: s.featured ? 'rgba(255,255,255,0.7)' : 'var(--gray)', padding: '7px 0', borderBottom: `1px solid ${s.featured ? 'rgba(255,255,255,0.1)' : 'var(--brown-pale)'}`, display: 'flex', gap: 10, alignItems: 'center' }}>
+                      <span style={{ color: 'var(--brown)', fontSize: 12, flexShrink: 0 }}>→</span>{f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 48 }}>
+            <Link to="/services" className="btn-primary">View Full Packages</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* PORTFOLIO PREVIEW */}
+      <section style={{ padding: '100px 5%', background: 'var(--cream)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div className="section-label">Selected Work</div>
+          <h2 style={{ fontSize: 'clamp(30px,4vw,52px)', marginBottom: 16, color: 'var(--black)' }}>
+            A few things<br />I'm proud of
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, marginTop: 48 }}>
+            {portfolioPreviews.map(p => (
+              <div
+                key={p.name}
+                style={{ background: 'var(--white)', border: '1px solid var(--brown-pale)', borderRadius: 4, overflow: 'hidden', transition: 'transform 0.3s, box-shadow 0.3s' }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-3px)'
+                  e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.08)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = ''
+                  e.currentTarget.style.boxShadow = ''
+                }}
+              >
+                <div style={{ height: 200, background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: 28, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.04em' }}>
+                  {p.initial}
+                </div>
+                <div style={{ padding: '20px 22px' }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: 'var(--black)', marginBottom: 6 }}>{p.name}</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray)', lineHeight: 1.6, fontWeight: 300 }}>{p.desc}</div>
+                  <span style={{ display: 'inline-block', marginTop: 12, fontSize: 11, letterSpacing: '0.08em', color: 'var(--brown)', border: '1px solid var(--brown-pale)', padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase' }}>
+                    {p.tag}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 48 }}>
+            <Link to="/portfolio" className="btn-outline">See All Projects</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section style={{ padding: '100px 5%', background: 'var(--white)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 80 }}>
+          <div>
+            <div className="section-label">FAQ</div>
+            <h2 style={{ fontSize: 'clamp(28px,3.5vw,46px)', marginBottom: 20, color: 'var(--black)' }}>Common questions</h2>
+            <p style={{ fontSize: 15, color: 'var(--gray)', fontWeight: 300, lineHeight: 1.8 }}>
+              Still have questions? Feel free to reach out directly.
+            </p>
+            <Link to="/contact" className="btn-primary" style={{ marginTop: 32, display: 'inline-block' }}>
+              Get in Touch
+            </Link>
+          </div>
+          <div>
+            {faqs.map((f, i) => (
+              <div key={i} style={{ borderBottom: '1px solid var(--brown-pale)' }}>
+                <div
+                  onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '22px 0', cursor: 'pointer', gap: 20 }}
+                >
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: 'var(--black)', fontWeight: 400 }}>
+                    {f.q}
+                  </h3>
+                  <span style={{
+                    width: 28, height: 28,
+                    border: '1px solid var(--brown-pale)',
+                    borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 16,
+                    color: openFaq === i ? '#fff' : 'var(--brown)',
+                    background: openFaq === i ? 'var(--black)' : 'transparent',
+                    flexShrink: 0,
+                    transition: 'all 0.2s',
+                  }}>
+                    {openFaq === i ? '−' : '+'}
+                  </span>
+                </div>
+                {openFaq === i && (
+                  <p style={{ fontSize: 15, color: 'var(--gray)', fontWeight: 300, lineHeight: 1.8, paddingBottom: 24 }}>
+                    {f.a}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA BAND */}
+      <div style={{ background: 'var(--brown)', padding: '80px 5%', textAlign: 'center' }}>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,54px)', color: '#fff', marginBottom: 20, maxWidth: 700, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.15 }}>
+          Ready to build something you're proud of?
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 17, marginBottom: 40, fontWeight: 300 }}>
+          Let's turn your vision into a website that works as hard as you do.
+        </p>
+        <Link to="/contact" className="btn-primary" style={{ background: '#fff', color: 'var(--brown)' }}>
+          Work With Me
+        </Link>
+      </div>
+    </>
+  )
+}
