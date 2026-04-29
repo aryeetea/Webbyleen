@@ -1,38 +1,40 @@
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import PortfolioShowcase from '../components/PortfolioShowcase'
 import SectionIntro from '../components/SectionIntro'
-import Carousel from '../components/Carousel'
-
-function getSavedProjects() {
-  try {
-    return JSON.parse(localStorage.getItem('portfolioProjects') || '[]')
-  } catch {
-    return []
-  }
-}
+import { fetchPortfolioProjects } from '../lib/api'
 
 export default function Portfolio() {
-  const [projects, setProjects] = useState(getSavedProjects())
-  const [input, setInput] = useState('')
-  const inputRef = useRef(null)
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    localStorage.setItem('portfolioProjects', JSON.stringify(projects))
-  }, [projects])
+    let cancelled = false
 
-  function handleAdd(e) {
-    e.preventDefault()
-    let url = input.trim()
-    if (!url) return
-    if (!/^https?:\/\//.test(url)) url = 'https://' + url
-    if (projects.includes(url)) return
-    setProjects([url, ...projects])
-    setInput('')
-    inputRef.current?.focus()
-  }
+    async function loadProjects() {
+      try {
+        const items = await fetchPortfolioProjects()
+        if (!cancelled) {
+          setProjects(items)
+          setError('')
+        }
+      } catch (loadError) {
+        if (!cancelled) {
+          setError(loadError.message)
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false)
+        }
+      }
+    }
 
-  function handleRemove(idx) {
-    setProjects(projects.filter((_, i) => i !== idx))
-  }
+    loadProjects()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <>
@@ -41,46 +43,24 @@ export default function Portfolio() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Portfolio"
-            title="Showcase your favorite websites."
-            copy="Paste a website link below. Your portfolio will be saved and shown as a list."
+            title="Client work that renders directly from the real project links."
+            copy="Each project below starts from a saved portfolio URL in the admin area, then the public site pulls in a rendered preview for visitors."
           />
+          {error && (
+            <p className="mt-6 max-w-2xl rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </p>
+          )}
         </div>
       </section>
 
       <section className="px-5 pb-24 sm:px-6">
-        <div className="mx-auto max-w-2xl">
-          <form onSubmit={handleAdd} className="flex gap-3 mb-10">
-            <input
-              ref={inputRef}
-              type="url"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              placeholder="https://yourwebsite.com"
-              className="flex-1 rounded-sm border border-warmbrown-pale bg-cream px-4 py-3 text-[1rem] text-ink outline-none focus:border-warmbrown"
-              required
-            />
-            <button type="submit" className="rounded-full bg-ink px-6 py-3 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-softwhite hover:bg-warmbrown transition">
-              Add
-            </button>
-          </form>
-
-          {projects.length === 0 ? (
-            <div className="text-center text-ink/60 py-16">No projects added yet. Paste a link above to get started.</div>
-          ) : (
-            <ul className="space-y-6">
-              {projects.map((url, idx) => (
-                <li key={url} className="flex items-center gap-4 border border-warmbrown-pale rounded-sm bg-softwhite px-6 py-4">
-                  <a href={url} target="_blank" rel="noopener noreferrer" className="text-warmbrown underline break-all flex-1">{url}</a>
-                  <button
-                    onClick={() => handleRemove(idx)}
-                    className="bg-warmbrown/80 text-softwhite rounded-full px-3 py-1 text-xs hover:bg-warmbrown"
-                  >
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="mx-auto max-w-6xl">
+          <PortfolioShowcase
+            projects={projects}
+            loading={loading}
+            emptyMessage="No portfolio projects have been published yet. Add one from the admin page and it will appear here."
+          />
         </div>
       </section>
     </>

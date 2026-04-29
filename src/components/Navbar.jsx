@@ -3,11 +3,11 @@ import { Link, useLocation } from 'react-router-dom'
 
 const links = [
   { to: '/', label: 'Home' },
-  { to: '/about', label: 'About' },
   { to: '/services', label: 'Services' },
   { to: '/portfolio', label: 'Portfolio' },
   { to: '/orders', label: 'Orders' },
   { to: '/contact', label: 'Contact' },
+  { to: '/about', label: 'About' },
 ]
 
 export default function Navbar() {
@@ -42,10 +42,10 @@ export default function Navbar() {
 
           <div className="hidden md:block">
             <Link
-              to="/services"
+              to="/admin"
               className="rounded-full bg-ink px-5 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
             >
-              View Packages
+              Admin
             </Link>
           </div>
 
@@ -78,11 +78,11 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              to="/services"
+              to="/admin"
               onClick={() => setOpen(false)}
               className="mt-2 rounded-full bg-ink px-5 py-3 text-center text-[0.74rem] font-medium uppercase tracking-[0.18em] text-softwhite"
             >
-              View Packages
+              Admin
             </Link>
           </div>
         )}

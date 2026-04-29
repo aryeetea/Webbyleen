@@ -1,17 +1,51 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 # Webbyleen
+
+This project includes a public portfolio feed, a contact inquiry flow, and an admin dashboard for publishing real project links to the site.
+
+## Run locally
+
+Frontend:
+
+```bash
+npm run dev
+```
+
+Backend:
+
+```bash
+npm run dev:api
+```
+
+The backend now reads environment variables from the root `.env.local` file through the `dev:api` script.
+
+## Required environment variables
+
+Add these to `.env.local`:
+
+```env
+VITE_SUPABASE_URL=https://ugedvhmgjbxmrinjwyep.supabase.co
+VITE_SUPABASE_ANON_KEY=your_publishable_key
+SUPABASE_URL=https://ugedvhmgjbxmrinjwyep.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+ADMIN_TOKEN_SECRET=change-this-in-production
+```
+
+This is a Vite app, so use `VITE_...` names for frontend values instead of `NEXT_PUBLIC_...`.
+
+## SQL setup
+
+Create the Supabase tables and the `portfolio-previews` storage bucket before using the app. The codebase is now wired to expect those resources.
+
+## Portfolio flow
+
+1. Visit `/admin`
+2. Create the first admin account
+3. Paste a live project URL
+4. The backend visits the URL, captures preview screenshots and metadata, and stores them in Supabase
+5. The homepage and `/portfolio` page render that saved project content for all users
+
+## Contact flow
+
+1. Users submit the contact form
+2. The backend stores the inquiry in Supabase
+3. The `/orders` page loads those saved inquiries from the API

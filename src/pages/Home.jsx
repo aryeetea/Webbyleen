@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FaqAccordion from '../components/FaqAccordion'
-import PortraitCard from '../components/PortraitCard'
+import PortfolioShowcase from '../components/PortfolioShowcase'
 import SectionIntro from '../components/SectionIntro'
 import { faqs } from '../data/faqs'
+import { fetchPortfolioProjects } from '../lib/api'
 
 const services = [
   {
@@ -27,14 +28,38 @@ const services = [
   },
 ]
 
-const work = [
-  { name: 'Maison Lune', tag: 'Fashion', gradient: 'from-[#2b211b] via-[#8B6F4E] to-[#d3be9f]' },
-  { name: 'North Atelier', tag: 'Interior', gradient: 'from-[#111110] via-[#4b3f35] to-[#C4A882]' },
-  { name: 'Aster Clinic', tag: 'Wellness', gradient: 'from-[#45362d] via-[#8f7357] to-[#ede1cf]' },
-]
-
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(0)
+  const [portfolioProjects, setPortfolioProjects] = useState([])
+  const [portfolioLoading, setPortfolioLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadPortfolioProjects() {
+      try {
+        const items = await fetchPortfolioProjects()
+
+        if (!cancelled) {
+          setPortfolioProjects(items.slice(0, 3))
+        }
+      } catch {
+        if (!cancelled) {
+          setPortfolioProjects([])
+        }
+      } finally {
+        if (!cancelled) {
+          setPortfolioLoading(false)
+        }
+      }
+    }
+
+    loadPortfolioProjects()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <>
@@ -145,29 +170,16 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <SectionIntro
             label="Selected Work"
-            title="A few projects that show the range."
-            copy="Editorial, restrained, warm, or more assertive. The common thread is clarity, confidence, and custom structure."
+            title="Live project previews pulled from portfolio links."
+            copy="When a project URL is added in the admin area, this section renders saved preview content from that real site so visitors can see the work immediately."
           />
 
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {work.map(project => (
-              <article
-                key={project.name}
-                className="group overflow-hidden rounded-[4px] border border-warmbrown-pale bg-cream shadow-[0_14px_36px_rgba(17,17,16,0.04)] transition duration-300 hover:-translate-y-1"
-              >
-                <div className={`flex h-72 items-end bg-gradient-to-br ${project.gradient} p-6`}>
-                  <div className="rounded-full border border-softwhite/20 bg-softwhite/10 px-3 py-1 text-[0.62rem] uppercase tracking-[0.2em] text-softwhite/80 backdrop-blur-sm">
-                    {project.tag}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-display text-[1.7rem] text-ink">{project.name}</h3>
-                  <p className="mt-3 text-[0.96rem] leading-8 text-ink/65">
-                    A premium, strategy-led website crafted to feel distinctive, calm, and conversion-ready from the first scroll.
-                  </p>
-                </div>
-              </article>
-            ))}
+          <div className="mt-14">
+            <PortfolioShowcase
+              projects={portfolioProjects}
+              loading={portfolioLoading}
+              emptyMessage="No live portfolio entries yet. Add one from the admin page and it will appear here."
+            />
           </div>
         </div>
       </section>

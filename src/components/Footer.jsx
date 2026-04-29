@@ -39,6 +39,7 @@ export default function Footer() {
             <Link to="/contact">Start a Project</Link>
             <Link to="/faq">FAQ</Link>
             <a href="mailto:hello@acwebstudio.com">hello@acwebstudio.com</a>
+            <Link to="/admin">Admin</Link>
           </div>
         </div>
       </div>

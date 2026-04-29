@@ -1,13 +1,37 @@
 import { useEffect, useState } from 'react'
 import SectionIntro from '../components/SectionIntro'
+import { fetchContactInquiries } from '../lib/api'
 
 export default function Orders() {
   const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    // Load orders from localStorage (or replace with API call if backend is added)
-    const saved = localStorage.getItem('orders')
-    if (saved) setOrders(JSON.parse(saved))
+    let cancelled = false
+
+    async function loadOrders() {
+      try {
+        const inquiries = await fetchContactInquiries()
+        if (!cancelled) {
+          setOrders(inquiries)
+        }
+      } catch (loadError) {
+        if (!cancelled) {
+          setError(loadError.message)
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadOrders()
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (
@@ -23,7 +47,14 @@ export default function Orders() {
       </section>
       <section className="px-5 pb-24 sm:px-6">
         <div className="mx-auto max-w-6xl">
-          {orders.length === 0 ? (
+          {error && (
+            <div className="mb-6 rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+          {loading ? (
+            <div className="text-center text-ink/60 text-lg">Loading inquiries...</div>
+          ) : orders.length === 0 ? (
             <div className="text-center text-ink/60 text-lg">No orders yet.</div>
           ) : (
             <div className="overflow-x-auto rounded border border-warmbrown-pale bg-softwhite shadow">
