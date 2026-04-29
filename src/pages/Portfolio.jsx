@@ -10,6 +10,7 @@ function getSavedProjects() {
   }
 }
 
+export default function Portfolio() {
   const [projects, setProjects] = useState(getSavedProjects())
   const [input, setInput] = useState('')
   const inputRef = useRef(null)
@@ -35,29 +36,29 @@ function getSavedProjects() {
 
   return (
     <>
-       <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
-         <div className="absolute inset-x-0 top-0 h-130 bg-[radial-gradient(circle_at_right,rgba(196,168,130,0.18),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.10),transparent_28%)]" />
+      <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
+        <div className="absolute inset-x-0 top-0 h-130 bg-[radial-gradient(circle_at_right,rgba(196,168,130,0.18),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.10),transparent_28%)]" />
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Portfolio"
             title="Showcase your favorite websites."
-            copy="Paste a website link below. Your portfolio will be saved and shown as a carousel."
+            copy="Paste a website link below. Your portfolio will be saved and shown as a list."
           />
         </div>
       </section>
 
       <section className="px-5 pb-24 sm:px-6">
         <div className="mx-auto max-w-2xl">
-           <form onSubmit={handleAdd} className="flex gap-3 mb-10">
-             <input
-               ref={inputRef}
-               type="url"
-               value={input}
-               onChange={e => setInput(e.target.value)}
-               placeholder="https://yourwebsite.com"
-               className="flex-1 rounded-sm border border-warmbrown-pale bg-cream px-4 py-3 text-[1rem] text-ink outline-none focus:border-warmbrown"
-               required
-             />
+          <form onSubmit={handleAdd} className="flex gap-3 mb-10">
+            <input
+              ref={inputRef}
+              type="url"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="https://yourwebsite.com"
+              className="flex-1 rounded-sm border border-warmbrown-pale bg-cream px-4 py-3 text-[1rem] text-ink outline-none focus:border-warmbrown"
+              required
+            />
             <button type="submit" className="rounded-full bg-ink px-6 py-3 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-softwhite hover:bg-warmbrown transition">
               Add
             </button>
