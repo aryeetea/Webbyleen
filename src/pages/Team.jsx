@@ -4,10 +4,10 @@ const team = [
   {
     name: 'Aileen Aryeetey',
     role: 'Web Developer',
-    initials: 'AA',
+    image: '/aileen-team.jpeg',
+    imageAlt: 'Aileen Aryeetey, Web Developer at AC Web Studio',
+    imagePosition: 'center 22%',
     accent: 'linear-gradient(135deg, rgba(214, 65, 122, 0.22), rgba(60, 29, 66, 0.92))',
-    intro:
-      'We are a small creative team that cares deeply about building websites our clients feel proud to share. Every project combines thoughtful design, clear communication, and custom development so your website feels polished, personal, and made for your business.',
     bio: [
       'Aileen is the developer behind every website we build, turning ideas into custom-coded websites that are clean, responsive, and built from scratch.',
       'She works across HTML, CSS, JavaScript, React, Tailwind, and Bootstrap to create sites that not only look good but work smoothly on every screen.',
@@ -23,7 +23,9 @@ const team = [
   {
     name: 'Cynthia Owusu-Forkuo',
     role: 'UI/UX Designer',
-    initials: 'CO',
+    image: '/cynthia-team.jpeg',
+    imageAlt: 'Cynthia Owusu-Forkuo, UI UX Designer at AC Web Studio',
+    imagePosition: 'center 20%',
     accent: 'linear-gradient(135deg, rgba(240, 141, 178, 0.34), rgba(183, 47, 100, 0.88))',
     bio: [
       'Cynthia is the designer who shapes the look and feel of each project before development begins.',
@@ -73,11 +75,28 @@ export default function Team() {
                 boxShadow: '0 18px 34px rgba(31, 23, 38, 0.06)',
               }}
             >
-              <div style={{ background: member.accent, color: '#fff', padding: '42px 34px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 420 }}>
-                <div>
-                  <div style={{ width: 82, height: 82, borderRadius: '50%', background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: 34, marginBottom: 28 }}>
-                    {member.initials}
-                  </div>
+              <div style={{ background: member.accent, color: '#fff', minHeight: 420 }}>
+                <div style={{ position: 'relative', minHeight: 420, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                  <img
+                    src={member.image}
+                    alt={member.imageAlt}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: member.imagePosition,
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(180deg, rgba(34, 17, 38, 0.08), rgba(34, 17, 38, 0.88))',
+                    }}
+                  />
+                  <div style={{ position: 'relative', padding: '42px 34px 34px' }}>
                   <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', marginBottom: 10 }}>
                     {member.role}
                   </div>
@@ -89,18 +108,18 @@ export default function Team() {
                       ? 'Leading the build, the communication, and the full delivery of every project.'
                       : 'Shaping the visual direction so every website feels intentional before a single line of code is written.'}
                   </p>
-                </div>
-                <div>
-                  <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', marginBottom: 12 }}>
-                    Focus Areas
-                  </div>
-                  <div style={{ display: 'grid', gap: 10 }}>
-                    {member.responsibilities.map(item => (
-                      <div key={item} style={{ display: 'flex', gap: 10, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.84)' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.9)' }}>•</span>
-                        <span>{item}</span>
-                      </div>
-                    ))}
+                  <div style={{ marginTop: 28 }}>
+                    <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', marginBottom: 12 }}>
+                      Focus Areas
+                    </div>
+                    <div style={{ display: 'grid', gap: 10 }}>
+                      {member.responsibilities.map(item => (
+                        <div key={item} style={{ display: 'flex', gap: 10, fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.84)' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.9)' }}>•</span>
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
