@@ -17,7 +17,7 @@ export default function Services() {
   return (
     <>
       {/* HERO */}
-      <div style={{ padding: '140px 5% 80px', background: 'var(--cream)', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ padding: '140px 5% 80px', background: 'var(--cream)', position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--brown-pale)' }}>
         <div style={{ position: 'absolute', bottom: '-20%', right: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, var(--brown-pale) 0%, transparent 70%)', opacity: 0.4, pointerEvents: 'none' }} />
         <div className="page-shell">
           <div className="section-label fade-in delay-1">Services & Pricing</div>
@@ -32,7 +32,7 @@ export default function Services() {
       </div>
 
       {/* PACKAGES */}
-      <section style={{ padding: '100px 5%', background: 'var(--white)' }}>
+      <section style={{ padding: '100px 5%', background: 'var(--white)', borderBottom: '1px solid var(--brown-pale)' }}>
         <div className="page-shell">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 60 }}>
             {packages.map(pkg => (

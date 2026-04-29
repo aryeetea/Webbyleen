@@ -6,7 +6,7 @@ const links = [
   { to: '/',          label: 'Home' },
   { to: '/about',     label: 'About Us' },
   { to: '/services',  label: 'Services' },
-  // Portfolio link removed
+  { to: '/portfolio', label: 'Portfolio' },
   // Team link removed, merged into About Us
   { to: '/faq',       label: 'FAQ' },
   { to: '/contact',   label: 'Contact' },

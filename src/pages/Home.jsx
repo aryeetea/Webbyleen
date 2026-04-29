@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-// PortraitCard import removed
+// No team intros or PortraitCard imports here. Home is a standalone page.
 import { faqs } from '../data/faqs'
 
 const services = [
@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <>
       {/* HERO */}
-      <div style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '140px 5% 80px', background: 'linear-gradient(180deg, var(--cream), var(--white))', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '140px 5% 80px', background: 'linear-gradient(180deg, var(--cream), var(--white))', position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--brown-pale)' }}>
         <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, var(--hero-glow) 0%, transparent 70%)', opacity: 1, pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-8%', left: '-2%', width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)', opacity: 0.65, pointerEvents: 'none' }} />
         <div className="page-shell">
@@ -83,8 +83,69 @@ export default function Home() {
               </p>
               <div className="fade-in delay-4" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 38 }}>
                 <Link to="/services" className="btn-primary">View Packages</Link>
-                {/* Portfolio button removed */}
+                <Link to="/portfolio" className="btn-outline">View Portfolio</Link>
               </div>
+                    {/* TIMELINE SECTION */}
+                    <section style={{ background: 'var(--white)', padding: '80px 5%', borderBottom: '1px solid var(--brown-pale)' }}>
+                      <div className="page-shell">
+                        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 36, marginBottom: 32 }}>Our Story</h2>
+                        <ol style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 700 }}>
+                          <li style={{ marginBottom: 32 }}>
+                            <div style={{ fontWeight: 600, color: 'var(--brown)' }}>2022</div>
+                            <div>AC Web Studio founded. First client project launched.</div>
+                          </li>
+                          <li style={{ marginBottom: 32 }}>
+                            <div style={{ fontWeight: 600, color: 'var(--brown)' }}>2023</div>
+                            <div>Expanded to offer UI/UX design. Completed 10+ websites for small businesses.</div>
+                          </li>
+                          <li style={{ marginBottom: 32 }}>
+                            <div style={{ fontWeight: 600, color: 'var(--brown)' }}>2024</div>
+                            <div>Launched automated portfolio analyzer. Grew client base and team.</div>
+                          </li>
+                          <li>
+                            <div style={{ fontWeight: 600, color: 'var(--brown)' }}>2025</div>
+                            <div>Continuing to build beautiful, custom websites for founders and brands.</div>
+                          </li>
+                        </ol>
+                      </div>
+                    </section>
+                    {/* TESTIMONIALS SECTION */}
+                    <section style={{ background: 'var(--cream)', padding: '80px 5%', borderBottom: '1px solid var(--brown-pale)' }}>
+                      <div className="page-shell">
+                        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 36, marginBottom: 32 }}>What Clients Say</h2>
+                        <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+                          <div style={{ background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px rgba(31,23,38,0.06)', padding: 32, flex: 1, minWidth: 260 }}>
+                            <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 12 }}>&ldquo;The site looks incredible and works perfectly on every device. The process was smooth and collaborative.&rdquo;</div>
+                            <div style={{ fontSize: 15, color: 'var(--brown)' }}>— Ama, Small Business Owner</div>
+                          </div>
+                          <div style={{ background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px rgba(31,23,38,0.06)', padding: 32, flex: 1, minWidth: 260 }}>
+                            <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 12 }}>&ldquo;They really listened to what I wanted and delivered a site that feels unique to my brand.&rdquo;</div>
+                            <div style={{ fontSize: 15, color: 'var(--brown)' }}>— Kojo, Startup Founder</div>
+                          </div>
+                          <div style={{ background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px rgba(31,23,38,0.06)', padding: 32, flex: 1, minWidth: 260 }}>
+                            <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 12 }}>&ldquo;Fast, professional, and creative. I recommend AC Web Studio to anyone who wants a custom site.&rdquo;</div>
+                            <div style={{ fontSize: 15, color: 'var(--brown)' }}>— Efua, Creative Director</div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                    {/* STATS SECTION */}
+                    <section style={{ background: 'var(--white)', padding: '80px 5%' }}>
+                      <div className="page-shell" style={{ display: 'flex', gap: 48, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ textAlign: 'center' }}>
+                          <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--brown)' }} id="stat-sites">32+</div>
+                          <div style={{ fontSize: 16, color: 'var(--gray)', marginTop: 8 }}>Websites Launched</div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--brown)' }} id="stat-clients">28+</div>
+                          <div style={{ fontSize: 16, color: 'var(--gray)', marginTop: 8 }}>Happy Clients</div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <div style={{ fontSize: 48, fontWeight: 700, color: 'var(--brown)' }} id="stat-years">4</div>
+                          <div style={{ fontSize: 16, color: 'var(--gray)', marginTop: 8 }}>Years in Business</div>
+                        </div>
+                      </div>
+                    </section>
               <p className="fade-in delay-4" style={{ fontSize: 13, color: 'var(--gray)', marginTop: 16 }}>
                 Start with a package, explore the work, or reach out for a custom quote.
               </p>
@@ -95,7 +156,7 @@ export default function Home() {
       </div>
 
       {/* INTRO BAND */}
-      <div style={{ background: 'linear-gradient(135deg, var(--surface-dark), var(--surface-dark-soft))', padding: '80px 5%' }}>
+      <div style={{ background: 'linear-gradient(135deg, var(--surface-dark), var(--surface-dark-soft))', padding: '80px 5%', borderBottom: '1px solid var(--brown-pale)' }}>
         <div className="page-shell layout-split">
           <div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.5vw,46px)', color: '#fff', lineHeight: 1.18, marginBottom: 32 }}>

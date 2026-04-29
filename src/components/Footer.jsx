@@ -15,7 +15,7 @@ export default function Footer() {
             <Link to="/">Home</Link>
             <Link to="/about">About Us</Link>
             <Link to="/services">Services</Link>
-            {/* Portfolio link removed */}
+            <Link to="/portfolio">Portfolio</Link>
             {/* Team link removed, merged into About Us */}
             <Link to="/faq">FAQ</Link>
             <Link to="/contact">Contact</Link>

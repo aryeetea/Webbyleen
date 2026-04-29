@@ -7,7 +7,7 @@ export default function Faq() {
 
   return (
     <>
-      <div style={{ padding: '140px 5% 80px', background: 'linear-gradient(180deg, var(--cream), var(--white))', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ padding: '140px 5% 80px', background: 'linear-gradient(180deg, var(--cream), var(--white))', position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--brown-pale)' }}>
         <div style={{ position: 'absolute', top: '2%', right: '-8%', width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle, var(--hero-glow) 0%, transparent 72%)', opacity: 1, pointerEvents: 'none' }} />
         <div className="page-shell">
           <div className="section-label fade-in delay-1">FAQ</div>
@@ -22,7 +22,7 @@ export default function Faq() {
         </div>
       </div>
 
-      <section style={{ padding: '100px 5%', background: 'var(--white)' }}>
+      <section style={{ padding: '100px 5%', background: 'var(--white)', borderBottom: '1px solid var(--brown-pale)' }}>
         <div className="page-shell layout-split" style={{ alignItems: 'start' }}>
           <div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,3.8vw,48px)', color: 'var(--black)', marginBottom: 20, lineHeight: 1.15 }}>

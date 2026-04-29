@@ -4,7 +4,7 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import AboutUs from './pages/AboutUs'
 import Services from './pages/Services'
-// ...existing code...
+import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
 import Faq from './pages/Faq'
 // Team import removed
@@ -18,6 +18,7 @@ export default function App() {
         <Route path="/"          element={<Home />} />
         <Route path="/about"     element={<AboutUs />} />
         <Route path="/services"  element={<Services />} />
+        <Route path="/portfolio" element={<Portfolio />} />
         {/* Portfolio route removed */}
         {/* Team route removed, merged into AboutUs */}
         <Route path="/faq"       element={<Faq />} />

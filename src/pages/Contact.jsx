@@ -410,9 +410,7 @@ export default function Contact() {
           <Link to="/services" className="btn-outline" style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff' }}>
             Back to Packages
           </Link>
-          <Link to="/team" className="btn-primary">
-            Meet the Team
-          </Link>
+          {/* Team page removed; merged into About Us */}
         </div>
       </div>
     </>

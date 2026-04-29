@@ -1,23 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import ProjectCarousel from '../components/ProjectCarousel'
+import styles from './Portfolio.module.css'
 
-const projects = [
-  {
-    name: 'Lumora Studio',
-    desc: 'Minimal editorial website for a London-based photography studio. Built to let the work breathe — generous whitespace, clean grid, and subtle hover reveals.',
-    tag: 'Photography',
-    type: 'Basic',
-    bg: 'linear-gradient(135deg,#2C2C2A,#444441)',
-    initial: 'L',
-  },
-  {
-    name: 'Terroir Co.',
-
-  import ProjectCarousel from '../components/ProjectCarousel'
-  import styles from './Portfolio.module.css'
-  import { useState } from 'react'
-
-  export default function Portfolio() {
+export default function Portfolio() {
     const [projects, setProjects] = useState(() => {
       try {
         return JSON.parse(localStorage.getItem('portfolioProjects')) || []
