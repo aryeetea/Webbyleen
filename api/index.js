@@ -12,34 +12,17 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 const dataDir = path.join(__dirname, 'data')
-const adminFile = path.join(dataDir, 'admin-account.json')
 
 const PORT = process.env.PORT || 5050
 const TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || 'change-me-before-production'
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 12
+const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE?.trim() || ''
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
 
 async function ensureStorage() {
   await fs.mkdir(dataDir, { recursive: true })
-}
-
-async function readAdminAccount() {
-  await ensureStorage()
-
-  try {
-    const raw = await fs.readFile(adminFile, 'utf8')
-    const account = JSON.parse(raw)
-    return account?.email && account?.passwordHash && account?.passwordSalt ? account : null
-  } catch {
-    return null
-  }
-}
-
-async function writeAdminAccount(account) {
-  await ensureStorage()
-  await fs.writeFile(adminFile, JSON.stringify(account, null, 2))
 }
 
 function ensureSupabase() {
@@ -130,16 +113,6 @@ function signToken(payload) {
   const signature = crypto.createHmac('sha256', TOKEN_SECRET).update(encoded).digest('base64url')
 
   return `${encoded}.${signature}`
-}
-
-function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
-  const passwordHash = crypto.scryptSync(password, salt, 64).toString('hex')
-  return { passwordHash, passwordSalt: salt }
-}
-
-function verifyPassword(password, account) {
-  const passwordHash = crypto.scryptSync(password, account.passwordSalt, 64).toString('hex')
-  return crypto.timingSafeEqual(Buffer.from(passwordHash, 'hex'), Buffer.from(account.passwordHash, 'hex'))
 }
 
 function verifyToken(token) {
@@ -307,6 +280,20 @@ async function analyzeProject(url) {
       ogImage: meta.ogImage,
       screenshots,
     }
+  } catch (error) {
+    if (/ERR_NAME_NOT_RESOLVED|ERR_CONNECTION_REFUSED|ERR_CONNECTION_TIMED_OUT|ERR_INTERNET_DISCONNECTED/i.test(error.message)) {
+      throw new Error('Could not reach that website. Check the link and make sure the site is live.', { cause: error })
+    }
+
+    if (/Navigation timeout/i.test(error.message)) {
+      throw new Error('That website took too long to load for a preview. Try again or use another project link.', { cause: error })
+    }
+
+    if (/net::ERR_ABORTED|403|401/i.test(error.message)) {
+      throw new Error('That website blocked the preview request. Some sites do not allow automated previews.', { cause: error })
+    }
+
+    throw new Error(`Preview failed: ${error.message}`, { cause: error })
   } finally {
     if (browser) {
       await browser.close()
@@ -379,76 +366,49 @@ app.post('/api/contact-inquiries', async (req, res) => {
 })
 
 app.get('/api/admin/status', async (_req, res) => {
-  const account = await readAdminAccount()
-  res.json({ hasAccount: Boolean(account) })
-})
-
-app.post('/api/admin/setup', async (req, res) => {
-  const existingAccount = await readAdminAccount()
-
-  if (existingAccount) {
-    return res.status(409).json({ error: 'Admin account already exists.' })
+  try {
+    res.json({
+      ready: Boolean(ADMIN_ACCESS_CODE),
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Could not load admin status.' })
   }
-
-  const email = req.body.email?.trim().toLowerCase()
-  const password = req.body.password?.trim()
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required.' })
-  }
-
-  const passwordData = hashPassword(password)
-  const account = {
-    email,
-    ...passwordData,
-    createdAt: new Date().toISOString(),
-  }
-
-  await writeAdminAccount(account)
-
-  const expiresAt = Date.now() + TOKEN_TTL_MS
-  const token = signToken({ role: 'admin', email, expiresAt })
-
-  res.status(201).json({
-    token,
-    expiresAt,
-    admin: { email },
-  })
 })
 
 app.post('/api/admin/login', async (req, res) => {
-  const account = await readAdminAccount()
+  try {
+    if (!ADMIN_ACCESS_CODE) {
+      return res.status(500).json({ error: 'Admin access code is not configured on the server.' })
+    }
 
-  if (!account) {
-    return res.status(404).json({ error: 'Create the admin account first.' })
+    const code = req.body.code?.trim()
+
+    if (!code) {
+      return res.status(400).json({ error: 'Admin access code is required.' })
+    }
+
+    if (code !== ADMIN_ACCESS_CODE) {
+      return res.status(401).json({ error: 'Invalid admin access code.' })
+    }
+
+    const expiresAt = Date.now() + TOKEN_TTL_MS
+    const token = signToken({ role: 'admin', expiresAt })
+
+    res.json({
+      token,
+      expiresAt,
+      admin: { role: 'admin' },
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Could not sign in to admin.' })
   }
-
-  const email = req.body.email?.trim().toLowerCase()
-  const password = req.body.password?.trim()
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required.' })
-  }
-
-  if (email !== account.email || !verifyPassword(password, account)) {
-    return res.status(401).json({ error: 'Invalid email or password.' })
-  }
-
-  const expiresAt = Date.now() + TOKEN_TTL_MS
-  const token = signToken({ role: 'admin', email, expiresAt })
-
-  res.json({
-    token,
-    expiresAt,
-    admin: { email },
-  })
 })
 
 app.get('/api/admin/session', requireAdmin, (req, res) => {
   res.json({
     ok: true,
     admin: {
-      email: req.session.email,
+      role: req.session.role,
     },
   })
 })
@@ -488,6 +448,7 @@ app.post('/api/admin/portfolio-projects', requireAdmin, async (req, res) => {
     const project = mapProjectRow(data)
     res.status(201).json(project)
   } catch (error) {
+    console.error('Failed to add portfolio project:', error)
     res.status(500).json({ error: error.message || 'Could not analyze this project link.' })
   }
 })

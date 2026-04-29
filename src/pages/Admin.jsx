@@ -5,7 +5,6 @@ import {
   fetchAdminStatus,
   fetchPortfolioProjects,
   loginAdmin,
-  setupAdmin,
   verifyAdminSession,
 } from '../lib/api'
 
@@ -17,12 +16,9 @@ function getStoredToken() {
 
 export default function Admin() {
   const [token, setToken] = useState(getStoredToken)
-  const [hasAccount, setHasAccount] = useState(false)
-  const [adminEmail, setAdminEmail] = useState('')
-  const [formEmail, setFormEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [url, setUrl] = useState('')
+  const [adminReady, setAdminReady] = useState(false)
+  const [code, setCode] = useState('')
+  const [urlInput, setUrlInput] = useState('')
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [authChecking, setAuthChecking] = useState(true)
@@ -39,7 +35,7 @@ export default function Admin() {
         const status = await fetchAdminStatus()
 
         if (!cancelled) {
-          setHasAccount(status.hasAccount)
+          setAdminReady(Boolean(status.ready))
         }
 
         if (!token) {
@@ -52,7 +48,6 @@ export default function Admin() {
           localStorage.removeItem(ADMIN_TOKEN_KEY)
           if (!cancelled) {
             setToken('')
-            setAdminEmail('')
           }
           return
         }
@@ -60,8 +55,6 @@ export default function Admin() {
         const items = await fetchPortfolioProjects()
         if (!cancelled) {
           setProjects(items)
-          setAdminEmail(session.admin?.email || '')
-          setFormEmail(session.admin?.email || '')
         }
       } catch (loadError) {
         if (!cancelled) {
@@ -82,34 +75,6 @@ export default function Admin() {
     }
   }, [token])
 
-  async function handleSetup(event) {
-    event.preventDefault()
-    setSubmitting(true)
-    setError('')
-    setMessage('')
-
-    if (password !== confirmPassword) {
-      setSubmitting(false)
-      setError('Passwords do not match.')
-      return
-    }
-
-    try {
-      const session = await setupAdmin(formEmail, password)
-      localStorage.setItem(ADMIN_TOKEN_KEY, session.token)
-      setToken(session.token)
-      setHasAccount(true)
-      setAdminEmail(session.admin?.email || formEmail)
-      setPassword('')
-      setConfirmPassword('')
-      setMessage('Admin account created.')
-    } catch (setupError) {
-      setError(setupError.message)
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
   async function handleLogin(event) {
     event.preventDefault()
     setSubmitting(true)
@@ -117,12 +82,10 @@ export default function Admin() {
     setMessage('')
 
     try {
-      const session = await loginAdmin(formEmail, password)
+      const session = await loginAdmin(code)
       localStorage.setItem(ADMIN_TOKEN_KEY, session.token)
       setToken(session.token)
-      setAdminEmail(session.admin?.email || formEmail)
-      setPassword('')
-      setConfirmPassword('')
+      setCode('')
       setMessage('Admin access granted.')
     } catch (loginError) {
       setError(loginError.message)
@@ -137,14 +100,45 @@ export default function Admin() {
     setError('')
     setMessage('')
 
+    const urls = urlInput
+      .split('\n')
+      .map(item => item.trim())
+      .filter(Boolean)
+
+    if (urls.length === 0) {
+      setSubmitting(false)
+      setError('Enter at least one project link.')
+      return
+    }
+
     try {
-      const project = await createPortfolioProject(url, token)
-      setProjects(current => [project, ...current])
-      setUrl('')
-      setMessage('Project added. The public site can render it now.')
+      const addedProjects = []
+      const failures = []
+
+      for (const currentUrl of urls) {
+        try {
+          const project = await createPortfolioProject(currentUrl, token)
+          addedProjects.push(project)
+        } catch (saveError) {
+          failures.push(`${currentUrl}: ${saveError.message}`)
+        }
+      }
+
+      if (addedProjects.length > 0) {
+        setProjects(current => [...addedProjects, ...current])
+        setUrlInput('')
+      }
+
+      if (addedProjects.length > 0 && failures.length === 0) {
+        setMessage(`${addedProjects.length} project${addedProjects.length === 1 ? '' : 's'} added successfully.`)
+      } else if (addedProjects.length > 0) {
+        setMessage(`${addedProjects.length} project${addedProjects.length === 1 ? '' : 's'} added. Some links still need attention.`)
+        setError(failures.join(' '))
+      } else {
+        setError(failures.join(' ') || 'Could not add those project links right now.')
+      }
+
       urlRef.current?.focus()
-    } catch (saveError) {
-      setError(saveError.message)
     } finally {
       setSubmitting(false)
     }
@@ -167,8 +161,7 @@ export default function Admin() {
     localStorage.removeItem(ADMIN_TOKEN_KEY)
     setToken('')
     setProjects([])
-    setPassword('')
-    setConfirmPassword('')
+    setCode('')
     setMessage('Signed out.')
   }
 
@@ -183,8 +176,6 @@ export default function Admin() {
   }
 
   if (!token) {
-    const isSetupMode = !hasAccount
-
     return (
       <section className="relative overflow-hidden px-5 pb-24 pt-36 sm:px-6 sm:pt-40">
         <div className="absolute inset-x-0 top-0 h-130 bg-[radial-gradient(circle_at_top,rgba(196,168,130,0.18),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.08),transparent_28%)]" />
@@ -192,52 +183,29 @@ export default function Admin() {
           <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_24px_60px_rgba(17,17,16,0.08)] sm:p-10">
             <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Admin</p>
             <h1 className="mt-5 font-display text-[3rem] leading-[0.94] text-ink sm:text-[3.8rem]">
-              {isSetupMode ? 'Create the admin account first.' : 'Sign in to publish portfolio links to the main site.'}
+              Enter the admin access code.
             </h1>
             <p className="mt-5 max-w-2xl text-[1rem] leading-8 text-ink/65">
-              {isSetupMode
-                ? 'Set up the first admin email and password here. After that, this page becomes the normal admin login.'
-                : 'Use the admin account you created to manage portfolio links and publish rendered project previews to the public site.'}
+              Use the private code shared with admins to open the dashboard and manage portfolio links on the public site.
             </p>
+            {!adminReady && (
+              <p className="mt-4 max-w-2xl rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-3 text-sm text-ink/70">
+                Admin access is not configured yet. Add `ADMIN_ACCESS_CODE` to `.env.local`, then restart the API server.
+              </p>
+            )}
 
-            <form onSubmit={isSetupMode ? handleSetup : handleLogin} className="mt-10 space-y-5">
+            <form onSubmit={handleLogin} className="mt-10 space-y-5">
               <label className="block">
-                <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Admin email</span>
-                <input
-                  type="email"
-                  value={formEmail}
-                  onChange={event => setFormEmail(event.target.value)}
-                  className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
-                  placeholder="hello@acwebstudio.com"
-                  required
-                />
-              </label>
-
-              <label className="block">
-                <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Password</span>
+                <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Admin access code</span>
                 <input
                   type="password"
-                  value={password}
-                  onChange={event => setPassword(event.target.value)}
+                  value={code}
+                  onChange={event => setCode(event.target.value)}
                   className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
-                  placeholder={isSetupMode ? 'Create a password' : 'Enter your password'}
+                  placeholder="Enter admin code"
                   required
                 />
               </label>
-
-              {isSetupMode && (
-                <label className="block">
-                  <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Confirm password</span>
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={event => setConfirmPassword(event.target.value)}
-                    className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
-                    placeholder="Re-enter your password"
-                    required
-                  />
-                </label>
-              )}
 
               {error && <p className="rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
               {message && <p className="rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{message}</p>}
@@ -247,7 +215,7 @@ export default function Admin() {
                 disabled={submitting}
                 className="rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {submitting ? (isSetupMode ? 'Creating Account...' : 'Signing In...') : isSetupMode ? 'Create Admin Account' : 'Enter Admin'}
+                {submitting ? 'Signing In...' : 'Enter Admin'}
               </button>
             </form>
           </div>
@@ -265,7 +233,6 @@ export default function Admin() {
               <div>
                 <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Admin Dashboard</p>
                 <h1 className="mt-4 font-display text-[2.6rem] leading-[0.96] text-ink">Publish a project link to the public portfolio.</h1>
-                {adminEmail && <p className="mt-4 text-sm uppercase tracking-[0.16em] text-ink/50">Signed in as {adminEmail}</p>}
               </div>
               <button
                 type="button"
@@ -283,15 +250,16 @@ export default function Admin() {
             <form onSubmit={handleAddProject} className="mt-8 space-y-5">
               <label className="block">
                 <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Portfolio project link</span>
-                <input
+                <textarea
                   ref={urlRef}
-                  type="url"
-                  value={url}
-                  onChange={event => setUrl(event.target.value)}
-                  className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
-                  placeholder="https://yourclientproject.com"
+                  value={urlInput}
+                  onChange={event => setUrlInput(event.target.value)}
+                  rows={5}
+                  className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] leading-8 text-ink outline-none focus:border-warmbrown"
+                  placeholder={'https://yourclientproject.com\nhttps://anotherproject.com'}
                   required
                 />
+                <span className="mt-2 block text-sm text-ink/55">Add one link per line.</span>
               </label>
 
               {error && <p className="rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}

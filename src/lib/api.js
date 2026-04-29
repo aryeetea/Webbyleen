@@ -31,12 +31,32 @@ function getFriendlyErrorMessage(payload, fallback) {
     return 'Your Supabase storage bucket is missing. Create the `portfolio-previews` bucket first.'
   }
 
-  if (/invalid email or password/i.test(raw)) {
-    return 'The email or password is not correct.'
+  if (/could not reach that website/i.test(raw)) {
+    return 'Could not reach that website. Check the link and make sure the site is live.'
   }
 
-  if (/email and password are required/i.test(raw)) {
-    return 'Enter both an email and password.'
+  if (/took too long to load for a preview/i.test(raw)) {
+    return 'That website took too long to load for a preview. Try again or use another link.'
+  }
+
+  if (/blocked the preview request/i.test(raw)) {
+    return 'That website blocked the preview request. Some sites do not allow automated previews.'
+  }
+
+  if (/preview failed:/i.test(raw)) {
+    return 'We could not generate a preview for that website right now.'
+  }
+
+  if (/invalid admin access code/i.test(raw)) {
+    return 'That admin access code is not correct.'
+  }
+
+  if (/admin access code is required/i.test(raw)) {
+    return 'Enter the admin access code.'
+  }
+
+  if (/admin access code is not configured/i.test(raw)) {
+    return 'Admin access is not configured yet. Add `ADMIN_ACCESS_CODE` to `.env.local`, then restart the API server.'
   }
 
   if (/email is required/i.test(raw)) {
@@ -45,10 +65,6 @@ function getFriendlyErrorMessage(payload, fallback) {
 
   if (/already exists|already in the portfolio/i.test(raw)) {
     return raw
-  }
-
-  if (/create the admin account first/i.test(raw)) {
-    return 'Create the admin account first, then sign in.'
   }
 
   if (/project not found/i.test(raw)) {
@@ -98,36 +114,14 @@ export async function fetchAdminStatus() {
   return response.json()
 }
 
-export async function setupAdmin(email, password) {
-  let response
-
-  try {
-    response = await fetch(getApiUrl('/api/admin/setup'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-  } catch {
-    throw new Error(getNetworkErrorMessage('Could not create the admin account.'))
-  }
-
-  const payload = await readJson(response)
-
-  if (!response.ok) {
-    throw new Error(getFriendlyErrorMessage(payload, 'Could not create the admin account right now.'))
-  }
-
-  return payload
-}
-
-export async function loginAdmin(email, password) {
+export async function loginAdmin(code) {
   let response
 
   try {
     response = await fetch(getApiUrl('/api/admin/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ code }),
     })
   } catch {
     throw new Error(getNetworkErrorMessage('Login failed.'))
