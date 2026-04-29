@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import AboutUs from './pages/AboutUs'
 import Services from './pages/Services'
@@ -8,11 +9,10 @@ import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
 import Faq from './pages/Faq'
 // Team import removed
-import { roseNoirTheme } from './theme'
-
 export default function App() {
   return (
-    <div style={{ ...roseNoirTheme.colors, minHeight: '100vh', background: 'var(--cream)' }}>
+    <div className="min-h-screen bg-cream text-ink">
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/"          element={<Home />} />

@@ -1,203 +1,165 @@
 import { Link } from 'react-router-dom'
+import SectionIntro from '../components/SectionIntro'
 import { packages } from '../data/packages'
 
 const comparisons = [
-  { label: 'Pages',           basic: '1',         standard: '3–5',       premium: '6–10' },
-  { label: 'Mobile responsive', basic: '✓',       standard: '✓',         premium: '✓' },
-  { label: 'Contact form',    basic: '—',          standard: '✓',         premium: '✓' },
-  { label: 'Animations',      basic: 'Basic',      standard: 'Standard',  premium: 'Advanced' },
-  { label: 'Revisions',       basic: '2',          standard: '3',         premium: '5' },
-  { label: 'SEO structure',   basic: '—',          standard: '✓',         premium: '✓' },
-  { label: 'Priority support',basic: '—',          standard: '—',         premium: '✓' },
-  { label: 'Custom features', basic: '—',          standard: '—',         premium: '✓' },
-  { label: 'Turnaround',      basic: '3–5 days',   standard: '7–14 days', premium: '2–4 weeks' },
+  ['Pages', '1', '3–5', '6–10'],
+  ['Mobile responsive', 'Included', 'Included', 'Included'],
+  ['Contact form', 'Optional', 'Included', 'Included'],
+  ['Animations', 'Light', 'Standard', 'Advanced'],
+  ['Revision rounds', '2', '3', '5'],
+  ['SEO structure', 'Basic', 'Included', 'Included'],
+  ['Custom features', 'Optional', 'Light', 'Advanced'],
 ]
 
 export default function Services() {
   return (
     <>
-      {/* HERO */}
-      <div style={{ padding: '140px 5% 80px', background: 'var(--cream)', position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--brown-pale)' }}>
-        <div style={{ position: 'absolute', bottom: '-20%', right: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, var(--brown-pale) 0%, transparent 70%)', opacity: 0.4, pointerEvents: 'none' }} />
-        <div className="page-shell">
-          <div className="section-label fade-in delay-1">Services & Pricing</div>
-          <h1 className="fade-in delay-2" style={{ fontSize: 'clamp(40px,5.5vw,76px)', maxWidth: 700, lineHeight: 1.08, marginBottom: 28 }}>
-            Transparent pricing.<br />
-            <em style={{ fontStyle: 'italic', color: 'var(--brown)' }}>Exceptional work.</em>
-          </h1>
-          <p className="fade-in delay-3" style={{ fontSize: 18, color: 'var(--gray)', maxWidth: 540, fontWeight: 300, lineHeight: 1.85 }}>
-            Every package is fully custom — no templates, no shortcuts. Choose the tier that fits your goals, then add exactly what you need.
-          </p>
+      <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
+        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_right,rgba(196,168,130,0.18),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.10),transparent_26%)]" />
+        <div className="relative mx-auto max-w-6xl">
+          <SectionIntro
+            label="Services"
+            title="Clear pricing, premium presentation, and room to scale."
+            copy="Each package is designed to feel custom, high-touch, and professionally structured from the start."
+          />
         </div>
-      </div>
+      </section>
 
-      {/* PACKAGES */}
-      <section style={{ padding: '100px 5%', background: 'var(--white)', borderBottom: '1px solid var(--brown-pale)' }}>
-        <div className="page-shell">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 60 }}>
-            {packages.map(pkg => (
-              <div
-                key={pkg.name}
-                style={{
-                  border: pkg.featured ? '2px solid var(--black)' : '1px solid var(--brown-pale)',
-                  borderRadius: 4,
-                  overflow: 'hidden',
-                  background: 'var(--white)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                {/* Card Header */}
-                <div style={{ padding: '32px 28px', borderBottom: '1px solid var(--brown-pale)', background: pkg.featured ? 'var(--black)' : 'transparent' }}>
-                  {pkg.featured && (
-                    <div style={{ display: 'inline-block', background: 'var(--brown)', color: '#fff', fontSize: 11, letterSpacing: '0.08em', padding: '4px 12px', borderRadius: 20, textTransform: 'uppercase', marginBottom: 16 }}>
-                      Recommended
-                    </div>
-                  )}
-                  <div style={{ fontSize: 11, letterSpacing: '0.12em', color: 'var(--brown)', textTransform: 'uppercase', marginBottom: 12 }}>
+      <section className="px-5 pb-24 sm:px-6">
+        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
+          {packages.map(pkg => (
+            <article
+              key={pkg.slug}
+              className={`rounded-[4px] border p-8 shadow-[0_18px_40px_rgba(17,17,16,0.05)] ${
+                pkg.featured ? 'border-ink bg-ink text-softwhite' : 'border-warmbrown-pale bg-softwhite'
+              }`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className={`text-[0.7rem] uppercase tracking-[0.22em] ${pkg.featured ? 'text-warmbrown-light' : 'text-warmbrown'}`}>
                     {pkg.tier}
                   </div>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 34, color: pkg.featured ? '#fff' : 'var(--black)', marginBottom: 12, fontWeight: 400 }}>
-                    {pkg.name}
-                  </h2>
-                  <div style={{ fontSize: 30, fontWeight: 500, color: pkg.featured ? '#fff' : 'var(--black)', marginBottom: 12 }}>
-                    {pkg.price}
-                  </div>
-                  <p style={{ fontSize: 14, color: pkg.featured ? 'rgba(255,255,255,0.55)' : 'var(--gray)', lineHeight: 1.7, fontWeight: 300 }}>
-                    {pkg.who}
-                  </p>
+                  <h2 className="mt-4 font-display text-[2.2rem] leading-none">{pkg.name}</h2>
                 </div>
+                {pkg.featured && (
+                  <span className="rounded-full border border-softwhite/10 bg-softwhite/8 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-softwhite/80">
+                    Recommended
+                  </span>
+                )}
+              </div>
 
-                {/* Card Body */}
-                <div style={{ padding: 28, flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: 12, letterSpacing: '0.08em', color: 'var(--brown)', textTransform: 'uppercase', marginBottom: 16 }}>
-                    What's Included
-                  </div>
-                  <ul style={{ listStyle: 'none', marginBottom: 28 }}>
-                    {pkg.includes.map(item => (
-                      <li key={item} style={{ fontSize: 14, color: 'var(--gray)', padding: '7px 0', borderBottom: '1px solid #F0EBE2', display: 'flex', alignItems: 'center', gap: 10, fontWeight: 300 }}>
-                        <span style={{ color: 'var(--brown)', fontSize: 13, flexShrink: 0 }}>✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+              <div className="mt-8 font-display text-[2.8rem] leading-none">{pkg.price}</div>
+              <p className={`mt-5 text-[0.96rem] leading-8 ${pkg.featured ? 'text-softwhite/65' : 'text-ink/64'}`}>
+                {pkg.who}
+              </p>
 
-                  {/* Add-ons */}
-                  <div style={{ background: 'var(--cream)', borderRadius: 4, padding: 20, marginBottom: 24 }}>
-                    <div style={{ fontSize: 12, letterSpacing: '0.08em', color: 'var(--gray)', textTransform: 'uppercase', marginBottom: 12 }}>
-                      Add-Ons Available
+              <div className="mt-8 rounded-[4px] border px-4 py-4 text-sm uppercase tracking-[0.16em] ${
+                pkg.featured ? 'border-softwhite/10 text-softwhite/75' : 'border-warmbrown-pale text-ink/58'
+              }">
+                Turnaround: {pkg.turnaround}
+              </div>
+
+              <div className="mt-8">
+                <div className={`text-[0.72rem] uppercase tracking-[0.2em] ${pkg.featured ? 'text-warmbrown-light' : 'text-warmbrown'}`}>
+                  Included
+                </div>
+                <ul className={`mt-4 grid gap-3 text-[0.95rem] leading-7 ${pkg.featured ? 'text-softwhite/78' : 'text-ink/68'}`}>
+                  {pkg.includes.map(item => (
+                    <li key={item} className="flex gap-3">
+                      <span className={pkg.featured ? 'text-warmbrown-light' : 'text-warmbrown'}>•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={`mt-8 rounded-[4px] px-5 py-5 ${pkg.featured ? 'bg-softwhite/6' : 'bg-cream'}`}>
+                <div className={`text-[0.72rem] uppercase tracking-[0.2em] ${pkg.featured ? 'text-softwhite/58' : 'text-ink/55'}`}>
+                  Add-ons
+                </div>
+                <div className="mt-4 grid gap-3">
+                  {pkg.addons.map(addon => (
+                    <div key={addon.id} className={`flex items-start justify-between gap-4 text-sm ${pkg.featured ? 'text-softwhite/72' : 'text-ink/62'}`}>
+                      <span>{addon.label}</span>
+                      <span className={pkg.featured ? 'text-warmbrown-light' : 'text-warmbrown'}>{addon.price}</span>
                     </div>
-                    {pkg.addons.map(a => (
-                      <div key={a.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--gray)', padding: '6px 0', borderBottom: '1px solid var(--brown-pale)', fontWeight: 300 }}>
-                        <span>{a.label}</span>
-                        <span style={{ color: 'var(--brown)', fontWeight: 500 }}>{a.price}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <Link
-                    to={`/contact?package=${pkg.slug}`}
-                    style={{
-                      display: 'block',
-                      textAlign: 'center',
-                      background: pkg.featured ? 'var(--brown)' : 'var(--black)',
-                      color: '#fff',
-                      padding: 14,
-                      borderRadius: 2,
-                      fontSize: 14,
-                      letterSpacing: '0.06em',
-                      transition: 'background 0.2s',
-                      marginTop: 'auto',
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.background = pkg.featured ? 'var(--black)' : 'var(--brown)'}
-                    onMouseLeave={e => e.currentTarget.style.background = pkg.featured ? 'var(--brown)' : 'var(--black)'}
-                  >
-                    Order This Package
-                  </Link>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* COMPARISON TABLE */}
-          <div style={{ background: 'var(--cream)', borderRadius: 4, overflow: 'hidden', border: '1px solid var(--brown-pale)' }}>
-            <div style={{ padding: '28px 32px', borderBottom: '1px solid var(--brown-pale)', background: 'var(--white)' }}>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 28, color: 'var(--black)', fontWeight: 400 }}>
-                Package Comparison
-              </h3>
-            </div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr style={{ background: 'var(--white)' }}>
-                    <th style={{ padding: '14px 32px', textAlign: 'left', fontSize: 13, color: 'var(--gray)', fontWeight: 400, letterSpacing: '0.06em', borderBottom: '1px solid var(--brown-pale)' }}>
-                      Feature
+              <Link
+                to={`/contact?package=${pkg.slug}`}
+                className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] transition hover:-translate-y-0.5 ${
+                  pkg.featured
+                    ? 'bg-softwhite text-ink hover:bg-warmbrown hover:text-softwhite'
+                    : 'bg-ink text-softwhite hover:bg-warmbrown'
+                }`}
+              >
+                Choose {pkg.name}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-softwhite px-5 py-24 sm:px-6">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[4px] border border-warmbrown-pale shadow-[0_18px_40px_rgba(17,17,16,0.05)]">
+          <div className="border-b border-warmbrown-pale bg-cream px-6 py-5 sm:px-8">
+            <h2 className="font-display text-[2rem] text-ink sm:text-[2.3rem]">Package Comparison</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border-collapse text-left">
+              <thead>
+                <tr className="border-b border-warmbrown-pale bg-softwhite">
+                  <th className="px-6 py-4 text-[0.7rem] uppercase tracking-[0.2em] text-ink/50 sm:px-8">Feature</th>
+                  {['Basic', 'Standard', 'Premium'].map(head => (
+                    <th key={head} className={`px-6 py-4 text-[0.7rem] uppercase tracking-[0.2em] sm:px-8 ${head === 'Standard' ? 'text-warmbrown' : 'text-ink/50'}`}>
+                      {head}
                     </th>
-                    {['Basic', 'Standard', 'Premium'].map(h => (
-                      <th key={h} style={{ padding: '14px 24px', textAlign: 'center', fontSize: 13, color: h === 'Standard' ? 'var(--brown)' : 'var(--gray)', fontWeight: 500, letterSpacing: '0.06em', borderBottom: '1px solid var(--brown-pale)' }}>
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisons.map((row, i) => (
-                    <tr key={row.label} style={{ background: i % 2 === 0 ? 'transparent' : 'var(--white)' }}>
-                      <td style={{ padding: '12px 32px', fontSize: 14, color: 'var(--gray)', fontWeight: 300, borderBottom: '1px solid var(--brown-pale)' }}>
-                        {row.label}
-                      </td>
-                      {[row.basic, row.standard, row.premium].map((val, j) => (
-                        <td key={j} style={{ padding: '12px 24px', textAlign: 'center', fontSize: 14, color: val === '—' ? 'var(--gray-light)' : val === '✓' ? 'var(--brown)' : 'var(--black)', fontWeight: val === '✓' ? 500 : 300, borderBottom: '1px solid var(--brown-pale)' }}>
-                          {val}
-                        </td>
-                      ))}
-                    </tr>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisons.map(row => (
+                  <tr key={row[0]} className="border-b border-warmbrown-pale/80">
+                    <td className="px-6 py-4 text-[0.95rem] text-ink/65 sm:px-8">{row[0]}</td>
+                    <td className="px-6 py-4 text-[0.95rem] text-ink sm:px-8">{row[1]}</td>
+                    <td className="px-6 py-4 text-[0.95rem] text-ink sm:px-8">{row[2]}</td>
+                    <td className="px-6 py-4 text-[0.95rem] text-ink sm:px-8">{row[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
-      {/* NOT SURE SECTION */}
-      <section style={{ padding: '100px 5%', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ background: 'var(--white)', border: '1px solid var(--brown-pale)', borderRadius: 4, padding: '60px 48px', textAlign: 'center', maxWidth: 720, margin: '0 auto' }}>
-            <div className="section-label" style={{ justifyContent: 'center' }}>Not Sure?</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(26px,3.5vw,40px)', color: 'var(--black)', marginBottom: 16, fontWeight: 400 }}>
-              Not sure which package is right for you?
-            </h2>
-            <p style={{ fontSize: 16, color: 'var(--gray)', fontWeight: 300, lineHeight: 1.8, marginBottom: 36 }}>
-              Send us your project details and we will help you choose the best fit. Every project starts with a clear conversation and a practical recommendation.
-            </p>
-            <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/contact" className="btn-primary">Request a Custom Quote</Link>
-              <Link to="/team" className="btn-outline">Meet the Team</Link>
-            </div>
+      <section className="px-5 py-24 sm:px-6">
+        <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-cream px-6 py-14 text-center shadow-[0_16px_34px_rgba(17,17,16,0.05)] sm:px-10">
+          <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Not Sure?</div>
+          <h2 className="mt-5 font-display text-[2.4rem] leading-[1] text-ink sm:text-[3.1rem]">
+            We can recommend the right package for you.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-ink/66">
+            If you already know your goals but are not sure which tier makes the most sense, reach out and we will guide you toward the best fit.
+          </p>
+          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+            <Link
+              to="/contact"
+              className="rounded-full bg-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
+            >
+              Request a Quote
+            </Link>
+            <Link
+              to="/about"
+              className="rounded-full border border-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+            >
+              About the Studio
+            </Link>
           </div>
         </div>
       </section>
-
-      {/* BOTTOM CTA BAND */}
-      <div style={{ background: 'var(--brown)', padding: '80px 5%', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px,4vw,52px)', color: '#fff', marginBottom: 20, maxWidth: 640, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.15 }}>
-          Ready to place your order?
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 17, marginBottom: 40, fontWeight: 300 }}>
-          Choose a package, send your project details, and we will confirm the deposit, scope, and timeline with you.
-        </p>
-        <Link
-          to="/contact"
-          className="btn-primary"
-          style={{ background: '#fff', color: 'var(--brown)' }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'var(--black)'; e.currentTarget.style.color = '#fff' }}
-          onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = 'var(--brown)' }}
-        >
-          Order Your Package
-        </Link>
-      </div>
     </>
   )
 }

@@ -1,93 +1,81 @@
-import { useState, useEffect } from 'react'
-import ProjectCarousel from '../components/ProjectCarousel'
-import styles from './Portfolio.module.css'
+import { useState } from 'react'
+import SectionIntro from '../components/SectionIntro'
+
+const filters = ['All', 'Basic', 'Standard', 'Premium']
+
+const projects = [
+  ['Maison Lune', 'Fashion', 'Basic', 'from-[#221b17] via-[#8B6F4E] to-[#C4A882]'],
+  ['North Atelier', 'Interior', 'Standard', 'from-[#111110] via-[#40352d] to-[#b28f6b]'],
+  ['Aster Clinic', 'Wellness', 'Standard', 'from-[#201e1c] via-[#756150] to-[#EDE5D8]'],
+  ['Marlow House', 'Hospitality', 'Premium', 'from-[#34261f] via-[#8f6e56] to-[#dec8ad]'],
+  ['Rive Studio', 'Creative', 'Basic', 'from-[#2b2421] via-[#6f5947] to-[#cfb08f]'],
+  ['Common Thread', 'Retail', 'Premium', 'from-[#1b1a19] via-[#51453b] to-[#c49f77]'],
+  ['Harbor Legal', 'Professional', 'Standard', 'from-[#0f0f0f] via-[#2c2a29] to-[#91816d]'],
+  ['Solenne Skin', 'Beauty', 'Premium', 'from-[#36261f] via-[#8d6851] to-[#edd9c2]'],
+  ['Verve Finance', 'Business', 'Basic', 'from-[#181716] via-[#4a4037] to-[#b69979]'],
+].map(([name, tag, type, gradient]) => ({ name, tag, type, gradient }))
 
 export default function Portfolio() {
-    const [projects, setProjects] = useState(() => {
-      try {
-        return JSON.parse(localStorage.getItem('portfolioProjects')) || []
-      } catch {
-        return []
-      }
-    })
-    const [url, setUrl] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+  const [active, setActive] = useState('All')
+  const visible = active === 'All' ? projects : projects.filter(project => project.type === active)
 
-    useEffect(() => {
-      localStorage.setItem('portfolioProjects', JSON.stringify(projects))
-    }, [projects])
-
-    async function handleAddProject(e) {
-      e.preventDefault()
-      setError('')
-      if (!url) return
-      setLoading(true)
-      try {
-        const res = await fetch('http://localhost:5050/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url })
-        })
-        if (!res.ok) throw new Error('Could not analyze project')
-        const data = await res.json()
-        setProjects([{ ...data, images: data.screenshots.map(b64 => `data:image/png;base64,${b64}`) }, ...projects])
-        setUrl('')
-      } catch (e) {
-        setError(e.message || 'Failed to analyze project')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    function handleDeleteProject(idx) {
-      setProjects(projects => projects.filter((_, i) => i !== idx))
-    }
-
-    return (
-      <div className={styles.portfolioPage}>
-        <div className={styles.header}>
-          <div className="section-label">Portfolio</div>
-          <h1>Selected Work</h1>
-          <p className={styles.intro}>
-            Just paste your project link below. The site will analyze it, suggest a summary, guess the tech stack, and show screenshots in a carousel.
-          </p>
-          <form onSubmit={handleAddProject} className={styles.addForm}>
-            <input
-              type="url"
-              placeholder="https://yourproject.com"
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-              className={styles.urlInput}
-              required
-              disabled={loading}
-            />
-            <button type="submit" className={styles.addBtn} disabled={loading || !url}>
-              {loading ? 'Analyzing...' : 'Add Project'}
-            </button>
-          </form>
-          {error && <div className={styles.error}>{error}</div>}
+  return (
+    <>
+      <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
+        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_right,rgba(196,168,130,0.18),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.10),transparent_28%)]" />
+        <div className="relative mx-auto max-w-6xl">
+          <SectionIntro
+            label="Portfolio"
+            title="A portfolio of polished concepts and premium directions."
+            copy="Every card here is designed to reflect the kind of composure, clarity, and confidence a modern design agency should deliver."
+          />
         </div>
-        <div className={styles.projectsGrid}>
-          {projects.map((proj, i) => (
-            <div className={styles.projectCard} key={proj.url + i}>
-              <a href={proj.url} target="_blank" rel="noopener noreferrer" className={styles.projectTitle}>
-                {proj.title}
-              </a>
-              <div className={styles.carouselWrap}>
-                <ProjectCarousel images={proj.images} />
-              </div>
-              <div className={styles.projectInfo}>
-                <div className={styles.projectDesc}>{proj.summary}</div>
-                <div className={styles.projectMeta}>
-                  <span className={styles.packageType}>{proj.packageType} Package</span>
-                  <span className={styles.techList}>{proj.technologies.join(', ')}</span>
+      </section>
+
+      <section className="px-5 pb-24 sm:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 flex flex-wrap gap-3">
+            {filters.map(filter => (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setActive(filter)}
+                className={`rounded-full px-5 py-3 text-[0.73rem] font-medium uppercase tracking-[0.18em] transition ${
+                  active === filter
+                    ? 'bg-ink text-softwhite'
+                    : 'border border-warmbrown-pale bg-softwhite text-ink/58 hover:text-ink'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {visible.map(project => (
+              <article
+                key={project.name}
+                className="group overflow-hidden rounded-[4px] border border-warmbrown-pale bg-softwhite shadow-[0_16px_34px_rgba(17,17,16,0.05)] transition duration-300 hover:-translate-y-1"
+              >
+                <div className={`flex h-80 items-end bg-gradient-to-br ${project.gradient} p-6`}>
+                  <div className="flex w-full items-end justify-between gap-4">
+                    <span className="rounded-full border border-softwhite/20 bg-softwhite/10 px-3 py-1 text-[0.62rem] uppercase tracking-[0.2em] text-softwhite/85 backdrop-blur-sm">
+                      {project.tag}
+                    </span>
+                    <span className="text-[0.68rem] uppercase tracking-[0.2em] text-softwhite/70">{project.type}</span>
+                  </div>
                 </div>
-              </div>
-              <button className={styles.deleteBtn} onClick={() => handleDeleteProject(i)} title="Delete project">Delete</button>
-            </div>
-          ))}
+                <div className="p-6">
+                  <h3 className="font-display text-[1.8rem] text-ink">{project.name}</h3>
+                  <p className="mt-3 text-[0.96rem] leading-8 text-ink/64">
+                    A refined brand-forward direction with strong hierarchy, quiet confidence, and conversion-minded structure.
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
-    )
-  }
+      </section>
+    </>
+  )
+}

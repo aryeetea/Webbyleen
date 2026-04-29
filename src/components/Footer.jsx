@@ -1,42 +1,51 @@
 import { Link } from 'react-router-dom'
-import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.inner}>
-        <div className={styles.top}>
-          <div className={styles.brand}>
-            <Link to="/" className={styles.logo}>AC Web <span>Studio</span></Link>
-            <p>Custom websites built from scratch, designed to elevate your brand and convert visitors into clients.</p>
-          </div>
-          <div className={styles.col}>
-            <h4>Navigation</h4>
+    <footer className="bg-ink px-5 py-20 text-softwhite sm:px-6">
+      <div className="mx-auto grid max-w-6xl gap-14 border-b border-softwhite/10 pb-14 lg:grid-cols-[1.6fr_0.9fr_0.9fr_1fr]">
+        <div>
+          <Link to="/" className="font-display text-[2rem] leading-none text-softwhite">
+            AC Web <span className="text-warmbrown-light">Studio</span>
+          </Link>
+          <p className="mt-5 max-w-sm text-[0.98rem] leading-8 text-softwhite/58">
+            Premium, custom websites for small businesses and founders who want to look established, intentional, and worth remembering.
+          </p>
+        </div>
+
+        <div>
+          <h4 className="font-display text-xl text-softwhite">Navigate</h4>
+          <div className="mt-5 grid gap-3 text-sm uppercase tracking-[0.12em] text-softwhite/58">
             <Link to="/">Home</Link>
-            <Link to="/about">About Us</Link>
+            <Link to="/about">About</Link>
             <Link to="/services">Services</Link>
             <Link to="/portfolio">Portfolio</Link>
-            {/* Team link removed, merged into About Us */}
-            <Link to="/faq">FAQ</Link>
             <Link to="/contact">Contact</Link>
           </div>
-          <div className={styles.col}>
-            <h4>Packages</h4>
-            <Link to="/services">Basic — $150–$250</Link>
-            <Link to="/services">Standard — $400–$700</Link>
-            <Link to="/services">Premium — $800–$1300</Link>
+        </div>
+
+        <div>
+          <h4 className="font-display text-xl text-softwhite">Packages</h4>
+          <div className="mt-5 grid gap-3 text-sm uppercase tracking-[0.08em] text-softwhite/58">
+            <Link to="/services">Basic</Link>
+            <Link to="/services">Standard</Link>
+            <Link to="/services">Premium</Link>
           </div>
-          <div className={styles.col}>
-            <h4>Connect</h4>
+        </div>
+
+        <div>
+          <h4 className="font-display text-xl text-softwhite">Connect</h4>
+          <div className="mt-5 grid gap-3 text-sm uppercase tracking-[0.12em] text-softwhite/58">
             <Link to="/contact">Start a Project</Link>
             <Link to="/faq">FAQ</Link>
-            <a href="mailto:hello@acwebstudio.com">Email</a>
+            <a href="mailto:hello@acwebstudio.com">hello@acwebstudio.com</a>
           </div>
         </div>
-        <div className={styles.bottom}>
-          <p>© 2025 AC Web Studio. All rights reserved.</p>
-          <p>Custom websites, crafted with care.</p>
-        </div>
+      </div>
+
+      <div className="mx-auto flex max-w-6xl flex-col justify-between gap-3 pt-8 text-xs uppercase tracking-[0.14em] text-softwhite/35 sm:flex-row">
+        <p>© 2025 AC Web Studio</p>
+        <p>Design-first websites, built from scratch</p>
       </div>
     </footer>
   )
