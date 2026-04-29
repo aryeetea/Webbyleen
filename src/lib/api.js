@@ -71,7 +71,8 @@ function getFriendlyErrorMessage(payload, fallback) {
     return 'That project could not be found anymore.'
   }
 
-  return fallback
+  // For admin/debug flows, showing the server message is more helpful than a vague fallback.
+  return raw || fallback
 }
 
 export function resolveAssetUrl(path) {

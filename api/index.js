@@ -196,6 +196,28 @@ function generateSummary(meta, tech, pkg) {
   return `This project is built with ${tech.join(', ')} and best fits the ${pkg} package.${description}`.trim()
 }
 
+function createFallbackAnalysis(url) {
+  const parsedUrl = new URL(url)
+  const hostname = parsedUrl.hostname.replace(/^www\./, '')
+  const readableTitle = hostname
+    .split('.')
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(' ')
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, char => char.toUpperCase())
+
+  return {
+    title: readableTitle || hostname,
+    description: 'Live project link added without an automated preview.',
+    technologies: ['Custom/Other'],
+    packageType: 'Custom',
+    summary: 'This project was published from its live URL. Preview screenshots were not available, so the site is shown with a fallback portfolio card.',
+    ogImage: '',
+    screenshots: [],
+  }
+}
+
 async function uploadScreenshots(baseName, screenshots) {
   ensureSupabase()
   const uploadedPaths = []
@@ -422,9 +444,25 @@ app.post('/api/admin/portfolio-projects', requireAdmin, async (req, res) => {
       return res.status(409).json({ error: 'This project is already in the portfolio.' })
     }
 
-    const analysis = await analyzeProject(url)
-    const baseName = `${sanitizeSlug(analysis.title)}-${crypto.randomUUID()}`
-    const screenshotPaths = await uploadScreenshots(baseName, analysis.screenshots)
+    let analysis
+
+    try {
+      analysis = await analyzeProject(url)
+    } catch (previewError) {
+      console.warn(`Preview generation failed for ${url}:`, previewError.message)
+      analysis = createFallbackAnalysis(url)
+    }
+
+    let screenshotPaths = []
+
+    if (analysis.screenshots.length > 0) {
+      try {
+        const baseName = `${sanitizeSlug(analysis.title)}-${crypto.randomUUID()}`
+        screenshotPaths = await uploadScreenshots(baseName, analysis.screenshots)
+      } catch (uploadError) {
+        console.warn(`Screenshot upload failed for ${url}:`, uploadError.message)
+      }
+    }
 
     const { data, error } = await supabase
       .from('portfolio_projects')
