@@ -110,23 +110,23 @@ export default function Contact() {
               <p className="mt-5 text-[0.96rem] leading-8 text-ink/64">
                 Whether you are ready to book or just want to ask a few questions, this is the best place to reach AC Web Studio.
               </p>
-              <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4">
-                  <div className="text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">Aileen — Web Development</div>
-                  <a href="mailto:aileen.aryeetey@outlook.com" className="mt-2 block text-[0.9rem] text-warmbrown transition hover:text-ink">
+              <div className="mt-7 divide-y divide-warmbrown-pale">
+                <div className="pb-5">
+                  <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Aileen — Web Development</div>
+                  <a href="mailto:aileen.aryeetey@outlook.com" className="mt-1.5 block text-[0.95rem] text-warmbrown transition hover:text-ink">
                     aileen.aryeetey@outlook.com
                   </a>
                 </div>
-                <div className="rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4">
-                  <div className="text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">Cynthia — UI/UX Design</div>
-                  <a href="mailto:cowusuforkuo@gmail.com" className="mt-2 block text-[0.9rem] text-warmbrown transition hover:text-ink">
+                <div className="py-5">
+                  <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Cynthia — UI/UX Design</div>
+                  <a href="mailto:cowusuforkuo@gmail.com" className="mt-1.5 block text-[0.95rem] text-warmbrown transition hover:text-ink">
                     cowusuforkuo@gmail.com
                   </a>
                 </div>
-              </div>
-              <div className="mt-4 rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4">
-                <div className="text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">Reply Window</div>
-                <div className="mt-2 text-[0.96rem] text-ink">Within 24 hours</div>
+                <div className="pt-5">
+                  <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Reply Window</div>
+                  <div className="mt-1.5 text-[0.95rem] text-ink">Within 24 hours</div>
+                </div>
               </div>
             </div>
 
