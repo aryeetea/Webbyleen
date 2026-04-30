@@ -74,7 +74,7 @@ export default function Home() {
             Premium websites for <span className="italic text-warmbrown">small businesses</span> with ambition.
           </h1>
           <p className="animate-fade-up mt-7 max-w-3xl text-[1.08rem] leading-8 text-ink/66 opacity-0 [animation-delay:240ms]">
-            AC Web Studio creates custom websites with an editorial eye, thoughtful structure, and clean development for founders who want to look established online.
+            ACE Web Studio creates custom websites with an editorial eye, thoughtful structure, and clean development for founders who want to look established online.
           </p>
           <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
             <Link

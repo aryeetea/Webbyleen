@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl gap-14 border-b border-softwhite/10 pb-14 lg:grid-cols-[1.6fr_0.9fr_0.9fr_1fr]">
         <div>
           <Link to="/" className="font-display text-[2rem] leading-none text-softwhite">
-            AC Web <span className="text-warmbrown-light">Studio</span>
+            ACE Web <span className="text-warmbrown-light">Studio</span>
           </Link>
           <p className="mt-5 max-w-sm text-[0.98rem] leading-8 text-softwhite/58">
             Premium, custom websites for small businesses and founders who want to look established, intentional, and worth remembering.
@@ -46,7 +46,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto flex max-w-6xl flex-col justify-between gap-3 pt-8 text-xs uppercase tracking-[0.14em] text-softwhite/35 sm:flex-row">
-        <p>© 2026 AC Web Studio</p>
+        <p>© 2026 ACE Web Studio</p>
         <p>Design-first websites, built from scratch</p>
       </div>
     </footer>

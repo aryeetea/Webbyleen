@@ -25,7 +25,7 @@ export default function AboutUs() {
           <SectionIntro
             label="About"
             title="A small studio with a high standard for detail."
-            copy="AC Web Studio brings design direction and front-end craft together to create websites that feel elevated, intentional, and ready to represent serious businesses."
+            copy="ACE Web Studio brings design direction and front-end craft together to create websites that feel elevated, intentional, and ready to represent serious businesses."
           />
         </div>
       </section>
@@ -38,7 +38,7 @@ export default function AboutUs() {
 
           <div className="space-y-7 text-[1rem] leading-8 text-ink/68 sm:text-[1.05rem]">
             <p>
-              AC Web Studio was built for founders and small business owners who want a website they can feel proud to send people to. We believe premium does not have to mean cold, and minimal does not have to mean generic.
+              ACE Web Studio was built for founders and small business owners who want a website they can feel proud to send people to. We believe premium does not have to mean cold, and minimal does not have to mean generic.
             </p>
             <p>
               Our work is shaped by an editorial mindset: strong hierarchy, generous spacing, confident typography, and a sense of restraint that lets the right details stand out. Before anything is developed, we think about how the brand should feel and what the visitor should understand.

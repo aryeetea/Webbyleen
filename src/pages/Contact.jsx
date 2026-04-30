@@ -95,7 +95,7 @@ export default function Contact() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Contact"
-            title="Get in touch with AC Web Studio."
+            title="Get in touch with ACE Web Studio."
             copy="Reach out for questions, project inquiries, or package requests. If you came from a service package, we will keep that selection attached to your message."
           />
         </div>
@@ -108,7 +108,7 @@ export default function Contact() {
               <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Contact Details</div>
               <h2 className="mt-4 font-display text-[2.3rem] leading-none text-ink">Let’s talk about your website.</h2>
               <p className="mt-5 text-[0.96rem] leading-8 text-ink/64">
-                Whether you are ready to book or just want to ask a few questions, this is the best place to reach AC Web Studio.
+                Whether you are ready to book or just want to ask a few questions, this is the best place to reach ACE Web Studio.
               </p>
               <div className="mt-7 divide-y divide-warmbrown-pale">
                 <div className="pb-5">
