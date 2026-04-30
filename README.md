@@ -49,4 +49,4 @@ Create the Supabase tables and the `portfolio-previews` storage bucket before us
 
 1. Users submit the contact form
 2. The backend stores the inquiry in Supabase
-3. The `/orders` page loads those saved inquiries from the API
+3. Admins review those saved inquiries inside the `/admin` dashboard

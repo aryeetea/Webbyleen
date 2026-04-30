@@ -289,11 +289,15 @@ export async function createContactInquiry(form) {
   return payload
 }
 
-export async function fetchContactInquiries() {
+export async function fetchAdminContactInquiries(token) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/contact-inquiries'))
+    response = await fetch(getApiUrl('/api/admin/contact-inquiries'), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   } catch {
     throw new Error(getNetworkErrorMessage('Could not load inquiries.'))
   }

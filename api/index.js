@@ -346,7 +346,7 @@ app.get('/api/portfolio-projects', async (_req, res) => {
   }
 })
 
-app.get('/api/contact-inquiries', async (_req, res) => {
+app.get('/api/admin/contact-inquiries', requireAdmin, async (_req, res) => {
   try {
     const inquiries = await readContactInquiries()
     res.json(inquiries)

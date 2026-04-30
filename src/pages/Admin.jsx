@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   createPortfolioProject,
   deletePortfolioProject,
+  fetchAdminContactInquiries,
   fetchAdminStatus,
   fetchPortfolioProjects,
   loginAdmin,
@@ -16,13 +17,29 @@ function getStoredToken() {
   return localStorage.getItem(ADMIN_TOKEN_KEY) || ''
 }
 
+function formatInquiryDate(value) {
+  if (!value) return 'Unknown'
+
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(new Date(value))
+  } catch {
+    return 'Unknown'
+  }
+}
+
 export default function Admin() {
   const [token, setToken] = useState(getStoredToken)
   const [adminReady, setAdminReady] = useState(false)
+  const [activeView, setActiveView] = useState('projects')
   const [code, setCode] = useState('')
   const [urlInput, setUrlInput] = useState('')
   const [packageInput, setPackageInput] = useState('')
   const [projects, setProjects] = useState([])
+  const [inquiries, setInquiries] = useState([])
   const [loading, setLoading] = useState(true)
   const [authChecking, setAuthChecking] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -56,9 +73,14 @@ export default function Admin() {
           return
         }
 
-        const items = await fetchPortfolioProjects()
+        const [items, savedInquiries] = await Promise.all([
+          fetchPortfolioProjects(),
+          fetchAdminContactInquiries(token),
+        ])
+
         if (!cancelled) {
           setProjects(items)
+          setInquiries(savedInquiries)
         }
       } catch (loadError) {
         if (!cancelled) {
@@ -181,7 +203,9 @@ export default function Admin() {
   function handleLogout() {
     localStorage.removeItem(ADMIN_TOKEN_KEY)
     setToken('')
+    setActiveView('projects')
     setProjects([])
+    setInquiries([])
     setCode('')
     setMessage('Signed out.')
   }
@@ -247,136 +271,232 @@ export default function Admin() {
 
   return (
     <section className="px-5 pb-24 pt-36 sm:px-6 sm:pt-40">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Admin Dashboard</p>
-                <h1 className="mt-4 font-display text-[2.6rem] leading-[0.96] text-ink">Publish a project link to the public portfolio.</h1>
-              </div>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="rounded-full border border-warmbrown-pale px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-ink/65 transition hover:border-warmbrown hover:text-ink"
-              >
-                Log Out
-              </button>
+      <div className="mx-auto max-w-6xl space-y-8">
+        <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Admin Dashboard</p>
+              <h1 className="mt-4 font-display text-[2.8rem] leading-[0.96] text-ink">Manage projects and orders in one private workspace.</h1>
             </div>
-
-            <p className="mt-5 text-[1rem] leading-8 text-ink/65">
-              When you add a URL here, the backend visits the live website, captures its content, saves preview images, and sends that rendered project to the main site.
-            </p>
-
-            <form onSubmit={handleAddProject} className="mt-8 space-y-5">
-              <label className="block">
-                <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Portfolio project link</span>
-                <textarea
-                  ref={urlRef}
-                  value={urlInput}
-                  onChange={event => setUrlInput(event.target.value)}
-                  rows={5}
-                  className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] leading-8 text-ink outline-none focus:border-warmbrown"
-                  placeholder={'https://yourclientproject.com\nhttps://anotherproject.com'}
-                  required
-                />
-                <span className="mt-2 block text-sm text-ink/55">Add one link per line.</span>
-              </label>
-
-              <label className="block">
-                <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Package label</span>
-                <select
-                  value={packageInput}
-                  onChange={event => setPackageInput(event.target.value)}
-                  className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
-                >
-                  <option value="">Auto-detect package</option>
-                  {PACKAGE_OPTIONS.map(option => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                <span className="mt-2 block text-sm text-ink/55">Choose a package yourself when the automatic guess is off.</span>
-              </label>
-
-              {error && <p className="rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-              {message && <p className="rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{message}</p>}
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {submitting ? 'Rendering Project...' : 'Add Project'}
-              </button>
-            </form>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="rounded-full border border-warmbrown-pale px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-ink/65 transition hover:border-warmbrown hover:text-ink"
+            >
+              Log Out
+            </button>
           </div>
 
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setActiveView('projects')}
+              className={`rounded-full px-5 py-3 text-[0.72rem] font-medium uppercase tracking-[0.18em] transition ${
+                activeView === 'projects'
+                  ? 'bg-ink text-softwhite'
+                  : 'border border-warmbrown-pale bg-cream text-ink/65 hover:border-warmbrown hover:text-ink'
+              }`}
+            >
+              Projects
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveView('orders')}
+              className={`rounded-full px-5 py-3 text-[0.72rem] font-medium uppercase tracking-[0.18em] transition ${
+                activeView === 'orders'
+                  ? 'bg-ink text-softwhite'
+                  : 'border border-warmbrown-pale bg-cream text-ink/65 hover:border-warmbrown hover:text-ink'
+              }`}
+            >
+              Orders
+            </button>
+          </div>
+        </div>
+
+        {activeView === 'projects' ? (
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
+              <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Projects</p>
+              <h2 className="mt-4 font-display text-[2.6rem] leading-[0.96] text-ink">Publish a project link to the public portfolio.</h2>
+
+              <p className="mt-5 text-[1rem] leading-8 text-ink/65">
+                When you add a URL here, the backend visits the live website, captures its content, saves preview images, and sends that rendered project to the main site.
+              </p>
+
+              <form onSubmit={handleAddProject} className="mt-8 space-y-5">
+                <label className="block">
+                  <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Portfolio project link</span>
+                  <textarea
+                    ref={urlRef}
+                    value={urlInput}
+                    onChange={event => setUrlInput(event.target.value)}
+                    rows={5}
+                    className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] leading-8 text-ink outline-none focus:border-warmbrown"
+                    placeholder={'https://yourclientproject.com\nhttps://anotherproject.com'}
+                    required
+                  />
+                  <span className="mt-2 block text-sm text-ink/55">Add one link per line.</span>
+                </label>
+
+                <label className="block">
+                  <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Package label</span>
+                  <select
+                    value={packageInput}
+                    onChange={event => setPackageInput(event.target.value)}
+                    className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
+                  >
+                    <option value="">Auto-detect package</option>
+                    {PACKAGE_OPTIONS.map(option => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="mt-2 block text-sm text-ink/55">Choose a package yourself when the automatic guess is off.</span>
+                </label>
+
+                {error && <p className="rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+                {message && <p className="rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{message}</p>}
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {submitting ? 'Rendering Project...' : 'Add Project'}
+                </button>
+              </form>
+            </div>
+
+            <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Live Entries</p>
+                  <h2 className="mt-4 font-display text-[2.2rem] leading-none text-ink">Projects currently showing on the public site.</h2>
+                </div>
+                <span className="rounded-full bg-cream px-4 py-2 text-[0.7rem] uppercase tracking-[0.16em] text-ink/60">
+                  {loading ? 'Loading...' : `${projects.length} total`}
+                </span>
+              </div>
+
+              <div className="mt-8 space-y-5">
+                {projects.length === 0 ? (
+                  <div className="rounded-[4px] border border-dashed border-warmbrown-pale bg-cream px-6 py-10 text-center text-ink/60">
+                    No projects added yet.
+                  </div>
+                ) : (
+                  projects.map(project => (
+                    <article key={project.id} className="rounded-[4px] border border-warmbrown-pale bg-cream p-5">
+                      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="min-w-0">
+                          <p className="text-[0.68rem] uppercase tracking-[0.18em] text-warmbrown">
+                            {new URL(project.url).hostname.replace(/^www\./, '')}
+                          </p>
+                          <h3 className="mt-2 font-display text-[1.7rem] text-ink">{project.title}</h3>
+                          <p className="mt-3 text-[0.95rem] leading-7 text-ink/65">{project.summary}</p>
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {project.technologies?.map(technology => (
+                              <span key={technology} className="rounded-full bg-softwhite px-3 py-1 text-[0.66rem] uppercase tracking-[0.14em] text-warmbrown">
+                                {technology}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="mt-4 max-w-xs">
+                            <span className="mb-2 block text-[0.68rem] uppercase tracking-[0.18em] text-ink/55">Package label</span>
+                            <select
+                              value={project.packageType || 'Custom'}
+                              onChange={event => handlePackageChange(project.id, event.target.value)}
+                              disabled={updatingProjectId === project.id}
+                              className="w-full rounded-[4px] border border-warmbrown-pale bg-softwhite px-3 py-3 text-[0.9rem] text-ink outline-none focus:border-warmbrown disabled:cursor-not-allowed disabled:opacity-70"
+                            >
+                              {PACKAGE_OPTIONS.map(option => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveProject(project.id)}
+                          className="rounded-full border border-warmbrown-pale px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-ink/65 transition hover:border-red-300 hover:text-red-600"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </article>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
-            <div className="flex items-center justify-between gap-4">
+            {error && <p className="mb-6 rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+            {message && <p className="mb-6 rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{message}</p>}
+
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Live Entries</p>
-                <h2 className="mt-4 font-display text-[2.2rem] leading-none text-ink">Projects currently showing on the public site.</h2>
+                <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Orders</p>
+                <h2 className="mt-4 font-display text-[2.2rem] leading-none text-ink">Client inquiries submitted from the contact form.</h2>
               </div>
               <span className="rounded-full bg-cream px-4 py-2 text-[0.7rem] uppercase tracking-[0.16em] text-ink/60">
-                {loading ? 'Loading...' : `${projects.length} total`}
+                {loading ? 'Loading...' : `${inquiries.length} total`}
               </span>
             </div>
 
-            <div className="mt-8 space-y-5">
-              {projects.length === 0 ? (
+            <p className="mt-5 max-w-3xl text-[1rem] leading-8 text-ink/65">
+              New leads now live inside the admin dashboard so everything private stays in one place.
+            </p>
+
+            <div className="mt-8">
+              {loading ? (
                 <div className="rounded-[4px] border border-dashed border-warmbrown-pale bg-cream px-6 py-10 text-center text-ink/60">
-                  No projects added yet.
+                  Loading inquiries...
+                </div>
+              ) : inquiries.length === 0 ? (
+                <div className="rounded-[4px] border border-dashed border-warmbrown-pale bg-cream px-6 py-10 text-center text-ink/60">
+                  No orders yet.
                 </div>
               ) : (
-                projects.map(project => (
-                  <article key={project.id} className="rounded-[4px] border border-warmbrown-pale bg-cream p-5">
-                    <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="min-w-0">
-                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-warmbrown">
-                          {new URL(project.url).hostname.replace(/^www\./, '')}
-                        </p>
-                        <h3 className="mt-2 font-display text-[1.7rem] text-ink">{project.title}</h3>
-                        <p className="mt-3 text-[0.95rem] leading-7 text-ink/65">{project.summary}</p>
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {project.technologies?.map(technology => (
-                            <span key={technology} className="rounded-full bg-softwhite px-3 py-1 text-[0.66rem] uppercase tracking-[0.14em] text-warmbrown">
-                              {technology}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="mt-4 max-w-xs">
-                          <span className="mb-2 block text-[0.68rem] uppercase tracking-[0.18em] text-ink/55">Package label</span>
-                          <select
-                            value={project.packageType || 'Custom'}
-                            onChange={event => handlePackageChange(project.id, event.target.value)}
-                            disabled={updatingProjectId === project.id}
-                            className="w-full rounded-[4px] border border-warmbrown-pale bg-softwhite px-3 py-3 text-[0.9rem] text-ink outline-none focus:border-warmbrown disabled:cursor-not-allowed disabled:opacity-70"
-                          >
-                            {PACKAGE_OPTIONS.map(option => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveProject(project.id)}
-                        className="rounded-full border border-warmbrown-pale px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-ink/65 transition hover:border-red-300 hover:text-red-600"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </article>
-                ))
+                <div className="overflow-x-auto rounded-[4px] border border-warmbrown-pale bg-cream">
+                  <table className="min-w-full text-left text-sm">
+                    <thead className="bg-softwhite text-warmbrown uppercase tracking-[0.14em]">
+                      <tr>
+                        <th className="px-4 py-3">Submitted</th>
+                        <th className="px-4 py-3">Name</th>
+                        <th className="px-4 py-3">Email</th>
+                        <th className="px-4 py-3">Business</th>
+                        <th className="px-4 py-3">Package</th>
+                        <th className="px-4 py-3">Timeline</th>
+                        <th className="px-4 py-3">Message</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {inquiries.map(inquiry => (
+                        <tr key={inquiry.id} className="border-t border-warmbrown-pale/60 align-top">
+                          <td className="px-4 py-3 whitespace-nowrap text-ink/60">{formatInquiryDate(inquiry.createdAt)}</td>
+                          <td className="px-4 py-3 whitespace-nowrap">{inquiry.firstName} {inquiry.lastName}</td>
+                          <td className="px-4 py-3">
+                            <a href={`mailto:${inquiry.email}`} className="text-warmbrown transition hover:text-ink">
+                              {inquiry.email}
+                            </a>
+                          </td>
+                          <td className="px-4 py-3">{inquiry.businessName || 'Not provided'}</td>
+                          <td className="px-4 py-3">{inquiry.package || 'Not selected'}</td>
+                          <td className="px-4 py-3">{inquiry.timeline || 'Not provided'}</td>
+                          <td className="px-4 py-3 max-w-sm whitespace-pre-line text-ink/70">{inquiry.message || 'No message included.'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   )

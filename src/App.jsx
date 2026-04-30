@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -9,7 +9,6 @@ import Portfolio from './pages/Portfolio'
 import Admin from './pages/Admin'
 import Contact from './pages/Contact'
 import Faq from './pages/Faq'
-import Orders from './pages/Orders'
 // Team import removed
 export default function App() {
   return (
@@ -22,7 +21,7 @@ export default function App() {
         <Route path="/services"  element={<Services />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/admin"     element={<Admin />} />
-        <Route path="/orders"    element={<Orders />} />
+        <Route path="/orders"    element={<Navigate to="/admin" replace />} />
         <Route path="/faq"       element={<Faq />} />
         <Route path="/contact"   element={<Contact />} />
       </Routes>
