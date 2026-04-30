@@ -1,17 +1,15 @@
 import cors from 'cors'
 import crypto from 'crypto'
 import express from 'express'
-import fs from 'fs/promises'
 import path from 'path'
 import puppeteer from 'puppeteer'
 import { fileURLToPath } from 'url'
 import { hasSupabaseConfig, supabase } from './supabase.js'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const isDirectRun = process.argv[1] ? path.resolve(process.argv[1]) === __filename : false
 
 const app = express()
-const dataDir = path.join(__dirname, 'data')
 
 const PORT = process.env.PORT || 5050
 const TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || 'change-me-before-production'
@@ -21,10 +19,6 @@ const PACKAGE_OPTIONS = new Set(['Starter', 'Professional', 'Signature', 'Custom
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
-
-async function ensureStorage() {
-  await fs.mkdir(dataDir, { recursive: true })
-}
 
 function ensureSupabase() {
   if (!hasSupabaseConfig || !supabase) {
@@ -569,11 +563,8 @@ app.delete('/api/admin/portfolio-projects/:id', requireAdmin, async (req, res) =
   }
 })
 
-ensureStorage()
-  .then(() => {
-    app.listen(PORT, () => console.log(`API running on port ${PORT}`))
-  })
-  .catch(error => {
-    console.error('Failed to prepare API storage', error)
-    process.exit(1)
-  })
+export default app
+
+if (isDirectRun) {
+  app.listen(PORT, () => console.log(`API running on port ${PORT}`))
+}

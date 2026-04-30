@@ -17,6 +17,7 @@ npm run dev:api
 ```
 
 The backend now reads environment variables from the root `.env.local` file through the `dev:api` script.
+On Vercel, the same Express app is served from the repo's `/api` directory as serverless functions, so the deployed frontend can call `/api/...` on the same domain.
 
 ## Required environment variables
 

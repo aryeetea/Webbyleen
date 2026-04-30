@@ -4,12 +4,30 @@ function getApiUrl(path) {
   return `${API_BASE_URL}${path}`
 }
 
+function getApiOriginLabel() {
+  if (API_BASE_URL) {
+    return API_BASE_URL
+  }
+
+  if (typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname)) {
+    return 'http://localhost:5050'
+  }
+
+  return 'this site'
+}
+
 async function readJson(response) {
   return response.json().catch(() => ({}))
 }
 
 function getNetworkErrorMessage(fallback) {
-  return `${fallback} Make sure the API server is running on http://localhost:5050.`
+  const apiLocation = getApiOriginLabel()
+  const suffix =
+    apiLocation === 'this site'
+      ? 'Make sure the deployed API is available for this site.'
+      : `Make sure the API server is running on ${apiLocation}.`
+
+  return `${fallback} ${suffix}`
 }
 
 function getFriendlyErrorMessage(payload, fallback) {
