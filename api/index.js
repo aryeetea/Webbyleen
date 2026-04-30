@@ -17,6 +17,7 @@ const PORT = process.env.PORT || 5050
 const TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || 'change-me-before-production'
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 12
 const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE?.trim() || ''
+const PACKAGE_OPTIONS = new Set(['Starter', 'Professional', 'Signature', 'Custom'])
 
 app.use(cors())
 app.use(express.json({ limit: '2mb' }))
@@ -167,11 +168,30 @@ function guessTech(html) {
   return tech.length ? tech : ['Custom/Other']
 }
 
-function suggestPackageType(html) {
-  const pageCount = (html.match(/<a [^>]*href=["'][^"']+\.html["']/gi) || []).length
+function normalizePackageType(value) {
+  if (typeof value !== 'string') return ''
+  const trimmed = value.trim()
+  return PACKAGE_OPTIONS.has(trimmed) ? trimmed : ''
+}
 
-  if (pageCount <= 1) return 'Starter'
-  if (pageCount <= 5) return 'Professional'
+function suggestPackageType(html) {
+  const internalLinks = new Set(
+    Array.from(
+      html.matchAll(/<a [^>]*href=["'](\/(?!\/)[^"']*|https?:\/\/[^"']+)["']/gi),
+      match => match[1]
+    )
+      .map(link => link.trim())
+      .filter(link => link && !/^https?:\/\/(www\.)?(facebook|instagram|linkedin|x|twitter|youtube)\./i.test(link))
+  )
+
+  const sections = (html.match(/<section\b/gi) || []).length
+  const forms = (html.match(/<form\b/gi) || []).length
+  const serviceKeywords = (html.match(/services?|pricing|testimonials?|portfolio|contact|about|faq/gi) || []).length
+
+  const score = internalLinks.size + sections + forms * 2 + Math.min(serviceKeywords, 6)
+
+  if (score <= 6) return 'Starter'
+  if (score <= 14) return 'Professional'
   return 'Signature'
 }
 
@@ -438,6 +458,7 @@ app.get('/api/admin/session', requireAdmin, (req, res) => {
 app.post('/api/admin/portfolio-projects', requireAdmin, async (req, res) => {
   try {
     const url = normalizeUrl(req.body.url)
+    const packageTypeOverride = normalizePackageType(req.body.packageType)
     const existingProjects = await readProjects()
 
     if (existingProjects.some(project => project.url === url)) {
@@ -451,6 +472,10 @@ app.post('/api/admin/portfolio-projects', requireAdmin, async (req, res) => {
     } catch (previewError) {
       console.warn(`Preview generation failed for ${url}:`, previewError.message)
       analysis = createFallbackAnalysis(url)
+    }
+
+    if (packageTypeOverride) {
+      analysis.packageType = packageTypeOverride
     }
 
     let screenshotPaths = []
@@ -488,6 +513,33 @@ app.post('/api/admin/portfolio-projects', requireAdmin, async (req, res) => {
   } catch (error) {
     console.error('Failed to add portfolio project:', error)
     res.status(500).json({ error: error.message || 'Could not analyze this project link.' })
+  }
+})
+
+app.patch('/api/admin/portfolio-projects/:id', requireAdmin, async (req, res) => {
+  try {
+    ensureSupabase()
+
+    const packageType = normalizePackageType(req.body.packageType)
+
+    if (!packageType) {
+      return res.status(400).json({ error: 'A valid package type is required.' })
+    }
+
+    const { data, error } = await supabase
+      .from('portfolio_projects')
+      .update({ package_type: packageType })
+      .eq('id', req.params.id)
+      .select()
+      .single()
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    res.json(mapProjectRow(data))
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Could not update this project.' })
   }
 })
 

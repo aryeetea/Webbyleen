@@ -5,10 +5,12 @@ import {
   fetchAdminStatus,
   fetchPortfolioProjects,
   loginAdmin,
+  updatePortfolioProjectPackage,
   verifyAdminSession,
 } from '../lib/api'
 
 const ADMIN_TOKEN_KEY = 'adminSessionToken'
+const PACKAGE_OPTIONS = ['Starter', 'Professional', 'Signature', 'Custom']
 
 function getStoredToken() {
   return localStorage.getItem(ADMIN_TOKEN_KEY) || ''
@@ -19,10 +21,12 @@ export default function Admin() {
   const [adminReady, setAdminReady] = useState(false)
   const [code, setCode] = useState('')
   const [urlInput, setUrlInput] = useState('')
+  const [packageInput, setPackageInput] = useState('')
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [authChecking, setAuthChecking] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [updatingProjectId, setUpdatingProjectId] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const urlRef = useRef(null)
@@ -117,7 +121,7 @@ export default function Admin() {
 
       for (const currentUrl of urls) {
         try {
-          const project = await createPortfolioProject(currentUrl, token)
+          const project = await createPortfolioProject(currentUrl, token, packageInput)
           addedProjects.push(project)
         } catch (saveError) {
           failures.push(`${currentUrl}: ${saveError.message}`)
@@ -127,6 +131,7 @@ export default function Admin() {
       if (addedProjects.length > 0) {
         setProjects(current => [...addedProjects, ...current])
         setUrlInput('')
+        setPackageInput('')
       }
 
       if (addedProjects.length > 0 && failures.length === 0) {
@@ -154,6 +159,22 @@ export default function Admin() {
       setMessage('Project removed from the live portfolio.')
     } catch (removeError) {
       setError(removeError.message)
+    }
+  }
+
+  async function handlePackageChange(id, packageType) {
+    setUpdatingProjectId(id)
+    setError('')
+    setMessage('')
+
+    try {
+      const updatedProject = await updatePortfolioProjectPackage(id, packageType, token)
+      setProjects(current => current.map(project => (project.id === id ? updatedProject : project)))
+      setMessage('Project package updated.')
+    } catch (updateError) {
+      setError(updateError.message)
+    } finally {
+      setUpdatingProjectId('')
     }
   }
 
@@ -262,6 +283,23 @@ export default function Admin() {
                 <span className="mt-2 block text-sm text-ink/55">Add one link per line.</span>
               </label>
 
+              <label className="block">
+                <span className="mb-2 block text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/60">Package label</span>
+                <select
+                  value={packageInput}
+                  onChange={event => setPackageInput(event.target.value)}
+                  className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
+                >
+                  <option value="">Auto-detect package</option>
+                  {PACKAGE_OPTIONS.map(option => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <span className="mt-2 block text-sm text-ink/55">Choose a package yourself when the automatic guess is off.</span>
+              </label>
+
               {error && <p className="rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
               {message && <p className="rounded-[4px] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{message}</p>}
 
@@ -307,6 +345,21 @@ export default function Admin() {
                               {technology}
                             </span>
                           ))}
+                        </div>
+                        <div className="mt-4 max-w-xs">
+                          <span className="mb-2 block text-[0.68rem] uppercase tracking-[0.18em] text-ink/55">Package label</span>
+                          <select
+                            value={project.packageType || 'Custom'}
+                            onChange={event => handlePackageChange(project.id, event.target.value)}
+                            disabled={updatingProjectId === project.id}
+                            className="w-full rounded-[4px] border border-warmbrown-pale bg-softwhite px-3 py-3 text-[0.9rem] text-ink outline-none focus:border-warmbrown disabled:cursor-not-allowed disabled:opacity-70"
+                          >
+                            {PACKAGE_OPTIONS.map(option => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       </div>
 

@@ -157,7 +157,7 @@ export async function verifyAdminSession(token) {
   return response.json()
 }
 
-export async function createPortfolioProject(url, token) {
+export async function createPortfolioProject(url, token, packageType = '') {
   let response
 
   try {
@@ -167,7 +167,7 @@ export async function createPortfolioProject(url, token) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ url }),
+      body: JSON.stringify({ url, packageType }),
     })
   } catch {
     throw new Error(getNetworkErrorMessage('Could not add this project.'))
@@ -177,6 +177,31 @@ export async function createPortfolioProject(url, token) {
 
   if (!response.ok) {
     throw new Error(getFriendlyErrorMessage(payload, 'Could not add this project right now.'))
+  }
+
+  return payload
+}
+
+export async function updatePortfolioProjectPackage(id, packageType, token) {
+  let response
+
+  try {
+    response = await fetch(getApiUrl(`/api/admin/portfolio-projects/${id}`), {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ packageType }),
+    })
+  } catch {
+    throw new Error(getNetworkErrorMessage('Could not update this project.'))
+  }
+
+  const payload = await readJson(response)
+
+  if (!response.ok) {
+    throw new Error(getFriendlyErrorMessage(payload, 'Could not update this project right now.'))
   }
 
   return payload
