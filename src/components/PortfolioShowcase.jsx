@@ -1,6 +1,6 @@
 import { resolveAssetUrl } from '../lib/api'
 
-export default function PortfolioShowcase({ projects, loading, emptyMessage = 'No portfolio projects yet.' }) {
+export default function PortfolioShowcase({ projects, loading }) {
   if (loading) {
     return (
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -23,8 +23,24 @@ export default function PortfolioShowcase({ projects, loading, emptyMessage = 'N
 
   if (projects.length === 0) {
     return (
-      <div className="rounded-[4px] border border-dashed border-warmbrown-pale bg-softwhite px-8 py-14 text-center text-[1rem] leading-8 text-ink/60">
-        {emptyMessage}
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {[0, 1, 2].map(i => (
+          <div key={i} className="overflow-hidden rounded-[4px] border border-warmbrown-pale/60 bg-softwhite shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
+            <div className="relative aspect-[4/3] bg-cream bg-[radial-gradient(circle_at_top_right,rgba(255,208,0,0.22),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(240,23,106,0.14),transparent_50%)] flex items-center justify-center">
+              <span className="rounded-full border border-warmbrown-pale bg-softwhite/80 px-4 py-2 text-[0.65rem] uppercase tracking-[0.22em] text-ink/40">
+                Coming soon
+              </span>
+            </div>
+            <div className="p-6 space-y-3">
+              <div className="h-2.5 w-20 rounded-full bg-warmbrown-pale/80" />
+              <div className="h-6 w-2/3 rounded bg-warmbrown-pale/50" />
+              <div className="space-y-2 pt-1">
+                <div className="h-3 rounded bg-warmbrown-pale/40" />
+                <div className="h-3 w-5/6 rounded bg-warmbrown-pale/40" />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     )
   }
@@ -47,7 +63,7 @@ export default function PortfolioShowcase({ projects, loading, emptyMessage = 'N
                   className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(255,201,60,0.32),transparent_42%),linear-gradient(135deg,#c2185b,#ff4f9a,#ffc93c)] px-8 text-center font-display text-4xl text-softwhite">
+                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(255,208,0,0.32),transparent_42%),linear-gradient(135deg,#1A0510,#F0176A,#FFD000)] px-8 text-center font-display text-4xl text-softwhite">
                   {project.title}
                 </div>
               )}

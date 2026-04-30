@@ -43,8 +43,8 @@ export default function Portfolio() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Portfolio"
-            title="Client work that renders directly from the real project links."
-            copy="Each project below starts from a saved portfolio URL in the admin area, then the public site pulls in a rendered preview for visitors."
+            title="Custom websites built for real businesses."
+            copy="Every project below is designed and developed from scratch — built to help a business look established, intentional, and worth remembering online."
           />
           {error && (
             <p className="mt-6 max-w-2xl rounded-[4px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -59,7 +59,6 @@ export default function Portfolio() {
           <PortfolioShowcase
             projects={projects}
             loading={loading}
-            emptyMessage="No portfolio projects have been published yet. Add one from the admin page and it will appear here."
           />
         </div>
       </section>

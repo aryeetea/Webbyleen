@@ -170,15 +170,14 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <SectionIntro
             label="Selected Work"
-            title="Live project previews pulled from portfolio links."
-            copy="When a project URL is added in the admin area, this section renders saved preview content from that real site so visitors can see the work immediately."
+            title="Recent client work, built from the ground up."
+            copy="Every project is designed and coded from scratch — no templates, no shortcuts. Clean, custom work that represents the business behind it."
           />
 
           <div className="mt-14">
             <PortfolioShowcase
               projects={portfolioProjects}
               loading={portfolioLoading}
-              emptyMessage="No live portfolio entries yet. Add one from the admin page and it will appear here."
             />
           </div>
         </div>
