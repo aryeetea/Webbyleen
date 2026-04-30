@@ -11,18 +11,6 @@ function getApiBaseUrl() {
 
   try {
     const configuredUrl = new URL(RAW_API_BASE_URL, window.location.origin)
-    const currentHost = window.location.hostname
-    const configuredHost = configuredUrl.hostname
-    const bothAreVercelPreviews =
-      currentHost.endsWith('.vercel.app') &&
-      configuredHost.endsWith('.vercel.app') &&
-      currentHost !== configuredHost
-
-    // Preview deployments should call their own same-origin API routes.
-    if (bothAreVercelPreviews) {
-      return ''
-    }
-
     return configuredUrl.origin
   } catch {
     return RAW_API_BASE_URL

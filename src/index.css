@@ -2,12 +2,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #FFF0F5;
-  --color-softwhite: #FFFBF8;
-  --color-ink: #1A0510;
-  --color-warmbrown: #F0176A;
-  --color-warmbrown-light: #FFD000;
-  --color-warmbrown-pale: #FFD6EA;
+  --color-cream: #FAF8F4;
+  --color-softwhite: #FFFFFF;
+  --color-ink: #111110;
+  --color-warmbrown: #8B6F4E;
+  --color-warmbrown-light: #C4A882;
+  --color-warmbrown-pale: #EDE5D8;
   --font-sans: "DM Sans", sans-serif;
   --font-display: "Cormorant Garamond", serif;
 }
@@ -24,11 +24,8 @@
   body {
     @apply m-0 bg-cream font-sans text-ink antialiased;
     background-image:
-      radial-gradient(circle at top left, rgba(255, 208, 0, 0.28), transparent 30%),
-      radial-gradient(circle at top right, rgba(240, 23, 106, 0.22), transparent 34%),
-      radial-gradient(circle at 10% 82%, rgba(240, 23, 106, 0.14), transparent 28%),
-      radial-gradient(circle at 85% 70%, rgba(255, 208, 0, 0.18), transparent 26%),
-      linear-gradient(180deg, #fff0f5 0%, #fffbf8 48%, #fff5ef 100%);
+      radial-gradient(circle at top left, rgba(196, 168, 130, 0.14), transparent 30%),
+      linear-gradient(180deg, #faf8f4 0%, #ffffff 48%, #f7f2e9 100%);
   }
 
   a {

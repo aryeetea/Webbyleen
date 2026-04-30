@@ -26,7 +26,7 @@ export default function PortfolioShowcase({ projects, loading }) {
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {[0, 1, 2].map(i => (
           <div key={i} className="overflow-hidden rounded-[4px] border border-warmbrown-pale/60 bg-softwhite shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
-            <div className="relative aspect-[4/3] bg-cream bg-[radial-gradient(circle_at_top_right,rgba(255,208,0,0.22),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(240,23,106,0.14),transparent_50%)] flex items-center justify-center">
+            <div className="relative aspect-[4/3] bg-cream bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.18),transparent_48%),radial-gradient(circle_at_bottom_left,rgba(139,111,78,0.08),transparent_50%)] flex items-center justify-center">
               <span className="rounded-full border border-warmbrown-pale bg-softwhite/80 px-4 py-2 text-[0.65rem] uppercase tracking-[0.22em] text-ink/40">
                 Coming soon
               </span>
@@ -63,7 +63,7 @@ export default function PortfolioShowcase({ projects, loading }) {
                   className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(255,208,0,0.32),transparent_42%),linear-gradient(135deg,#1A0510,#F0176A,#FFD000)] px-8 text-center font-display text-4xl text-softwhite">
+                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(196,168,130,0.35),transparent_42%),linear-gradient(135deg,#111110,#4b3f35,#C4A882)] px-8 text-center font-display text-4xl text-softwhite">
                   {project.title}
                 </div>
               )}
