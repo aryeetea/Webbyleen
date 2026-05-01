@@ -76,6 +76,14 @@ function getOrderStatusClasses(status) {
   }
 }
 
+function getAdminConfigMessage() {
+  if (typeof window !== 'undefined' && !/^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname)) {
+    return 'Admin access is not configured on the deployed server yet. Add `ADMIN_ACCESS_CODE` in your hosting dashboard, then redeploy.'
+  }
+
+  return 'Admin access is not configured yet. Add `ADMIN_ACCESS_CODE` to `.env.local`, then restart the API server.'
+}
+
 export default function Admin() {
   const [token, setToken] = useState(getStoredToken)
   const [adminReady, setAdminReady] = useState(false)
@@ -318,7 +326,7 @@ export default function Admin() {
             </p>
             {!adminReady && (
               <p className="mt-4 max-w-2xl rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-3 text-sm text-ink/70">
-                Admin access is not configured yet. Add `ADMIN_ACCESS_CODE` to `.env.local`, then restart the API server.
+                {getAdminConfigMessage()}
               </p>
             )}
 
