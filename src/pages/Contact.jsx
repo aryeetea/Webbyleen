@@ -85,7 +85,7 @@ export default function Contact() {
   return (
     <>
       <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_left,rgba(255,208,0,0.26),transparent_34%),radial-gradient(circle_at_right,rgba(240,23,106,0.18),transparent_28%)]" />
+        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.24),transparent_36%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_28%)]" />
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Contact"
@@ -116,6 +116,10 @@ export default function Contact() {
                   <a href="mailto:cowusuforkuo@gmail.com" className="mt-1.5 block text-[0.95rem] text-warmbrown transition hover:text-ink">
                     cowusuforkuo@gmail.com
                   </a>
+                </div>
+                <div className="pt-5">
+                  <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Edwina — Art Direction</div>
+                  <div className="mt-1.5 text-[0.95rem] text-ink/58">Email to be added</div>
                 </div>
                 <div className="pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Reply Window</div>
@@ -150,8 +154,8 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-5">
                 <div className="grid gap-5 md:grid-cols-2">
-                  <Field label="First Name" name="firstName" value={form.firstName} onChange={handleChange} placeholder="Aileen" />
-                  <Field label="Last Name" name="lastName" value={form.lastName} onChange={handleChange} placeholder="Aryeetey" />
+                  <Field label="First Name" name="firstName" value={form.firstName} onChange={handleChange} placeholder="John" />
+                  <Field label="Last Name" name="lastName" value={form.lastName} onChange={handleChange} placeholder="Smith" />
                 </div>
 
                 <div className="grid gap-5 md:grid-cols-2">
@@ -160,8 +164,8 @@ export default function Contact() {
                 </div>
 
                 <div className="grid gap-5 md:grid-cols-2">
-                  <Field label="Website or Instagram" name="website" value={form.website} onChange={handleChange} placeholder="yourbrand.com" />
-                  <Field label="Preferred Timeline" name="timeline" value={form.timeline} onChange={handleChange} placeholder="Whenever works best for you" />
+                  <Field label="Website or Instagram" name="website" value={form.website} onChange={handleChange} placeholder="www.yourbusiness.com or @yourbrand" />
+                  <Field label="Preferred Timeline" name="timeline" value={form.timeline} onChange={handleChange} placeholder="For example: next month" />
                 </div>
 
                 <div>

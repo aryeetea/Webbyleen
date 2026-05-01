@@ -128,8 +128,8 @@ export default function Checkout() {
             </div>
 
             <div className="mt-8 grid gap-5 md:grid-cols-2">
-              <Field label="First Name" name="firstName" value={form.firstName} onChange={handleChange} placeholder="Aileen" required />
-              <Field label="Last Name" name="lastName" value={form.lastName} onChange={handleChange} placeholder="Aryeetey" required />
+              <Field label="First Name" name="firstName" value={form.firstName} onChange={handleChange} placeholder="John" required />
+              <Field label="Last Name" name="lastName" value={form.lastName} onChange={handleChange} placeholder="Smith" required />
             </div>
 
             <div className="mt-5 grid gap-5 md:grid-cols-2">
@@ -138,8 +138,8 @@ export default function Checkout() {
             </div>
 
             <div className="mt-5 grid gap-5 md:grid-cols-2">
-              <Field label="Website or Instagram" name="website" value={form.website} onChange={handleChange} placeholder="yourbrand.com" />
-              <Field label="Preferred Timeline" name="timeline" value={form.timeline} onChange={handleChange} placeholder="2 weeks" />
+              <Field label="Website or Instagram" name="website" value={form.website} onChange={handleChange} placeholder="www.yourbusiness.com or @yourbrand" />
+              <Field label="Preferred Timeline" name="timeline" value={form.timeline} onChange={handleChange} placeholder="For example: 2 to 4 weeks" />
             </div>
 
             <div className="mt-8 rounded-[4px] border border-warmbrown-pale bg-cream p-5">
@@ -206,7 +206,7 @@ export default function Checkout() {
                 value={form.notes}
                 onChange={handleChange}
                 rows={6}
-                placeholder="Tell us your idea. What do you want the website to do, who is it for, and what kind of look or features do you have in mind?"
+                placeholder="Tell us about your business, what the website should do, the pages you need, and any style or feature ideas you already have."
                 className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[0.96rem] leading-8 text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
                 required
               />
@@ -240,7 +240,7 @@ export default function Checkout() {
                   <span className="font-display text-[2rem] text-warmbrown-light">{formatCurrency(pricing.amountDueToday)}</span>
                 </div>
                 <div className="text-sm leading-7 text-softwhite/60">
-                  Checkout collects the starting deposit securely online. Clients can come with just the idea, and the rest of the project details can be refined after review.
+                  Checkout secures your project with a 50% deposit today. The remaining 50% is due on completion once the final website has been approved.
                 </div>
               </div>
 
@@ -260,7 +260,7 @@ export default function Checkout() {
             <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-7 shadow-[0_16px_34px_rgba(17,17,16,0.05)]">
               <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Need to ask something first?</div>
               <p className="mt-5 text-[0.96rem] leading-8 text-ink/66">
-                The contact page is now just for questions, collaborations, and general inquiries. Orders and payments stay in checkout.
+                The contact page is reserved for questions, collaborations, and general inquiries. Orders and payments stay inside checkout for a more professional booking process.
               </p>
               <Link
                 to="/contact"

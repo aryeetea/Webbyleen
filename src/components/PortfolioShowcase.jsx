@@ -28,7 +28,7 @@ export default function PortfolioShowcase({ projects, loading }) {
           <div key={i} className="overflow-hidden rounded-[4px] border border-warmbrown-pale/60 bg-softwhite shadow-[0_14px_36px_rgba(17,17,16,0.04)]">
             <div className="relative aspect-[4/3] bg-cream bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.18),transparent_48%),radial-gradient(circle_at_bottom_left,rgba(139,111,78,0.08),transparent_50%)] flex items-center justify-center">
               <span className="rounded-full border border-warmbrown-pale bg-softwhite/80 px-4 py-2 text-[0.65rem] uppercase tracking-[0.22em] text-ink/40">
-                Coming soon
+                Projects coming soon
               </span>
             </div>
             <div className="p-6 space-y-3">

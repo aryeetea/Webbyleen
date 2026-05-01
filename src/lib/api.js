@@ -9,6 +9,12 @@ function getApiBaseUrl() {
     return RAW_API_BASE_URL
   }
 
+  // In production, prefer the current site's own API routes so stale env values
+  // do not point the public site at an old deployment hostname.
+  if (!/^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname)) {
+    return ''
+  }
+
   try {
     const configuredUrl = new URL(RAW_API_BASE_URL, window.location.origin)
     return configuredUrl.origin
@@ -21,6 +27,35 @@ const API_BASE_URL = getApiBaseUrl()
 
 function getApiUrl(path) {
   return `${API_BASE_URL}${path}`
+}
+
+async function fetchWithSameOriginFallback(path, options) {
+  const primaryUrl = getApiUrl(path)
+
+  try {
+    const response = await fetch(primaryUrl, options)
+
+    if (
+      !response.ok &&
+      API_BASE_URL &&
+      typeof window !== 'undefined' &&
+      !/^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname)
+    ) {
+      return fetch(path, options)
+    }
+
+    return response
+  } catch (error) {
+    if (
+      API_BASE_URL &&
+      typeof window !== 'undefined' &&
+      !/^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname)
+    ) {
+      return fetch(path, options)
+    }
+
+    throw error
+  }
 }
 
 function getApiOriginLabel() {
@@ -130,7 +165,7 @@ export async function fetchPortfolioProjects() {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/portfolio-projects'))
+    response = await fetchWithSameOriginFallback('/api/portfolio-projects')
   } catch {
     throw new Error(getNetworkErrorMessage('Could not load portfolio projects.'))
   }
@@ -147,7 +182,7 @@ export async function fetchAdminStatus() {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/admin/status'))
+    response = await fetchWithSameOriginFallback('/api/admin/status')
   } catch {
     throw new Error(getNetworkErrorMessage('Could not load admin status.'))
   }
@@ -164,7 +199,7 @@ export async function loginAdmin(code) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/admin/login'), {
+    response = await fetchWithSameOriginFallback('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code }),
@@ -186,7 +221,7 @@ export async function verifyAdminSession(token) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/admin/session'), {
+    response = await fetchWithSameOriginFallback('/api/admin/session', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -206,7 +241,7 @@ export async function createPortfolioProject(url, token, packageType = '') {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/admin/portfolio-projects'), {
+    response = await fetchWithSameOriginFallback('/api/admin/portfolio-projects', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -231,7 +266,7 @@ export async function updatePortfolioProjectPackage(id, packageType, token) {
   let response
 
   try {
-    response = await fetch(getApiUrl(`/api/admin/portfolio-projects/${id}`), {
+    response = await fetchWithSameOriginFallback(`/api/admin/portfolio-projects/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -256,7 +291,7 @@ export async function deletePortfolioProject(id, token) {
   let response
 
   try {
-    response = await fetch(getApiUrl(`/api/admin/portfolio-projects/${id}`), {
+    response = await fetchWithSameOriginFallback(`/api/admin/portfolio-projects/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -279,7 +314,7 @@ export async function createContactInquiry(form) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/contact-inquiries'), {
+    response = await fetchWithSameOriginFallback('/api/contact-inquiries', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
@@ -301,7 +336,7 @@ export async function createCheckoutSession(order) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/checkout/session'), {
+    response = await fetchWithSameOriginFallback('/api/checkout/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(order),
@@ -323,7 +358,7 @@ export async function confirmOrderPayment(sessionId) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/orders/confirm'), {
+    response = await fetchWithSameOriginFallback('/api/orders/confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId }),
@@ -345,7 +380,7 @@ export async function fetchAdminContactInquiries(token) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/admin/contact-inquiries'), {
+    response = await fetchWithSameOriginFallback('/api/admin/contact-inquiries', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -366,7 +401,7 @@ export async function fetchAdminOrders(token) {
   let response
 
   try {
-    response = await fetch(getApiUrl('/api/admin/orders'), {
+    response = await fetchWithSameOriginFallback('/api/admin/orders', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -387,7 +422,7 @@ export async function updateAdminOrderStatus(id, status, token) {
   let response
 
   try {
-    response = await fetch(getApiUrl(`/api/admin/orders/${id}/status`), {
+    response = await fetchWithSameOriginFallback(`/api/admin/orders/${id}/status`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

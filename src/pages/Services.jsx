@@ -3,25 +3,29 @@ import SectionIntro from '../components/SectionIntro'
 import { packages } from '../data/packages'
 
 const comparisons = [
-  ['Pages', '1', '3–5', '6–10'],
+  ['Pages', '1', '3 to 5', '6 to 10'],
+  ['Starting price', '$180', '$450', '$900'],
+  ['Delivery', '2 weeks', '3 weeks', '4 to 5 weeks'],
   ['Mobile responsive', 'Included', 'Included', 'Included'],
-  ['Contact form', 'Optional', 'Included', 'Included'],
-  ['Animations', 'Light', 'Standard', 'Advanced'],
+  ['Contact form', 'Included', 'Included', 'Included'],
+  ['Figma mockup first', 'Included', 'Included', 'Included'],
+  ['Hosting & deployment', 'Included', 'Included', 'Included'],
+  ['3 months free support', 'Included', 'Included', 'Included'],
+  ['Social media icons', 'Included', 'Included', 'Included'],
   ['Revision rounds', '2', '3', '5'],
-  ['SEO structure', 'Basic', 'Included', 'Included'],
-  ['Custom features', 'Optional', 'Light', 'Advanced'],
+  ['Deposit required', '50%', '50%', '50%'],
 ]
 
 export default function Services() {
   return (
     <>
       <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_right,rgba(255,208,0,0.28),transparent_34%),radial-gradient(circle_at_left,rgba(240,23,106,0.18),transparent_30%)]" />
+        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.24),transparent_36%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_28%)]" />
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Services"
-            title="Clear pricing, premium presentation, and room to scale."
-            copy="Each package is designed to feel custom, high-touch, and professionally structured from the start."
+            title="Professional website packages with clear pricing and clear delivery."
+            copy="Each package is built around a structured process, professional presentation, and a clear scope that makes booking straightforward."
           />
         </div>
       </section>
@@ -103,6 +107,33 @@ export default function Services() {
         </div>
       </section>
 
+      <section className="bg-cream px-5 py-24 sm:px-6">
+        <div className="mx-auto max-w-6xl rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_18px_40px_rgba(17,17,16,0.05)] sm:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
+            <div>
+              <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">All Packages Include</div>
+              <h2 className="mt-5 font-display text-[2.3rem] leading-none text-ink sm:text-[2.8rem]">
+                Everything needed for a professional website launch.
+              </h2>
+            </div>
+            <div className="grid gap-3">
+              {[
+                'Design mockup in Figma before any code is written',
+                'Mobile responsive on every device',
+                'Contact form',
+                'Hosting and deployment',
+                '3 months free minor support after launch',
+                'Social media icons',
+              ].map(item => (
+                <div key={item} className="rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[0.96rem] leading-7 text-ink/72">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-softwhite px-5 py-24 sm:px-6">
         <div className="mx-auto max-w-6xl overflow-hidden rounded-[4px] border border-warmbrown-pale shadow-[0_18px_40px_rgba(17,17,16,0.05)]">
           <div className="border-b border-warmbrown-pale bg-cream px-6 py-5 sm:px-8">
@@ -113,7 +144,7 @@ export default function Services() {
               <thead>
                 <tr className="border-b border-warmbrown-pale bg-softwhite">
                   <th className="px-6 py-4 text-[0.7rem] uppercase tracking-[0.2em] text-ink/50 sm:px-8">Feature</th>
-                  {['Basic', 'Standard', 'Premium'].map(head => (
+                  {['Starter', 'Business', 'Professional'].map(head => (
                     <th key={head} className={`px-6 py-4 text-[0.7rem] uppercase tracking-[0.2em] sm:px-8 ${head === 'Standard' ? 'text-warmbrown' : 'text-ink/50'}`}>
                       {head}
                     </th>
@@ -137,12 +168,12 @@ export default function Services() {
 
       <section className="px-5 py-24 sm:px-6">
         <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-cream px-6 py-14 text-center shadow-[0_16px_34px_rgba(17,17,16,0.05)] sm:px-10">
-          <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Not Sure?</div>
+          <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Monthly Maintenance</div>
           <h2 className="mt-5 font-display text-[2.4rem] leading-[1] text-ink sm:text-[3.1rem]">
-            We can recommend the right package for you.
+            $80 per month after the first 3 months of free support.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-ink/66">
-            If you already know your goals but are not sure which tier makes the most sense, reach out and we will guide you toward the best fit.
+            Monthly maintenance includes up to 3 small changes per month, text updates, image swaps, minor layout tweaks, and security checks. No contracts. Cancel anytime.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
@@ -152,12 +183,24 @@ export default function Services() {
               Start Checkout
             </Link>
             <Link
-              to="/about"
+              to="/contact"
               className="rounded-full border border-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
             >
-              About the Studio
+              Ask a Question
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-softwhite px-5 pb-24 sm:px-6">
+        <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-softwhite px-6 py-14 text-center shadow-[0_16px_34px_rgba(17,17,16,0.05)] sm:px-10">
+          <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">How Payment Works</div>
+          <h2 className="mt-5 font-display text-[2.4rem] leading-[1] text-ink sm:text-[3.1rem]">
+            50% deposit upfront. 50% on completion.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-ink/66">
+            A 50% deposit secures your project slot and allows work to begin. The remaining 50% is due on completion when you are happy with the final result.
+          </p>
         </div>
       </section>
     </>

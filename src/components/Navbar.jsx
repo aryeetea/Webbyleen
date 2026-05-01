@@ -40,15 +40,6 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="hidden md:block">
-            <Link
-              to="/admin"
-              className="rounded-full bg-ink px-5 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
-            >
-              Admin
-            </Link>
-          </div>
-
           <button
             type="button"
             onClick={() => setOpen(current => !current)}
@@ -77,13 +68,6 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/admin"
-              onClick={() => setOpen(false)}
-              className="mt-2 rounded-full bg-ink px-5 py-3 text-center text-[0.74rem] font-medium uppercase tracking-[0.18em] text-softwhite"
-            >
-              Admin
-            </Link>
           </div>
         )}
       </nav>

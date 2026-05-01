@@ -8,23 +8,23 @@ import { fetchPortfolioProjects } from '../lib/api'
 
 const services = [
   {
-    tier: 'Basic',
-    price: '$150–$250',
-    description: 'A focused one-page presence for freelancers, creatives, and small brands who need something polished quickly.',
-    features: ['1 custom page', 'Mobile-first build', 'Contact section', '2 revision rounds'],
+    tier: 'Starter',
+    price: '$180',
+    description: 'A clean one-page website for businesses that need a professional online presence without unnecessary complexity.',
+    features: ['1 custom page', '2 week delivery', '2 revisions', '50% deposit upfront'],
   },
   {
-    tier: 'Professional',
-    price: '$400–$700',
-    description: 'A multi-page website with stronger structure, strategy, and conversion points for growing businesses.',
-    features: ['3–5 custom pages', 'Inquiry form', 'Motion details', '3 revision rounds'],
+    tier: 'Business',
+    price: '$450',
+    description: 'A multi-page website for businesses that need room to explain their services and build trust clearly.',
+    features: ['3 to 5 custom pages', '3 week delivery', '3 revisions', '50% deposit upfront'],
     featured: true,
   },
   {
-    tier: 'Signature',
-    price: '$800–$1300',
-    description: 'A more expansive, premium build for brands that want a richer experience and room to scale.',
-    features: ['6–10 custom pages', 'Advanced interactions', 'Custom features', 'Priority support'],
+    tier: 'Professional',
+    price: '$900',
+    description: 'A premium multi-page website for established businesses that need a fuller and more refined digital presence.',
+    features: ['6 to 10 custom pages', '4 to 5 week delivery', '5 revisions', '50% deposit upfront'],
   },
 ]
 
@@ -74,7 +74,7 @@ export default function Home() {
             Premium websites for <span className="italic text-warmbrown">small businesses</span> with ambition.
           </h1>
           <p className="animate-fade-up mt-7 max-w-3xl text-[1.08rem] leading-8 text-ink/66 opacity-0 [animation-delay:240ms]">
-            ACE Web Studio creates custom websites with an editorial eye, thoughtful structure, and clean development for founders who want to look established online.
+            ACE Web Studio designs and develops custom business websites with thoughtful structure, polished visuals, and a clear launch process from concept to deployment.
           </p>
           <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
             <Link
@@ -103,8 +103,8 @@ export default function Home() {
               {[
                 ['100%', 'Custom-built'],
                 ['3', 'Core packages'],
-                ['24h', 'Reply window'],
-                ['∞', 'Creative potential'],
+                ['50%', 'Deposit to book'],
+                ['3 mo', 'Free support'],
               ].map(([value, label]) => (
                 <div key={label} className="border-t border-softwhite/15 pt-4">
                   <div className="font-display text-[2.6rem] leading-none text-softwhite">{value}</div>
@@ -115,7 +115,7 @@ export default function Home() {
           </div>
 
           <div className="self-end text-[1rem] leading-8 text-softwhite/60">
-            Each site is written from scratch with a balance of clarity, personality, and restraint. The result feels premium without trying too hard, which is exactly what helps smaller brands look more established.
+            Every package includes a Figma mockup before development begins, responsive layouts across devices, hosting and deployment, and three months of minor post-launch support.
           </div>
         </div>
       </section>
@@ -161,7 +161,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  to={`/checkout?package=${service.tier.toLowerCase().includes('professional') ? 'professional' : service.tier.toLowerCase().includes('signature') ? 'signature' : 'starter'}`}
+                  to={`/checkout?package=${service.tier.toLowerCase()}`}
                   className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] transition hover:-translate-y-0.5 ${
                     service.featured
                       ? 'bg-softwhite text-ink hover:bg-warmbrown hover:text-softwhite'
@@ -227,7 +227,7 @@ export default function Home() {
             Ready for a website that looks as established as your business deserves?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-softwhite/78">
-            Let’s shape a site that feels confident, clean, and unmistakably yours.
+            Secure your project with a 50% deposit upfront, then pay the remaining 50% on completion once you are happy with the final result.
           </p>
           <div className="mt-10">
             <Link
