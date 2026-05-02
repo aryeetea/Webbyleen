@@ -65,7 +65,7 @@ export default function CheckoutSuccess() {
       </section>
 
       <section className="px-5 pb-24 sm:px-6">
-        <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 text-center shadow-[0_18px_40px_rgba(17,17,16,0.05)]">
+        <div className="mx-auto max-w-4xl rounded-[30px] border border-warmbrown/12 bg-softwhite p-8 text-center shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
           {loading ? (
             <p className="text-[1rem] leading-8 text-ink/65">Confirming your payment...</p>
           ) : error ? (
@@ -96,11 +96,11 @@ export default function CheckoutSuccess() {
               </p>
 
               <div className="mx-auto mt-8 grid max-w-3xl gap-4 text-left md:grid-cols-2">
-                <div className="rounded-[4px] border border-warmbrown-pale bg-cream px-5 py-5">
+                <div className="rounded-[22px] border border-warmbrown/10 bg-cream px-5 py-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">Package</div>
                   <div className="mt-2 text-[1rem] text-ink">{order?.packageName}</div>
                 </div>
-                <div className="rounded-[4px] border border-warmbrown-pale bg-cream px-5 py-5">
+                <div className="rounded-[22px] border border-warmbrown/10 bg-cream px-5 py-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">Email</div>
                   <div className="mt-2 text-[1rem] text-ink">{order?.email}</div>
                 </div>

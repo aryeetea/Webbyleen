@@ -15,22 +15,24 @@ import CheckoutCancel from './pages/CheckoutCancel'
 // Team import removed
 export default function App() {
   return (
-    <div className="min-h-screen bg-cream text-ink">
+    <div className="page-frame min-h-screen bg-cream text-ink">
       <ScrollToTop />
       <Navbar />
-      <Routes>
-        <Route path="/"          element={<Home />} />
-        <Route path="/about"     element={<AboutUs />} />
-        <Route path="/services"  element={<Services />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/admin"     element={<Admin />} />
-        <Route path="/checkout"  element={<Checkout />} />
-        <Route path="/checkout/success" element={<CheckoutSuccess />} />
-        <Route path="/checkout/cancel" element={<CheckoutCancel />} />
-        <Route path="/orders"    element={<Navigate to="/checkout" replace />} />
-        <Route path="/faq"       element={<Faq />} />
-        <Route path="/contact"   element={<Contact />} />
-      </Routes>
+      <main className="relative">
+        <Routes>
+          <Route path="/"          element={<Home />} />
+          <Route path="/about"     element={<AboutUs />} />
+          <Route path="/services"  element={<Services />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/admin"     element={<Admin />} />
+          <Route path="/checkout"  element={<Checkout />} />
+          <Route path="/checkout/success" element={<CheckoutSuccess />} />
+          <Route path="/checkout/cancel" element={<CheckoutCancel />} />
+          <Route path="/orders"    element={<Navigate to="/checkout" replace />} />
+          <Route path="/faq"       element={<Faq />} />
+          <Route path="/contact"   element={<Contact />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   )

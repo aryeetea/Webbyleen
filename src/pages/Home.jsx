@@ -64,31 +64,54 @@ export default function Home() {
   return (
     <>
       <section className="relative overflow-hidden px-5 pb-24 pt-36 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[620px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.24),transparent_36%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_28%)]" />
-        <div className="relative mx-auto max-w-6xl">
-          <div className="animate-fade-up flex items-center gap-3 text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">
-            <span className="h-px w-8 bg-warmbrown/70" />
-            <span>Web Design & Development</span>
+        <div className="absolute inset-x-0 top-0 h-[660px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.28),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_26%)]" />
+        <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div>
+            <div className="animate-fade-up flex items-center gap-3 text-[0.72rem] font-medium uppercase editorial-kicker text-warmbrown">
+              <span className="rounded-full border border-warmbrown/12 bg-softwhite/80 px-3 py-1 shadow-[0_10px_24px_rgba(23,20,17,0.05)]">Luxury feel</span>
+              <span className="h-px w-8 bg-warmbrown/70" />
+              <span>Web Design & Development</span>
+            </div>
+            <h1 className="animate-fade-up mt-6 max-w-5xl font-display text-[3.25rem] leading-[0.92] text-ink opacity-0 [animation-delay:120ms] sm:text-[4.4rem] lg:text-[5.5rem]">
+              Aesthetic, professional websites for <span className="italic text-warmbrown">small businesses</span> with ambition.
+            </h1>
+            <p className="animate-fade-up mt-7 max-w-3xl text-[1.08rem] leading-8 text-ink/66 opacity-0 [animation-delay:240ms]">
+              ACE Web Studio designs and develops custom business websites with thoughtful structure, polished visuals, and a calm premium presentation that still feels clear, trustworthy, and ready to convert.
+            </p>
+            <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
+              <Link
+                to="/checkout"
+                className="rounded-full bg-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite shadow-[0_18px_34px_rgba(23,20,17,0.14)] transition hover:-translate-y-0.5 hover:bg-warmbrown"
+              >
+                Place an Order
+              </Link>
+              <Link
+                to="/portfolio"
+                className="rounded-full border border-ink/14 bg-softwhite/84 px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+              >
+                View Work
+              </Link>
+            </div>
           </div>
-          <h1 className="animate-fade-up mt-6 max-w-5xl font-display text-[3.25rem] leading-[0.92] text-ink opacity-0 [animation-delay:120ms] sm:text-[4.4rem] lg:text-[5.4rem]">
-            Premium websites for <span className="italic text-warmbrown">small businesses</span> with ambition.
-          </h1>
-          <p className="animate-fade-up mt-7 max-w-3xl text-[1.08rem] leading-8 text-ink/66 opacity-0 [animation-delay:240ms]">
-            ACE Web Studio designs and develops custom business websites with thoughtful structure, polished visuals, and a clear launch process from concept to deployment.
-          </p>
-          <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
-            <Link
-              to="/checkout"
-              className="rounded-full bg-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
-            >
-              Place an Order
-            </Link>
-            <Link
-              to="/portfolio"
-              className="rounded-full border border-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
-            >
-              View Work
-            </Link>
+
+          <div className="animate-fade-up opacity-0 [animation-delay:420ms]">
+            <div className="surface-panel relative rounded-[34px] p-6">
+              <div className="absolute right-6 top-6 rounded-full border border-warmbrown/12 bg-warmbrown-pale/28 px-3 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-warmbrown">
+                Editorial polish
+              </div>
+              <div className="grid gap-5 pt-14">
+                {[
+                  ['Custom coded', 'No templates. Every layout is shaped around your business.'],
+                  ['Professional pacing', 'Typography, spacing, and hierarchy tuned to feel premium.'],
+                  ['Ready to launch', 'Structured, mobile-responsive, and built for modern trust signals.'],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-[24px] border border-warmbrown/10 bg-softwhite/70 p-5">
+                    <div className="text-[0.68rem] uppercase tracking-[0.2em] text-warmbrown">{label}</div>
+                    <p className="mt-3 text-[0.96rem] leading-7 text-ink/66">{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -132,10 +155,10 @@ export default function Home() {
             {services.map(service => (
               <article
                 key={service.tier}
-                className={`group rounded-[4px] border p-8 transition duration-300 hover:-translate-y-1 ${
+                className={`group rounded-[30px] border p-8 transition duration-500 hover:-translate-y-1.5 ${
                   service.featured
                     ? 'border-ink bg-ink text-softwhite shadow-[0_24px_60px_rgba(17,17,16,0.12)]'
-                    : 'border-warmbrown-pale bg-softwhite text-ink shadow-[0_14px_36px_rgba(17,17,16,0.04)]'
+                    : 'border-warmbrown/12 bg-softwhite text-ink shadow-[0_24px_56px_rgba(17,17,16,0.06)]'
                 }`}
               >
                 <div className="flex items-center justify-between gap-4">
@@ -222,7 +245,7 @@ export default function Home() {
       </section>
 
       <section className="bg-warmbrown px-5 py-20 text-center text-softwhite sm:px-6">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl rounded-[34px] border border-softwhite/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-6 py-12 shadow-[0_28px_70px_rgba(20,16,13,0.2)] sm:px-10">
           <h2 className="font-display text-[2.5rem] leading-[1] sm:text-[3.6rem]">
             Ready for a website that looks as established as your business deserves?
           </h2>

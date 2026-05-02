@@ -16,10 +16,18 @@ export default function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
-      <nav className="mx-auto max-w-6xl rounded-[4px] border border-warmbrown-pale/80 bg-softwhite/76 px-5 py-4 shadow-[0_18px_40px_rgba(17,17,16,0.06)] backdrop-blur-xl sm:px-7">
+      <nav className="mx-auto max-w-6xl rounded-[28px] border border-warmbrown/10 bg-softwhite/78 px-5 py-4 shadow-[0_24px_60px_rgba(17,17,16,0.08)] backdrop-blur-2xl sm:px-7">
         <div className="flex items-center justify-between gap-6">
           <Link to="/" className="shrink-0" aria-label="ACE Web Studio home">
-            <img src="/logo-ace-main.png" alt="ACE Web Studio" className="h-12 w-auto" />
+            <div className="flex items-center gap-3">
+              <div className="rounded-[18px] border border-warmbrown/10 bg-softwhite/90 px-3 py-2 shadow-[0_14px_30px_rgba(17,17,16,0.05)]">
+                <img src="/logo-ace-main.png" alt="ACE Web Studio" className="h-11 w-auto" />
+              </div>
+              <div className="hidden sm:block">
+                <div className="text-[0.65rem] uppercase tracking-[0.26em] text-warmbrown">ACE Web Studio</div>
+                <div className="mt-1 text-sm text-ink/60">Custom websites for modern brands</div>
+              </div>
+            </div>
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">
@@ -30,20 +38,28 @@ export default function Navbar() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`text-sm tracking-[0.14em] uppercase transition-colors ${
-                    active ? 'text-ink' : 'text-ink/55 hover:text-ink'
+                  className={`rounded-full px-4 py-2 text-sm tracking-[0.14em] uppercase transition-all ${
+                    active
+                      ? 'bg-ink text-softwhite shadow-[0_12px_24px_rgba(23,20,17,0.18)]'
+                      : 'text-ink/55 hover:bg-warmbrown-pale/40 hover:text-ink'
                   }`}
                 >
                   {link.label}
                 </Link>
               )
             })}
+            <Link
+              to="/checkout"
+              className="rounded-full border border-warmbrown/20 bg-warmbrown px-5 py-3 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-ink"
+            >
+              Start Project
+            </Link>
           </div>
 
           <button
             type="button"
             onClick={() => setOpen(current => !current)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-warmbrown-pale text-ink md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-warmbrown/15 bg-softwhite/90 text-ink md:hidden"
             aria-label="Toggle navigation"
           >
             <div className="flex flex-col gap-1.5">
@@ -55,19 +71,26 @@ export default function Navbar() {
         </div>
 
         {open && (
-          <div className="mt-5 grid gap-3 border-t border-warmbrown-pale/80 pt-5 md:hidden">
+          <div className="mt-5 grid gap-3 border-t border-warmbrown-pale/70 pt-5 md:hidden">
             {links.map(link => (
               <Link
                 key={link.to}
                 to={link.to}
                 onClick={() => setOpen(false)}
-                className={`rounded-[4px] px-2 py-2 text-sm uppercase tracking-[0.14em] ${
-                  pathname === link.to ? 'text-ink' : 'text-ink/60'
+                className={`rounded-[18px] px-4 py-3 text-sm uppercase tracking-[0.14em] transition ${
+                  pathname === link.to ? 'bg-ink text-softwhite' : 'bg-warmbrown-pale/25 text-ink/60'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
+            <Link
+              to="/checkout"
+              onClick={() => setOpen(false)}
+              className="rounded-[18px] bg-warmbrown px-4 py-3 text-center text-sm uppercase tracking-[0.14em] text-softwhite"
+            >
+              Start Project
+            </Link>
           </div>
         )}
       </nav>

@@ -116,13 +116,13 @@ export default function Checkout() {
 
       <section className="px-5 pb-24 sm:px-6">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <form onSubmit={handleSubmit} className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-6 shadow-[0_18px_40px_rgba(17,17,16,0.05)] sm:p-8">
+          <form onSubmit={handleSubmit} className="rounded-[30px] border border-warmbrown/12 bg-softwhite p-6 shadow-[0_24px_56px_rgba(17,17,16,0.06)] sm:p-8">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Secure Checkout</p>
                 <h2 className="mt-4 font-display text-[2.3rem] leading-none text-ink">Order setup</h2>
               </div>
-              <div className="rounded-full bg-cream px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-ink/60">
+              <div className="rounded-full border border-warmbrown/10 bg-cream px-4 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-ink/60">
                 Stripe payment
               </div>
             </div>
@@ -142,13 +142,13 @@ export default function Checkout() {
               <Field label="Preferred Timeline" name="timeline" value={form.timeline} onChange={handleChange} placeholder="For example: 2 to 4 weeks" />
             </div>
 
-            <div className="mt-8 rounded-[4px] border border-warmbrown-pale bg-cream p-5">
+            <div className="mt-8 rounded-[24px] border border-warmbrown/10 bg-cream p-5">
               <div className="text-[0.7rem] uppercase tracking-[0.18em] text-ink/50">Step 1</div>
               <label className="mt-2 block text-[1rem] text-ink">Select your package</label>
               <select
                 value={selectedPackage.slug}
                 onChange={handlePackageChange}
-                className="mt-4 w-full rounded-[4px] border border-warmbrown-pale bg-softwhite px-4 py-4 text-[0.96rem] text-ink outline-none transition focus:border-warmbrown"
+                className="mt-4 w-full rounded-[22px] border border-warmbrown/12 bg-softwhite px-4 py-4 text-[0.96rem] text-ink outline-none transition focus:border-warmbrown"
               >
                 {packages.map(pkg => (
                   <option key={pkg.slug} value={pkg.slug}>
@@ -157,12 +157,12 @@ export default function Checkout() {
                 ))}
               </select>
 
-              <div className="mt-4 rounded-[4px] border border-warmbrown-pale bg-softwhite px-4 py-4 text-[0.95rem] leading-7 text-ink/68">
+              <div className="mt-4 rounded-[22px] border border-warmbrown/12 bg-softwhite px-4 py-4 text-[0.95rem] leading-7 text-ink/68">
                 {selectedPackage.who}
               </div>
             </div>
 
-            <div className="mt-5 rounded-[4px] border border-warmbrown-pale bg-cream p-5">
+            <div className="mt-5 rounded-[24px] border border-warmbrown/10 bg-cream p-5">
               <div className="text-[0.7rem] uppercase tracking-[0.18em] text-ink/50">Step 2</div>
               <div className="mt-2 text-[1rem] text-ink">Choose extra add-ons</div>
               <div className="mt-5 grid gap-3">
@@ -172,7 +172,7 @@ export default function Checkout() {
                   return (
                     <label
                       key={addon.id}
-                      className={`flex cursor-pointer items-start justify-between gap-4 rounded-[4px] border px-4 py-4 transition ${
+                      className={`flex cursor-pointer items-start justify-between gap-4 rounded-[22px] border px-4 py-4 transition ${
                         checked
                           ? 'border-warmbrown bg-softwhite'
                           : 'border-warmbrown-pale bg-transparent hover:border-warmbrown'
@@ -207,7 +207,7 @@ export default function Checkout() {
                 onChange={handleChange}
                 rows={6}
                 placeholder="Tell us about your business, what the website should do, the pages you need, and any style or feature ideas you already have."
-                className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[0.96rem] leading-8 text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
+                className="w-full rounded-[22px] border border-warmbrown/12 bg-cream px-4 py-4 text-[0.96rem] leading-8 text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
                 required
               />
             </div>
@@ -224,13 +224,13 @@ export default function Checkout() {
           </form>
 
           <aside className="space-y-6">
-            <div className="rounded-[4px] border border-warmbrown-pale bg-ink p-7 text-softwhite shadow-[0_18px_40px_rgba(17,17,16,0.08)]">
+            <div className="rounded-[30px] border border-softwhite/8 bg-ink p-7 text-softwhite shadow-[0_24px_60px_rgba(17,17,16,0.14)]">
               <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown-light">Order Summary</div>
               <h2 className="mt-4 font-display text-[2.4rem] leading-none">{selectedPackage.name}</h2>
               <div className="mt-4 text-[1.1rem] text-warmbrown-light">{selectedPackage.price}</div>
               <p className="mt-5 text-[0.96rem] leading-8 text-softwhite/68">{selectedPackage.who}</p>
 
-              <div className="mt-8 grid gap-4 rounded-[4px] border border-softwhite/10 bg-softwhite/6 p-5">
+              <div className="mt-8 grid gap-4 rounded-[24px] border border-softwhite/10 bg-softwhite/6 p-5">
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-[0.72rem] uppercase tracking-[0.18em] text-softwhite/55">Estimated project total</span>
                   <span className="font-display text-[2rem] text-softwhite">{formatCurrencyRange(pricing.estimatedRange)}</span>
@@ -257,7 +257,7 @@ export default function Checkout() {
               </div>
             </div>
 
-            <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-7 shadow-[0_16px_34px_rgba(17,17,16,0.05)]">
+            <div className="rounded-[30px] border border-warmbrown/12 bg-softwhite p-7 shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
               <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Need to ask something first?</div>
               <p className="mt-5 text-[0.96rem] leading-8 text-ink/66">
                 The contact page is reserved for questions, collaborations, and general inquiries. Orders and payments stay inside checkout for a more professional booking process.
@@ -284,7 +284,7 @@ function Field({ label, ...props }) {
       </label>
       <input
         {...props}
-        className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[0.96rem] text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
+        className="w-full rounded-[22px] border border-warmbrown/12 bg-cream px-4 py-4 text-[0.96rem] text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
       />
     </div>
   )

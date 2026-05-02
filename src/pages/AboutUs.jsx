@@ -56,11 +56,11 @@ export default function AboutUs() {
               </p>
             </div>
 
-            <div className="rounded-[4px] border border-warmbrown-pale bg-cream px-6 py-6">
+            <div className="surface-subtle rounded-[30px] px-6 py-6">
               <div className="text-[0.72rem] uppercase tracking-[0.22em] text-warmbrown">Studio Team</div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 {team.map(([name, role]) => (
-                  <div key={name} className="rounded-[4px] border border-warmbrown-pale bg-softwhite px-4 py-4">
+                  <div key={name} className="rounded-[24px] border border-warmbrown/10 bg-softwhite/86 px-4 py-4 shadow-[0_16px_30px_rgba(17,17,16,0.04)]">
                     <div className="font-display text-[1.5rem] leading-none text-ink">{name}</div>
                     <div className="mt-2 text-[0.72rem] uppercase tracking-[0.16em] text-ink/55">{role}</div>
                   </div>
@@ -70,7 +70,7 @@ export default function AboutUs() {
 
             <div className="grid gap-5 pt-8 md:grid-cols-2">
               {values.map(([title, copy]) => (
-                <div key={title} className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-6 shadow-[0_14px_34px_rgba(17,17,16,0.04)]">
+                <div key={title} className="rounded-[28px] border border-warmbrown/12 bg-softwhite p-6 shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
                   <h3 className="font-display text-[1.55rem] text-ink">{title}</h3>
                   <p className="mt-3 text-[0.95rem] leading-7 text-ink/65">{copy}</p>
                 </div>
@@ -100,7 +100,7 @@ export default function AboutUs() {
       </section>
 
       <section className="bg-softwhite px-5 py-20 text-center sm:px-6">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl rounded-[32px] border border-warmbrown/10 bg-cream/80 px-6 py-12 shadow-[0_24px_56px_rgba(17,17,16,0.05)] sm:px-10">
           <h2 className="font-display text-[2.5rem] leading-[1] text-ink sm:text-[3.5rem]">
             If you want a site that feels both refined and memorable, we should talk.
           </h2>

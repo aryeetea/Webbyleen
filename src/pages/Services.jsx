@@ -35,7 +35,7 @@ export default function Services() {
           {packages.map(pkg => (
             <article
               key={pkg.slug}
-              className={`rounded-[4px] border p-8 shadow-[0_18px_40px_rgba(17,17,16,0.05)] ${
+            className={`rounded-[30px] border p-8 shadow-[0_24px_56px_rgba(17,17,16,0.06)] ${
                 pkg.featured ? 'border-ink bg-ink text-softwhite' : 'border-warmbrown-pale bg-softwhite'
               }`}
             >
@@ -58,7 +58,7 @@ export default function Services() {
                 {pkg.who}
               </p>
 
-              <div className="mt-8 rounded-[4px] border px-4 py-4 text-sm uppercase tracking-[0.16em] ${
+              <div className="mt-8 rounded-[22px] border px-4 py-4 text-sm uppercase tracking-[0.16em] ${
                 pkg.featured ? 'border-softwhite/10 text-softwhite/75' : 'border-warmbrown-pale text-ink/58'
               }">
                 Turnaround: {pkg.turnaround}
@@ -78,7 +78,7 @@ export default function Services() {
                 </ul>
               </div>
 
-              <div className={`mt-8 rounded-[4px] px-5 py-5 ${pkg.featured ? 'bg-softwhite/6' : 'bg-cream'}`}>
+              <div className={`mt-8 rounded-[24px] px-5 py-5 ${pkg.featured ? 'bg-softwhite/6' : 'bg-cream'}`}>
                 <div className={`text-[0.72rem] uppercase tracking-[0.2em] ${pkg.featured ? 'text-softwhite/58' : 'text-ink/55'}`}>
                   Add-ons
                 </div>
@@ -135,7 +135,7 @@ export default function Services() {
       </section>
 
       <section className="bg-softwhite px-5 py-24 sm:px-6">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[4px] border border-warmbrown-pale shadow-[0_18px_40px_rgba(17,17,16,0.05)]">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[30px] border border-warmbrown-pale shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
           <div className="border-b border-warmbrown-pale bg-cream px-6 py-5 sm:px-8">
             <h2 className="font-display text-[2rem] text-ink sm:text-[2.3rem]">Package Comparison</h2>
           </div>
@@ -167,7 +167,7 @@ export default function Services() {
       </section>
 
       <section className="px-5 py-24 sm:px-6">
-        <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-cream px-6 py-14 text-center shadow-[0_16px_34px_rgba(17,17,16,0.05)] sm:px-10">
+        <div className="mx-auto max-w-4xl rounded-[30px] border border-warmbrown/12 bg-cream px-6 py-14 text-center shadow-[0_24px_56px_rgba(17,17,16,0.06)] sm:px-10">
           <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">Monthly Maintenance</div>
           <h2 className="mt-5 font-display text-[2.4rem] leading-[1] text-ink sm:text-[3.1rem]">
             $80 per month after the first 3 months of free support.
@@ -193,7 +193,7 @@ export default function Services() {
       </section>
 
       <section className="bg-softwhite px-5 pb-24 sm:px-6">
-        <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-softwhite px-6 py-14 text-center shadow-[0_16px_34px_rgba(17,17,16,0.05)] sm:px-10">
+        <div className="mx-auto max-w-4xl rounded-[30px] border border-warmbrown/12 bg-softwhite px-6 py-14 text-center shadow-[0_24px_56px_rgba(17,17,16,0.06)] sm:px-10">
           <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">How Payment Works</div>
           <h2 className="mt-5 font-display text-[2.4rem] leading-[1] text-ink sm:text-[3.1rem]">
             50% deposit upfront. 50% on completion.

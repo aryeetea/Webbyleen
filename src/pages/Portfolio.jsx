@@ -48,7 +48,7 @@ export default function Portfolio() {
       </section>
 
       <section className="px-5 pb-24 sm:px-6">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-6xl rounded-[34px] border border-warmbrown/10 bg-softwhite/36 p-2 shadow-[0_24px_56px_rgba(17,17,16,0.04)]">
           <PortfolioShowcase
             projects={projects}
             loading={loading}

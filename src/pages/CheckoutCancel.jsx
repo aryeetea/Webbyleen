@@ -19,7 +19,7 @@ export default function CheckoutCancel() {
       </section>
 
       <section className="px-5 pb-24 sm:px-6">
-        <div className="mx-auto max-w-4xl rounded-[4px] border border-warmbrown-pale bg-softwhite p-8 text-center shadow-[0_18px_40px_rgba(17,17,16,0.05)]">
+        <div className="mx-auto max-w-4xl rounded-[30px] border border-warmbrown/12 bg-softwhite p-8 text-center shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
           <h2 className="font-display text-[2.5rem] text-ink">Want to continue your order?</h2>
           <p className="mt-5 text-[1rem] leading-8 text-ink/65">
             Head back to checkout to adjust your package, keep your extras, and finish the secure payment when it works for you.

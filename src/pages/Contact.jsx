@@ -98,7 +98,7 @@ export default function Contact() {
       <section className="px-5 pb-24 sm:px-6">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <div className="space-y-6">
-            <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-7 shadow-[0_16px_34px_rgba(17,17,16,0.05)]">
+            <div className="rounded-[30px] border border-warmbrown/12 bg-softwhite p-7 shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
               <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Contact Details</div>
               <h2 className="mt-4 font-display text-[2.3rem] leading-none text-ink">Let’s talk about your website.</h2>
               <p className="mt-5 text-[0.96rem] leading-8 text-ink/64">
@@ -134,7 +134,7 @@ export default function Contact() {
                 ['Best fit', 'Founders and small businesses'],
                 ['Best use', 'Questions, collaborations, and general inquiries'],
               ].map(([label, value]) => (
-                <div key={label} className="rounded-[4px] border border-warmbrown-pale bg-cream px-5 py-5">
+                <div key={label} className="rounded-[24px] border border-warmbrown/10 bg-cream px-5 py-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.18em] text-ink/48">{label}</div>
                   <div className="mt-2 text-[0.98rem] text-ink/74">{value}</div>
                 </div>
@@ -142,7 +142,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="rounded-[4px] border border-warmbrown-pale bg-softwhite p-6 shadow-[0_18px_40px_rgba(17,17,16,0.05)] sm:p-8">
+          <div className="rounded-[30px] border border-warmbrown/12 bg-softwhite p-6 shadow-[0_24px_56px_rgba(17,17,16,0.06)] sm:p-8">
             {sent ? (
               <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                 <div className="font-display text-[4rem] leading-none text-warmbrown">✓</div>
@@ -178,7 +178,7 @@ export default function Contact() {
                     onChange={handleChange}
                     rows={6}
                     placeholder="Tell us what you want to ask, discuss, or clarify."
-                    className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[0.96rem] leading-8 text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
+                    className="w-full rounded-[22px] border border-warmbrown/12 bg-cream px-4 py-4 text-[0.96rem] leading-8 text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
                   />
                 </div>
 
@@ -247,7 +247,7 @@ function Field({ label, ...props }) {
       </label>
       <input
         {...props}
-        className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[0.96rem] text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
+        className="w-full rounded-[22px] border border-warmbrown/12 bg-cream px-4 py-4 text-[0.96rem] text-ink outline-none transition placeholder:text-ink/35 focus:border-warmbrown"
       />
     </div>
   )
