@@ -20,21 +20,21 @@ export default function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
-      <nav className="mx-auto max-w-6xl rounded-[28px] border border-warmbrown/10 bg-softwhite/78 px-3 py-3 shadow-[0_24px_60px_rgba(17,17,16,0.08)] backdrop-blur-2xl sm:px-7 sm:py-4">
-        <div className="flex items-center justify-between gap-3 sm:gap-6">
-          <Link to="/" className="shrink-0" aria-label="ACE Web Studio home">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="rounded-[18px] border border-warmbrown/10 bg-softwhite/90 px-2.5 py-2 shadow-[0_14px_30px_rgba(17,17,16,0.05)] sm:px-3">
+      <nav className="mx-auto max-w-7xl rounded-[28px] border border-warmbrown/10 bg-softwhite/82 px-3 py-3 shadow-[0_24px_60px_rgba(17,17,16,0.08)] backdrop-blur-2xl sm:px-5 sm:py-4 lg:px-7">
+        <div className="flex items-center justify-between gap-3 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6">
+          <Link to="/" className="min-w-0 shrink-0" aria-label="ACE Web Studio home">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="rounded-[18px] border border-warmbrown/10 bg-softwhite/92 px-2.5 py-2 shadow-[0_14px_30px_rgba(17,17,16,0.05)] sm:px-3">
                 <img src="/logo-ace-main.png" alt="ACE Web Studio" className="h-9 w-auto sm:h-11" />
               </div>
-              <div className="hidden min-w-0 xl:block">
-                <div className="text-[0.65rem] uppercase tracking-[0.26em] text-warmbrown">ACE Web Studio</div>
-                <div className="mt-1 text-sm text-ink/60">Custom websites for modern brands</div>
+              <div className="hidden min-w-0 2xl:block">
+                <div className="text-[0.63rem] uppercase tracking-[0.28em] text-warmbrown">ACE Web Studio</div>
+                <div className="mt-1 text-sm text-ink/54">Custom websites for modern brands</div>
               </div>
             </div>
           </Link>
 
-          <div className="hidden min-w-0 flex-1 items-center justify-end gap-2 lg:gap-3 xl:gap-5 md:flex">
+          <div className="hidden min-w-0 items-center justify-center gap-1 lg:flex xl:gap-2">
             {links.map(link => {
               const active = pathname === link.to
 
@@ -42,7 +42,7 @@ export default function Navbar() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`rounded-full px-2.5 py-2 text-[0.68rem] tracking-[0.12em] uppercase transition-all lg:px-3 xl:px-4 xl:text-sm xl:tracking-[0.14em] ${
+                  className={`rounded-full px-3 py-2.5 text-[0.68rem] tracking-[0.12em] uppercase transition-all xl:px-4 xl:text-[0.79rem] xl:tracking-[0.16em] ${
                     active
                       ? 'bg-ink text-softwhite shadow-[0_12px_24px_rgba(23,20,17,0.18)]'
                       : 'text-ink/55 hover:bg-warmbrown-pale/40 hover:text-ink'
@@ -52,9 +52,12 @@ export default function Navbar() {
                 </Link>
               )
             })}
+          </div>
+
+          <div className="hidden shrink-0 items-center lg:flex">
             <Link
               to="/checkout"
-              className="ml-1 rounded-full border border-warmbrown/20 bg-warmbrown px-4 py-3 text-[0.68rem] font-medium uppercase tracking-[0.16em] whitespace-nowrap text-softwhite transition hover:-translate-y-0.5 hover:bg-ink lg:ml-2 lg:px-5 lg:text-[0.72rem] lg:tracking-[0.2em]"
+              className="rounded-full border border-warmbrown/20 bg-warmbrown px-5 py-3 text-[0.68rem] font-medium uppercase tracking-[0.18em] whitespace-nowrap text-softwhite transition hover:-translate-y-0.5 hover:bg-ink xl:px-6 xl:text-[0.72rem] xl:tracking-[0.2em]"
             >
               Start Project
             </Link>
@@ -63,7 +66,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setOpen(current => !current)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-warmbrown/15 bg-softwhite/90 text-ink md:hidden"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-warmbrown/15 bg-softwhite/90 text-ink lg:hidden"
             aria-label="Toggle navigation"
             aria-expanded={open}
             aria-controls="mobile-navigation"
@@ -77,7 +80,7 @@ export default function Navbar() {
         </div>
 
         {open && (
-          <div id="mobile-navigation" className="mt-4 grid gap-3 border-t border-warmbrown-pale/70 pt-4 md:hidden">
+          <div id="mobile-navigation" className="mt-4 grid gap-3 border-t border-warmbrown-pale/70 pt-4 lg:hidden">
             {links.map(link => (
               <Link
                 key={link.to}
