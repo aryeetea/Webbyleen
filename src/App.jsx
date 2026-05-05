@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -14,6 +14,9 @@ import CheckoutSuccess from './pages/CheckoutSuccess'
 import CheckoutCancel from './pages/CheckoutCancel'
 // Team import removed
 export default function App() {
+  const { pathname } = useLocation()
+  const showFooter = pathname !== '/'
+
   return (
     <div className="page-frame min-h-screen bg-cream text-ink">
       <ScrollToTop />
@@ -33,7 +36,7 @@ export default function App() {
           <Route path="/contact"   element={<Contact />} />
         </Routes>
       </main>
-      <Footer />
+      {showFooter && <Footer />}
     </div>
   )
 }

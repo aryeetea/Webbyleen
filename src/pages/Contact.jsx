@@ -119,7 +119,9 @@ export default function Contact() {
                 </div>
                 <div className="pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Edwina — Art Direction</div>
-                  <div className="mt-1.5 text-[0.95rem] text-ink/58">Email to be added</div>
+                  <a href="mailto:edwinaaryeeteya@gmail.com" className="text-anywhere mt-1.5 block text-[0.95rem] text-warmbrown transition hover:text-ink">
+                    edwinaaryeeteya@gmail.com
+                  </a>
                 </div>
                 <div className="pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Reply Window</div>

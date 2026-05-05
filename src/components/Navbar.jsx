@@ -22,15 +22,9 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
       <nav className="mx-auto max-w-7xl rounded-[28px] border border-warmbrown/10 bg-softwhite/82 px-3 py-3 shadow-[0_24px_60px_rgba(17,17,16,0.08)] backdrop-blur-2xl sm:px-5 sm:py-4 lg:px-7">
         <div className="flex items-center justify-between gap-3 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6">
-          <Link to="/" className="min-w-0 shrink-0" aria-label="ACE Web Studio home">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="rounded-[18px] border border-warmbrown/10 bg-softwhite/92 px-2.5 py-2 shadow-[0_14px_30px_rgba(17,17,16,0.05)] sm:px-3">
-                <img src="/logo-ace-main.png" alt="ACE Web Studio" className="h-9 w-auto sm:h-11" />
-              </div>
-              <div className="hidden min-w-0 2xl:block">
-                <div className="text-[0.63rem] uppercase tracking-[0.28em] text-warmbrown">ACE Web Studio</div>
-                <div className="mt-1 text-sm text-ink/54">Custom websites for modern brands</div>
-              </div>
+          <Link to="/" className="shrink-0" aria-label="ACE Web Studio home">
+            <div className="rounded-[22px] border border-warmbrown/10 bg-softwhite/92 px-3 py-2 shadow-[0_14px_30px_rgba(17,17,16,0.05)] sm:px-4 sm:py-3">
+              <img src="/logo-ace-main.png" alt="ACE Web Studio" className="h-10 w-auto sm:h-14" />
             </div>
           </Link>
 

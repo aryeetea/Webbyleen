@@ -16,7 +16,7 @@ const team = [
   {
     name: 'Edwina',
     role: 'Art Director',
-    image: '/edwina-about.jpg',
+    image: '/edwina-about.png',
     rotation: 'rotate-[4deg] md:translate-y-12',
     accent: 'before:bg-[radial-gradient(circle_at_top,rgba(168,111,70,0.18),transparent_70%)]',
   },
