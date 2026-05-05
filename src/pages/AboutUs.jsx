@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import PortraitCard from '../components/PortraitCard'
 
 const team = [
   ['Aileen', 'Web Development'],
@@ -20,6 +21,8 @@ export default function AboutUs() {
 
       <section className="px-4 pb-20 sm:px-6 sm:pb-24">
         <div className="mx-auto max-w-6xl">
+          <PortraitCard />
+
           <div className="surface-subtle rounded-[30px] px-6 py-6 sm:px-8 sm:py-8">
             <div className="grid gap-3 sm:grid-cols-3">
               {team.map(([name, role]) => (
