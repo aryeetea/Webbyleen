@@ -3,6 +3,7 @@ const team = [
     name: 'Aileen',
     role: 'Web Development',
     image: '/aileen-about.jpeg',
+    bio: 'Aileen builds every site from the ground up using HTML, CSS, JavaScript, React, and Tailwind. She also leads the studio and keeps each project moving with clarity, structure, and care from start to finish.',
     rotation: '-rotate-[5deg] md:translate-y-8',
     accent: 'before:bg-[radial-gradient(circle_at_top,rgba(196,168,130,0.22),transparent_70%)]',
   },
@@ -10,6 +11,7 @@ const team = [
     name: 'Cynthia',
     role: 'UI/UX Design',
     image: '/cynthia-about.jpeg',
+    bio: 'Cynthia leads the design process and shapes every project in Figma before a single line of code is written. She defines the layout, visual rhythm, and design decisions that make a website feel refined and easy to trust.',
     rotation: 'rotate-[1.5deg] md:-translate-y-4',
     accent: 'before:bg-[radial-gradient(circle_at_top,rgba(231,188,105,0.18),transparent_70%)]',
   },
@@ -17,6 +19,7 @@ const team = [
     name: 'Edwina',
     role: 'Art Director',
     image: '/edwina-about.png',
+    bio: 'Edwina sets the creative direction and protects the visual identity behind each project. She makes sure every website feels cohesive, intentional, and polished enough to leave a lasting impression.',
     rotation: 'rotate-[4deg] md:translate-y-12',
     accent: 'before:bg-[radial-gradient(circle_at_top,rgba(168,111,70,0.18),transparent_70%)]',
   },
@@ -51,6 +54,9 @@ export default function PortraitCard() {
                   <div className="mt-2 font-display text-[2rem] leading-none text-ink">
                     {member.name}
                   </div>
+                  <p className="mt-4 text-[0.95rem] leading-7 text-ink/68">
+                    {member.bio}
+                  </p>
                 </div>
               </div>
             </div>

@@ -1,12 +1,6 @@
 import { Link } from 'react-router-dom'
 import PortraitCard from '../components/PortraitCard'
 
-const team = [
-  ['Aileen', 'Web Development'],
-  ['Cynthia', 'UI/UX Design'],
-  ['Edwina', 'Art Direction'],
-]
-
 export default function AboutUs() {
   return (
     <>
@@ -21,18 +15,26 @@ export default function AboutUs() {
 
       <section className="px-4 pb-20 sm:px-6 sm:pb-24">
         <div className="mx-auto max-w-6xl">
-          <PortraitCard />
-
-          <div className="surface-subtle rounded-[30px] px-6 py-6 sm:px-8 sm:py-8">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {team.map(([name, role]) => (
-                <div key={name} className="rounded-[24px] border border-warmbrown/10 bg-softwhite/86 px-4 py-5 text-center shadow-[0_16px_30px_rgba(17,17,16,0.04)]">
-                  <div className="font-display text-[1.8rem] leading-none text-ink">{name}</div>
-                  <div className="mt-2 text-[0.72rem] uppercase tracking-[0.16em] text-ink/55">{role}</div>
-                </div>
-              ))}
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-warmbrown">
+              About ACE Web Studio
             </div>
+            <h2 className="mt-5 font-display text-[2.4rem] leading-[0.98] text-ink sm:text-[3.4rem]">
+              Meet the Team
+            </h2>
+            <p className="mt-4 text-[1rem] leading-8 text-ink/58 sm:text-[1.08rem]">
+              Three creatives. One studio. Every project gets all of us.
+            </p>
+            <p className="mx-auto mt-8 max-w-3xl text-[1rem] leading-8 text-ink/68 sm:text-[1.06rem]">
+              ACE Web Studio is a small creative team building thoughtful websites with strong visual direction and clean execution. We keep our process personal, collaborative, and precise so every project feels elevated from the first idea to the final launch.
+            </p>
+          </div>
 
+          <div className="mt-14">
+            <PortraitCard />
+          </div>
+
+          <div className="surface-subtle mt-14 rounded-[30px] px-6 py-6 sm:px-8 sm:py-8">
             <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
               <Link
                 to="/contact"
