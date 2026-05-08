@@ -1,26 +1,42 @@
 export const faqs = [
   {
-    q: 'How long does a website take?',
-    a: 'Basic sites take 3 to 5 days. Standard packages take 7 to 14 days. Premium builds are 2 to 4 weeks. Rush delivery is available as an add-on.',
+    q: 'What is your process?',
+    a: 'You send your content, our designer creates a Figma mockup within 2 to 3 days, you approve it, we build the site, you test it, and then it is ready to launch.',
   },
   {
-    q: 'Do you offer revisions?',
-    a: 'Yes. Every package includes revisions. Basic includes 2, Standard includes 3, and Premium includes 5. Additional revision rounds can be added if needed.',
+    q: 'Do you use templates?',
+    a: 'No. Every website is hand-coded from scratch. You own the code completely, with no ongoing platform fees.',
   },
   {
-    q: 'Do I need to provide content?',
-    a: 'For the best results, yes. Your own copy, images, and brand assets make the final site feel more personal and accurate. Placeholder content can be used to get started.',
+    q: 'Is hosting included?',
+    a: 'Yes. We deploy your site and send you a live link. If you want a custom domain, you can purchase one through providers like Namecheap or GoDaddy for around $10 to $15 per year, and we will connect it for you at no extra charge.',
   },
   {
-    q: 'How does payment work?',
-    a: 'A 50 percent deposit is required to begin. The remaining balance is due on completion before final files are handed over. Payments can be arranged through Fiverr, PayPal, or bank transfer.',
+    q: 'What counts as a revision?',
+    a: 'Revisions include text changes, image swaps, color adjustments, and small layout tweaks. Major changes after mockup approval may require a separate quote.',
   },
   {
-    q: 'What do you need from me to get started?',
-    a: 'A short description of your project, your goals, your budget range, and any references you love is enough to start the conversation.',
+    q: 'Can I add more pages later?',
+    a: 'Yes. You can upgrade to a larger package at any time. Just send a message and we will help you choose the best option.',
   },
   {
-    q: 'Can you host my website too?',
-    a: 'I deliver clean, deployment-ready files and can guide you through hosting on platforms like Netlify or Vercel. In many cases, hosting is simple and low-cost.',
+    q: 'Do you offer support after delivery?',
+    a: 'Yes. Every project includes 3 months of free minor support. After that, maintenance is $80 per month for up to 3 small changes.',
+  },
+  {
+    q: 'Can you design a logo?',
+    a: 'Yes. Logo design is available for $120 and includes 2 concepts, 1 revision, and final files in PNG and SVG format.',
+  },
+  {
+    q: 'What if I need it faster?',
+    a: 'Rush delivery is available. Starter adds $60 for 7 days, Business adds $120 for 10 days, and Professional adds $200 for 14 days. Please message first to confirm availability.',
+  },
+  {
+    q: 'How do payments work?',
+    a: 'A 50% deposit is paid through the website checkout to secure your project. The remaining balance is due on completion once you are happy with the final result.',
+  },
+  {
+    q: 'What do I need to provide to get started?',
+    a: 'Please provide your logo, written content, brand colors, and 3 to 5 images. If needed, we can also source free stock photos.',
   },
 ]
