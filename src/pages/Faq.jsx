@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
-import { faqs } from '../data/faqs'
+import { useSiteContent } from '../hooks/useSiteContent'
 
 export default function Faq() {
   const [openFaq, setOpenFaq] = useState(0)
+  const { content } = useSiteContent()
 
   return (
     <>
@@ -14,8 +15,8 @@ export default function Faq() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="FAQ"
-            title="Everything clients tend to ask before they book."
-            copy="A clear overview of how the process works, what the timeline looks like, and what to expect once we begin."
+            title={content.settings.faqPageIntro.title}
+            copy={content.settings.faqPageIntro.copy}
           />
         </div>
       </section>
@@ -53,7 +54,7 @@ export default function Faq() {
             </div>
           </div>
 
-          <FaqAccordion items={faqs} openIndex={openFaq} onToggle={setOpenFaq} />
+          <FaqAccordion items={content.faqs} openIndex={openFaq} onToggle={setOpenFaq} />
         </div>
       </section>
     </>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import SectionIntro from '../components/SectionIntro'
-import { packages } from '../data/packages'
+import { useSiteContent } from '../hooks/useSiteContent'
 
 const comparisons = [
   ['Pages', '1', '3 to 5', '6 to 10'],
@@ -17,6 +17,9 @@ const comparisons = [
 ]
 
 export default function Services() {
+  const { content } = useSiteContent()
+  const { packages, settings } = content
+
   return (
     <>
       <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 sm:pt-40">
@@ -24,8 +27,8 @@ export default function Services() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Services"
-            title="Professional website packages with clear pricing and clear delivery."
-            copy="Each package is built around a structured process, professional presentation, and a clear scope that makes booking straightforward."
+            title={settings.servicesIntro.title}
+            copy={settings.servicesIntro.copy}
           />
         </div>
       </section>

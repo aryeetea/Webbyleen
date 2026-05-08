@@ -3,7 +3,6 @@ import crypto from 'crypto'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { packageMap, packages } from '../src/data/packages.js'
 import {
   ADMIN_ACCESS_CODE,
   EMAILJS_PRIVATE_KEY,
@@ -11,7 +10,6 @@ import {
   EMAILJS_SERVICE_ID,
   EMAILJS_TEMPLATE_ID,
   ORDER_NOTIFICATION_EMAIL,
-  PACKAGE_TYPE_OPTIONS,
   STRIPE_WEBHOOK_SECRET,
   STRIPE_CURRENCY,
   ensureStripe,
@@ -21,6 +19,7 @@ import {
   stripe,
   toStripeAmount,
 } from './_shared/core.js'
+import { getPackageMap, getPackages, getPackageTypeOptions } from './_shared/packages.js'
 import { supabase, supabaseEnvStatus } from './supabase.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -31,8 +30,6 @@ const app = express()
 const PORT = process.env.PORT || 5050
 const TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || 'change-me-before-production'
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 12
-const PACKAGE_OPTIONS = new Set(PACKAGE_TYPE_OPTIONS)
-
 app.use(cors())
 app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
@@ -248,7 +245,8 @@ async function finalizeOrderPayment({ sessionId, paymentStatus }) {
   return data
 }
 
-function getCheckoutOrderDetails(body = {}) {
+async function getCheckoutOrderDetails(body = {}) {
+  const packageMap = await getPackageMap()
   const packageSlug = typeof body.packageSlug === 'string' ? body.packageSlug.trim() : ''
   const selectedPackage = packageMap[packageSlug]
 
@@ -569,13 +567,16 @@ function guessTech(html) {
   return tech.length ? tech : ['Custom/Other']
 }
 
-function normalizePackageType(value) {
+async function normalizePackageType(value) {
+  const packageOptions = new Set(await getPackageTypeOptions())
+
   if (typeof value !== 'string') return ''
   const trimmed = value.trim()
-  return PACKAGE_OPTIONS.has(trimmed) ? trimmed : ''
+  return packageOptions.has(trimmed) ? trimmed : ''
 }
 
-function suggestPackageType(html) {
+async function suggestPackageType(html) {
+  const packages = await getPackages()
   const internalLinks = new Set(
     Array.from(
       html.matchAll(/<a [^>]*href=["'](\/(?!\/)[^"']*|https?:\/\/[^"']+)["']/gi),
@@ -591,9 +592,9 @@ function suggestPackageType(html) {
 
   const score = internalLinks.size + sections + forms * 2 + Math.min(serviceKeywords, 6)
 
-  if (score <= 6) return packages[0].name
-  if (score <= 14) return packages[1].name
-  return packages[2].name
+  if (score <= 6) return packages[0]?.name || 'Custom'
+  if (score <= 14) return packages[1]?.name || packages[0]?.name || 'Custom'
+  return packages[2]?.name || packages[packages.length - 1]?.name || 'Custom'
 }
 
 function getMetaFromHtml(html, fallbackUrl) {
@@ -705,7 +706,7 @@ async function analyzeProject(url) {
     const html = await page.content()
     const meta = getMetaFromHtml(html, url)
     const tech = guessTech(html)
-    const packageType = suggestPackageType(html)
+      const packageType = await suggestPackageType(html)
     const summary = generateSummary(meta, tech, packageType)
 
     const screenshots = []
@@ -823,7 +824,7 @@ app.post('/api/checkout/session', async (req, res) => {
     ensureSupabase()
     ensureStripe()
 
-    const details = getCheckoutOrderDetails(req.body)
+    const details = await getCheckoutOrderDetails(req.body)
 
     if (!details.firstName || !details.lastName || !details.email || !details.notes) {
       return res.status(400).json({ error: 'First name, last name, email, and your website idea are required before payment.' })
@@ -1105,7 +1106,7 @@ app.get('/api/admin/session', requireAdmin, (req, res) => {
 app.post('/api/admin/portfolio-projects', requireAdmin, async (req, res) => {
   try {
     const url = normalizeUrl(req.body.url)
-    const packageTypeOverride = normalizePackageType(req.body.packageType)
+    const packageTypeOverride = await normalizePackageType(req.body.packageType)
     const existingProjects = await readProjects()
 
     if (existingProjects.some(project => project.url === url)) {
@@ -1167,7 +1168,7 @@ app.patch('/api/admin/portfolio-projects/:id', requireAdmin, async (req, res) =>
   try {
     ensureSupabase()
 
-    const packageType = normalizePackageType(req.body.packageType)
+    const packageType = await normalizePackageType(req.body.packageType)
 
     if (!packageType) {
       return res.status(400).json({ error: 'A valid package type is required.' })

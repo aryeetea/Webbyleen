@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
-import { faqs } from '../data/faqs'
 import { createContactInquiry } from '../lib/api'
+import { useSiteContent } from '../hooks/useSiteContent'
 import emailjs from '@emailjs/browser'
 
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || ''
@@ -12,6 +12,7 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
 
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState(0)
+  const { content } = useSiteContent()
   const [sent, setSent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -89,8 +90,8 @@ export default function Contact() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Contact"
-            title="Get in touch with ACE Web Studio."
-            copy="Reach out for questions, collaborations, or anything you want to discuss before booking. Orders and payments now happen in the separate checkout flow."
+            title={content.settings.contactIntro.title}
+            copy={content.settings.contactIntro.copy}
           />
         </div>
       </section>
@@ -209,7 +210,7 @@ export default function Contact() {
               copy="The essentials on timelines, revisions, and what we need from you."
             />
           </div>
-          <FaqAccordion items={faqs} openIndex={openFaq} onToggle={setOpenFaq} />
+          <FaqAccordion items={content.faqs} openIndex={openFaq} onToggle={setOpenFaq} />
         </div>
       </section>
 

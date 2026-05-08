@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import Stripe from 'stripe'
-import { packages } from '../../src/data/packages.js'
 import { hasSupabaseConfig, supabase } from '../supabase.js'
+import { getPackageTypeOptions, getPackages } from './packages.js'
 
 const TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || 'change-me-before-production'
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 12
@@ -16,8 +16,6 @@ export const EMAILJS_PRIVATE_KEY = process.env.EMAILJS_PRIVATE_KEY?.trim() || ''
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY?.trim() || ''
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET?.trim() || ''
 export const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY) : null
-
-export const PACKAGE_TYPE_OPTIONS = [...packages.map(pkg => pkg.name), 'Custom']
 
 export function ensureSupabase() {
   if (!hasSupabaseConfig || !supabase) {
@@ -469,7 +467,8 @@ export function toStripeAmount(amount) {
   return Math.max(0, Math.round(amount * 100))
 }
 
-export function getCheckoutOrderDetails(body = {}) {
+export async function getCheckoutOrderDetails(body = {}) {
+  const packages = await getPackages()
   const packageSlug = typeof body.packageSlug === 'string' ? body.packageSlug.trim() : ''
   const selectedPackage = packages.find(pkg => pkg.slug === packageSlug)
 
@@ -547,10 +546,12 @@ export function buildOrderPayload(details, overrides = {}) {
   }
 }
 
-export function normalizePackageType(value) {
+export async function normalizePackageType(value) {
+  const packageTypeOptions = await getPackageTypeOptions()
+
   if (typeof value !== 'string') return ''
   const trimmed = value.trim()
-  return PACKAGE_TYPE_OPTIONS.includes(trimmed) ? trimmed : ''
+  return packageTypeOptions.includes(trimmed) ? trimmed : ''
 }
 
 export async function removeScreenshots(screenshots = []) {

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import PortfolioShowcase from '../components/PortfolioShowcase'
 import SectionIntro from '../components/SectionIntro'
+import { useSiteContent } from '../hooks/useSiteContent'
 import { fetchPortfolioProjects } from '../lib/api'
 
 export default function Portfolio() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const { content } = useSiteContent()
 
   useEffect(() => {
     let cancelled = false
@@ -16,7 +18,7 @@ export default function Portfolio() {
         if (!cancelled) {
           setProjects(items)
         }
-      } catch (loadError) {
+      } catch {
         if (!cancelled) {
           setProjects([])
         }
@@ -41,8 +43,8 @@ export default function Portfolio() {
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Portfolio"
-            title="Custom websites built for real businesses."
-            copy="Every project below is designed and developed from scratch — built to help a business look established, intentional, and worth remembering online."
+            title={content.settings.portfolioIntro.title}
+            copy={content.settings.portfolioIntro.copy}
           />
         </div>
       </section>

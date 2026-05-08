@@ -12,10 +12,9 @@ import {
   updatePortfolioProjectPackage,
   verifyAdminSession,
 } from '../lib/api'
-import { packages } from '../data/packages'
+import { useSiteContent } from '../hooks/useSiteContent'
 
 const ADMIN_TOKEN_KEY = 'adminSessionToken'
-const PACKAGE_OPTIONS = [...packages.map(pkg => pkg.name), 'Custom']
 
 function getStoredToken() {
   return localStorage.getItem(ADMIN_TOKEN_KEY) || ''
@@ -94,6 +93,8 @@ function getAdminConfigMessage() {
 }
 
 export default function Admin() {
+  const { content } = useSiteContent()
+  const packageOptions = [...content.packages.map(pkg => pkg.name), 'Custom']
   const [token, setToken] = useState(getStoredToken)
   const [adminReady, setAdminReady] = useState(false)
   const [activeView, setActiveView] = useState('projects')
@@ -469,7 +470,7 @@ export default function Admin() {
                     className="w-full rounded-[4px] border border-warmbrown-pale bg-cream px-4 py-4 text-[1rem] text-ink outline-none focus:border-warmbrown"
                   >
                     <option value="">Auto-detect package</option>
-                    {PACKAGE_OPTIONS.map(option => (
+                    {packageOptions.map(option => (
                       <option key={option} value={option}>
                         {option}
                       </option>
@@ -537,7 +538,7 @@ export default function Admin() {
                               disabled={updatingProjectId === project.id}
                               className="w-full rounded-[4px] border border-warmbrown-pale bg-softwhite px-3 py-3 text-[0.9rem] text-ink outline-none focus:border-warmbrown disabled:cursor-not-allowed disabled:opacity-70"
                             >
-                              {PACKAGE_OPTIONS.map(option => (
+                              {packageOptions.map(option => (
                                 <option key={option} value={option}>
                                   {option}
                                 </option>

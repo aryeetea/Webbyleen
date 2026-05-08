@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import SectionIntro from '../components/SectionIntro'
+import { useSiteContent } from '../hooks/useSiteContent'
 import { createCheckoutSession } from '../lib/api'
-import { getPriceRangeFromLabel, packageMap, packages } from '../data/packages'
+import { getPriceRangeFromLabel } from '../data/packages'
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
@@ -19,6 +20,9 @@ function formatCurrencyRange([min, max]) {
 }
 
 export default function Checkout() {
+  const { content } = useSiteContent()
+  const packages = content.packages
+  const packageMap = Object.fromEntries(packages.map(pkg => [pkg.slug, pkg]))
   const [searchParams, setSearchParams] = useSearchParams()
   const initialPackage = searchParams.get('package') || packages[0]?.slug || ''
   const [selectedPackageSlug, setSelectedPackageSlug] = useState(initialPackage)

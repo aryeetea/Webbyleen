@@ -40,6 +40,9 @@ EMAILJS_PRIVATE_KEY=your_emailjs_private_key
 VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_contact_template_id
 VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
+VITE_SANITY_PROJECT_ID=your_sanity_project_id
+VITE_SANITY_DATASET=production
+VITE_SANITY_API_VERSION=2025-05-08
 ```
 
 This is a Vite app, so use `VITE_...` names for frontend values instead of `NEXT_PUBLIC_...`.
@@ -171,3 +174,19 @@ The contact page can also use EmailJS in the browser with:
 5. The order record is saved with package, extras, deposit amount, and payment state for admins in `/admin`
 
 The checkout now only requires the client's name, email, and website idea before taking the deposit.
+
+## Sanity CMS
+
+This project now includes an embedded Sanity Studio at `/studio`.
+
+1. Add `VITE_SANITY_PROJECT_ID` and `VITE_SANITY_DATASET` to `.env.local`
+2. Restart the frontend dev server
+3. Open `/studio`
+
+The current Sanity schema includes:
+
+- `siteSettings` for homepage and section intro copy
+- `servicePackage` for editable package cards and pricing content
+- `faqItem` for shared FAQ content
+
+Marketing pages will fall back to the existing local content until Sanity is configured, so the site keeps working during setup.

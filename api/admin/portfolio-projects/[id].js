@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   if (req.method === 'PATCH') {
     try {
       const body = readRequestBody(req)
-      const packageType = normalizePackageType(body.packageType)
+      const packageType = await normalizePackageType(body.packageType)
 
       if (!packageType) {
         return json(res, 400, { error: 'A valid package type is required.' })

@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     ensureStripe()
 
     const body = readRequestBody(req)
-    const details = getCheckoutOrderDetails(body)
+    const details = await getCheckoutOrderDetails(body)
 
     if (!details.firstName || !details.lastName || !details.email || !details.notes) {
       return json(res, 400, { error: 'First name, last name, email, and your website idea are required before payment.' })

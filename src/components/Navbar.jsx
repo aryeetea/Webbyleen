@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const links = [
@@ -13,10 +13,6 @@ const links = [
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
-
-  useEffect(() => {
-    setOpen(false)
-  }, [pathname])
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
@@ -70,6 +66,7 @@ export default function Navbar() {
               <Link
                 key={link.to}
                 to={link.to}
+                onClick={() => setOpen(false)}
                 className={`rounded-[18px] px-4 py-3 text-sm uppercase tracking-[0.14em] transition ${
                   pathname === link.to ? 'bg-ink text-softwhite' : 'bg-warmbrown-pale/25 text-ink/60'
                 }`}

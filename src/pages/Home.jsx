@@ -2,32 +2,33 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
-import { faqs } from '../data/faqs'
+import { useSiteContent } from '../hooks/useSiteContent'
 
-const services = [
-  {
-    tier: 'Starter',
-    price: '$180',
-    description: 'A clean one-page website for businesses that need a professional online presence without unnecessary complexity.',
-    features: ['1 custom page', '2 week delivery', '2 revisions', '50% deposit upfront'],
-  },
-  {
-    tier: 'Business',
-    price: '$450',
-    description: 'A multi-page website for businesses that need room to explain their services and build trust clearly.',
-    features: ['3 to 5 custom pages', '3 week delivery', '3 revisions', '50% deposit upfront'],
-    featured: true,
-  },
-  {
-    tier: 'Professional',
-    price: '$900',
-    description: 'A premium multi-page website for established businesses that need a fuller and more refined digital presence.',
-    features: ['6 to 10 custom pages', '4 to 5 week delivery', '5 revisions', '50% deposit upfront'],
-  },
-]
+function renderHeroTitle(title, highlight) {
+  if (!highlight || !title.includes(highlight)) {
+    return title
+  }
+
+  const [before, after] = title.split(highlight)
+
+  return (
+    <>
+      {before}
+      <span className="italic text-warmbrown">{highlight}</span>
+      {after}
+    </>
+  )
+}
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(0)
+  const { content } = useSiteContent()
+  const { homeHero } = content.settings
+  const services = content.packages.map(service => ({
+    ...service,
+    description: service.who,
+    features: service.includes.slice(0, 4),
+  }))
 
   return (
     <>
@@ -38,26 +39,26 @@ export default function Home() {
             <div className="animate-fade-up flex flex-wrap items-center gap-3 text-[0.68rem] font-medium uppercase editorial-kicker text-warmbrown sm:text-[0.72rem]">
               <span className="rounded-full border border-warmbrown/12 bg-softwhite/80 px-3 py-1 shadow-[0_10px_24px_rgba(23,20,17,0.05)]">Luxury feel</span>
               <span className="h-px w-8 bg-warmbrown/70" />
-              <span>Web Design & Development</span>
+              <span>{homeHero.eyebrow}</span>
             </div>
             <h1 className="text-balance animate-fade-up mt-6 max-w-5xl font-display text-[2.7rem] leading-[0.94] text-ink opacity-0 [animation-delay:120ms] sm:text-[4.4rem] lg:text-[5.5rem]">
-              Aesthetic, professional websites for <span className="italic text-warmbrown">small businesses</span> with ambition.
+              {renderHeroTitle(homeHero.title, homeHero.highlight)}
             </h1>
             <p className="animate-fade-up mt-6 max-w-3xl text-[1rem] leading-7 text-ink/66 opacity-0 [animation-delay:240ms] sm:mt-7 sm:text-[1.08rem] sm:leading-8">
-              ACE Web Studio designs and develops custom business websites with thoughtful structure, polished visuals, and a calm premium presentation that still feels clear, trustworthy, and ready to convert.
+              {homeHero.description}
             </p>
             <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
               <Link
-                to="/checkout"
+                to={homeHero.primaryCtaUrl}
                 className="rounded-full bg-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite shadow-[0_18px_34px_rgba(23,20,17,0.14)] transition hover:-translate-y-0.5 hover:bg-warmbrown"
               >
-                Place an Order
+                {homeHero.primaryCtaLabel}
               </Link>
               <Link
-                to="/portfolio"
+                to={homeHero.secondaryCtaUrl}
                 className="rounded-full border border-ink/14 bg-softwhite/84 px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
               >
-                View Work
+                {homeHero.secondaryCtaLabel}
               </Link>
             </div>
           </div>
@@ -131,7 +132,7 @@ export default function Home() {
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className={`text-[0.74rem] uppercase tracking-[0.22em] ${service.featured ? 'text-warmbrown-light' : 'text-warmbrown'}`}>
-                    {service.tier}
+                    {service.tier || service.name}
                   </div>
                   {service.featured && (
                     <span className="rounded-full border border-softwhite/10 bg-softwhite/8 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-softwhite/80">
@@ -191,7 +192,7 @@ export default function Home() {
             </div>
           </div>
 
-          <FaqAccordion items={faqs.slice(0, 4)} openIndex={openFaq} onToggle={setOpenFaq} compact />
+          <FaqAccordion items={content.faqs.slice(0, 4)} openIndex={openFaq} onToggle={setOpenFaq} compact />
         </div>
       </section>
 
