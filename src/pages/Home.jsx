@@ -22,13 +22,13 @@ function getHomepageCtas(homeHero) {
   return [
     {
       label: 'Order Now',
-      to: '/services',
+      to: '/checkout',
       className:
         'inline-flex min-w-[220px] items-center justify-center rounded-full bg-ink px-10 py-5 text-center text-[0.95rem] font-semibold tracking-[-0.01em] text-softwhite shadow-[0_14px_28px_rgba(26,26,26,0.18)] transition hover:-translate-y-0.5 hover:bg-warmbrown sm:min-w-[250px]',
     },
     {
-      label: 'View Work',
-      to: homeHero.secondaryCtaUrl || '/portfolio',
+      label: 'Contact Us',
+      to: '/contact',
       className:
         'inline-flex min-w-[220px] items-center justify-center rounded-full bg-warmbrown px-10 py-5 text-center text-[0.95rem] font-semibold tracking-[-0.01em] text-softwhite shadow-[0_14px_28px_rgba(184,149,106,0.28)] transition hover:-translate-y-0.5 hover:bg-warmbrown-light sm:min-w-[250px]',
     },
@@ -54,16 +54,16 @@ export default function Home() {
             <h1 className="text-balance animate-fade-up mt-6 max-w-5xl font-display text-[2.7rem] leading-[0.94] text-ink opacity-0 [animation-delay:120ms] sm:text-[4.4rem] lg:text-[5.5rem]">
               {renderHeroTitle(homeHero.title, homeHero.highlight)}
             </h1>
-            <p className="animate-fade-up mt-6 max-w-3xl text-[1rem] leading-7 text-ink/66 opacity-0 [animation-delay:240ms] sm:mt-7 sm:text-[1.08rem] sm:leading-8">
-              {homeHero.description}
-            </p>
-            <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
+            <div className="animate-fade-up mt-8 flex flex-col gap-4 opacity-0 [animation-delay:200ms] sm:flex-row">
               {homepageCtas.map(cta => (
                 <Link key={cta.label} to={cta.to} className={cta.className}>
                   {cta.label}
                 </Link>
               ))}
             </div>
+            <p className="animate-fade-up mt-6 max-w-3xl text-[1rem] leading-7 text-ink/66 opacity-0 [animation-delay:240ms] sm:mt-7 sm:text-[1.08rem] sm:leading-8">
+              {homeHero.description}
+            </p>
           </div>
 
           <div className="animate-fade-up opacity-0 [animation-delay:420ms]">
