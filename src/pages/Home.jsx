@@ -18,9 +18,27 @@ function renderHeroTitle(title, highlight) {
   )
 }
 
+function getHomepageCtas(homeHero) {
+  return [
+    {
+      label: 'Order Now',
+      to: '/services',
+      className:
+        'inline-flex min-w-[220px] items-center justify-center rounded-full bg-ink px-10 py-5 text-center text-[0.95rem] font-semibold tracking-[-0.01em] text-softwhite shadow-[0_14px_28px_rgba(26,26,26,0.18)] transition hover:-translate-y-0.5 hover:bg-warmbrown sm:min-w-[250px]',
+    },
+    {
+      label: 'View Work',
+      to: homeHero.secondaryCtaUrl || '/portfolio',
+      className:
+        'inline-flex min-w-[220px] items-center justify-center rounded-full bg-warmbrown px-10 py-5 text-center text-[0.95rem] font-semibold tracking-[-0.01em] text-softwhite shadow-[0_14px_28px_rgba(184,149,106,0.28)] transition hover:-translate-y-0.5 hover:bg-warmbrown-light sm:min-w-[250px]',
+    },
+  ]
+}
+
 export default function Home() {
   const { content } = useSiteContent()
   const { homeHero } = content.settings
+  const homepageCtas = getHomepageCtas(homeHero)
 
   return (
     <>
@@ -40,18 +58,11 @@ export default function Home() {
               {homeHero.description}
             </p>
             <div className="animate-fade-up mt-10 flex flex-col gap-4 opacity-0 [animation-delay:360ms] sm:flex-row">
-              <Link
-                to={homeHero.primaryCtaUrl}
-                className="rounded-full bg-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite shadow-[0_18px_34px_rgba(23,20,17,0.14)] transition hover:-translate-y-0.5 hover:bg-warmbrown"
-              >
-                {homeHero.primaryCtaLabel}
-              </Link>
-              <Link
-                to={homeHero.secondaryCtaUrl}
-                className="rounded-full border border-ink/14 bg-softwhite/84 px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
-              >
-                {homeHero.secondaryCtaLabel}
-              </Link>
+              {homepageCtas.map(cta => (
+                <Link key={cta.label} to={cta.to} className={cta.className}>
+                  {cta.label}
+                </Link>
+              ))}
             </div>
           </div>
 

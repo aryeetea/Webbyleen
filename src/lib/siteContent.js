@@ -15,7 +15,7 @@ export const defaultSiteContent = {
       highlight: 'small businesses',
       description:
         'ACE Web Studio designs and develops custom business websites with thoughtful structure, polished visuals, and a calm premium presentation that still feels clear, trustworthy, and ready to convert.',
-      primaryCtaLabel: 'View Services',
+      primaryCtaLabel: 'Order Now',
       primaryCtaUrl: '/services',
       secondaryCtaLabel: 'View Work',
       secondaryCtaUrl: '/portfolio',
