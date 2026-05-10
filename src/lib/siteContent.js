@@ -109,29 +109,37 @@ function normalizePackages(value) {
     return fallbackPackages
   }
 
+  const universalIncludes = ['Content upload', 'Social media icons', 'Speed optimization']
+
   const normalized = value
     .filter(item => item?.slug && item?.name)
-    .map(item => ({
-      slug: item.slug,
-      tier: item.tier || '',
-      name: item.name,
-      price: item.price || '$0',
-      priceRange: Array.isArray(item.priceRange) && item.priceRange.length === 2 ? item.priceRange : [0, 0],
-      deposit: item.deposit || '$0',
-      turnaround: item.turnaround || '',
-      who: item.who || '',
-      includes: Array.isArray(item.includes) ? item.includes.filter(Boolean) : [],
-      addons: Array.isArray(item.addons)
+    .map(item => {
+      const includes = Array.isArray(item.includes) ? item.includes.filter(Boolean) : []
+      const addons = Array.isArray(item.addons)
         ? item.addons
-            .filter(addon => addon?.id && addon?.label)
+            .filter(addon => addon?.id && addon?.label && addon.id !== 'content-upload')
             .map(addon => ({
               id: addon.id,
               label: addon.label,
               price: addon.price || '$0',
             }))
-        : [],
-      featured: Boolean(item.featured),
-    }))
+        : []
+      const mergedIncludes = [...new Set([...includes, ...universalIncludes])]
+
+      return {
+        slug: item.slug,
+        tier: item.tier || '',
+        name: item.name,
+        price: item.price || '$0',
+        priceRange: Array.isArray(item.priceRange) && item.priceRange.length === 2 ? item.priceRange : [0, 0],
+        deposit: item.deposit || '$0',
+        turnaround: item.turnaround || '',
+        who: item.who || '',
+        includes: mergedIncludes,
+        addons,
+        featured: Boolean(item.featured),
+      }
+    })
 
   return normalized.length > 0 ? normalized : fallbackPackages
 }

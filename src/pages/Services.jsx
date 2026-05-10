@@ -13,15 +13,15 @@ const comparisons = [
   ['Design mockup first', 'Included', 'Included', 'Included'],
   ['Hosting & deployment', 'Included', 'Included', 'Included'],
   ['3 months free support', 'Included', 'Included', 'Included'],
-  ['Social media icons', '—', 'Included', 'Included'],
-  ['Content upload', '—', 'Included', 'Included'],
-  ['Speed optimization', '—', '—', 'Included'],
+  ['Social media icons', 'Included', 'Included', 'Included'],
+  ['Content upload', 'Included', 'Included', 'Included'],
+  ['Speed optimization', 'Included', 'Included', 'Included'],
   ['Revision rounds', '2', '3', '5'],
 ]
 
 const BASE_PRICES = { basic: 150, standard: 300, premium: 550 }
 const RUSH_PRICES = { basic: 40, standard: 60, premium: 100 }
-const CONTENT_UPLOAD_INCLUDED = new Set(['standard', 'premium'])
+const CONTENT_UPLOAD_INCLUDED = new Set(['basic', 'standard', 'premium'])
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
@@ -111,9 +111,7 @@ export default function Services() {
     setCustPkg(key)
     setSearchParams({ package: key })
     setCustomizerOpen(true)
-    if (CONTENT_UPLOAD_INCLUDED.has(key)) {
-      setContentUpload(false)
-    }
+    setContentUpload(false)
   }
 
   function toggleAddon(key) {
@@ -124,7 +122,7 @@ export default function Services() {
   const ecommercePrice = ecommerce ? 150 : 0
   const logoPrice = logoDesign ? 120 : 0
   const rushPrice = rushDelivery ? RUSH_PRICES[custPkg] : 0
-  const contentUploadPrice = contentUpload && !CONTENT_UPLOAD_INCLUDED.has(custPkg) ? 30 : 0
+  const contentUploadPrice = 0
   const basePrice = BASE_PRICES[custPkg]
   const total = basePrice + extraPagesSubtotal + ecommercePrice + logoPrice + rushPrice + contentUploadPrice
   const packageLabel = custPkg.charAt(0).toUpperCase() + custPkg.slice(1)
@@ -139,7 +137,6 @@ export default function Services() {
     if (ecommerce) lines.push('E-commerce functionality — $150')
     if (logoDesign) lines.push('Logo design — $120')
     if (rushDelivery) lines.push(`Rush delivery — ${formatCurrency(rushPrice)}`)
-    if (contentUploadPrice > 0) lines.push('Content upload — $30')
     if (monthlyMaintenance) lines.push('Monthly maintenance — $60/month after free support')
 
     lines.push(`Final total: ${formatCurrency(total)}${monthlyMaintenance ? ' + $60/month ongoing' : ''}`)
@@ -423,34 +420,16 @@ export default function Services() {
 
                       <AddonRow
                         title="Content upload"
-                        priceLabel={CONTENT_UPLOAD_INCLUDED.has(custPkg) ? 'Included' : '$30'}
-                        note={
-                          CONTENT_UPLOAD_INCLUDED.has(custPkg)
-                            ? 'We upload your text, images and brand assets for you. This is already included in this package.'
-                            : 'We upload all your text, images and brand assets into the site for you.'
-                        }
+                        priceLabel="Included"
+                        note="We upload your text, images and brand assets for you. This is included in every package."
                         open={openAddon === 'content-upload'}
                         onToggle={() => toggleAddon('content-upload')}
-                        active={contentUpload}
-                        disabled={CONTENT_UPLOAD_INCLUDED.has(custPkg)}
+                        active={false}
+                        disabled
                       >
-                        {CONTENT_UPLOAD_INCLUDED.has(custPkg) ? (
-                          <div className="text-sm leading-7 text-ink/62">
-                            No extra selection is needed here because content upload is already part of the {packageLabel} package.
-                          </div>
-                        ) : (
-                          <label className="flex items-center justify-between gap-4">
-                            <span className="text-sm leading-7 text-ink/62">
-                              Save time by having us place your content directly into the finished site for you.
-                            </span>
-                            <input
-                              type="checkbox"
-                              checked={contentUpload}
-                              onChange={event => setContentUpload(event.target.checked)}
-                              className="h-5 w-5 accent-[var(--color-ink)]"
-                            />
-                          </label>
-                        )}
+                        <div className="text-sm leading-7 text-ink/62">
+                          No extra selection is needed here because content upload is already part of the {packageLabel} package.
+                        </div>
                       </AddonRow>
                     </div>
                   </div>
@@ -491,12 +470,6 @@ export default function Services() {
                   <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
                     <span>Rush delivery</span>
                     <span>{formatCurrency(rushPrice)}</span>
-                  </div>
-                )}
-                {contentUploadPrice > 0 && (
-                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
-                    <span>Content upload</span>
-                    <span>$30</span>
                   </div>
                 )}
                 {monthlyMaintenance && (
