@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import PortraitCard from '../components/PortraitCard'
 
 export default function AboutUs() {
@@ -32,23 +31,6 @@ export default function AboutUs() {
 
           <div className="mt-14">
             <PortraitCard />
-          </div>
-
-          <div className="surface-subtle mt-14 rounded-[30px] px-6 py-6 sm:px-8 sm:py-8">
-            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-              <Link
-                to="/contact"
-                className="rounded-full bg-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
-              >
-                Contact
-              </Link>
-              <Link
-                to="/services"
-                className="rounded-full border border-ink px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
-              >
-                View Packages
-              </Link>
-            </div>
           </div>
         </div>
       </section>

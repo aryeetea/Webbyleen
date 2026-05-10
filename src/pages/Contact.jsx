@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import FaqAccordion from '../components/FaqAccordion'
+import { useSearchParams } from 'react-router-dom'
 import SectionIntro from '../components/SectionIntro'
 import { createContactInquiry } from '../lib/api'
 import { useSiteContent } from '../hooks/useSiteContent'
@@ -11,7 +10,6 @@ const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ''
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
 
 export default function Contact() {
-  const [openFaq, setOpenFaq] = useState(0)
   const { content } = useSiteContent()
   const [sent, setSent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -208,44 +206,6 @@ export default function Contact() {
                 </button>
               </form>
             )}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-softwhite px-4 py-20 sm:px-6 sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
-          <div>
-            <SectionIntro
-              label="Before You Inquire"
-              title="A few answers before we start."
-              copy="The essentials on timelines, revisions, and what we need from you."
-            />
-          </div>
-          <FaqAccordion items={content.faqs} openIndex={openFaq} onToggle={setOpenFaq} />
-        </div>
-      </section>
-
-      <section className="bg-ink px-4 py-16 text-center text-softwhite sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-4xl">
-          <h2 className="text-balance font-display text-[2.15rem] leading-[1] sm:text-[3.3rem]">
-            Ready to order instead?
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-softwhite/62">
-            If you already know what you want, start on the services page to choose your package, customize it, and continue to secure payment.
-          </p>
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              to="/services"
-              className="rounded-full border border-softwhite/20 px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-softwhite hover:text-ink"
-            >
-              View Services
-            </Link>
-            <Link
-              to="/about"
-              className="rounded-full bg-softwhite px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-warmbrown hover:text-softwhite"
-            >
-              Learn About Us
-            </Link>
           </div>
         </div>
       </section>

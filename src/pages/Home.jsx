@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
 import { useSiteContent } from '../hooks/useSiteContent'
 
@@ -21,14 +19,8 @@ function renderHeroTitle(title, highlight) {
 }
 
 export default function Home() {
-  const [openFaq, setOpenFaq] = useState(0)
   const { content } = useSiteContent()
   const { homeHero } = content.settings
-  const services = content.packages.map(service => ({
-    ...service,
-    description: service.who,
-    features: service.includes.slice(0, 4),
-  }))
 
   return (
     <>
@@ -115,84 +107,52 @@ export default function Home() {
       <section className="px-4 py-20 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <SectionIntro
-            label="Services"
-            title="Packages built to match your stage of growth."
-            copy="Three clear offers, each designed to feel elevated, custom, and practical for the kind of business you are building."
+            label="Studio Overview"
+            title="One studio, three clear places to begin."
+            copy="Explore the services, view the portfolio, or get in touch when you are ready to move forward."
           />
 
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {services.map(service => (
+            {[
+              {
+                title: 'Services',
+                copy: 'See the packages, pricing, inclusions, add-ons, and FAQs in one place.',
+                cta: 'View Services',
+                to: '/services',
+              },
+              {
+                title: 'Portfolio',
+                copy: 'Browse the studio work and see how ACE Web Studio presents real businesses online.',
+                cta: 'View Portfolio',
+                to: '/portfolio',
+              },
+              {
+                title: 'Contact',
+                copy: 'Reach out directly if you have questions, want advice, or need help choosing the right package.',
+                cta: 'Contact Us',
+                to: '/contact',
+              },
+            ].map(item => (
               <article
-                key={service.tier}
-                className={`group rounded-[30px] border p-8 transition duration-500 hover:-translate-y-1.5 ${
-                  service.featured
-                    ? 'border-ink bg-ink text-softwhite shadow-[0_24px_60px_rgba(17,17,16,0.12)]'
-                    : 'border-warmbrown/12 bg-softwhite text-ink shadow-[0_24px_56px_rgba(17,17,16,0.06)]'
-                }`}
+                key={item.title}
+                className="group rounded-[30px] border border-warmbrown/12 bg-softwhite p-8 text-ink shadow-[0_24px_56px_rgba(17,17,16,0.06)] transition duration-500 hover:-translate-y-1.5"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div className={`text-[0.74rem] uppercase tracking-[0.22em] ${service.featured ? 'text-warmbrown-light' : 'text-warmbrown'}`}>
-                    {service.tier || service.name}
-                  </div>
-                  {service.featured && (
-                    <span className="rounded-full border border-softwhite/10 bg-softwhite/8 px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-softwhite/80">
-                      Recommended
-                    </span>
-                  )}
+                <div className="text-[0.74rem] uppercase tracking-[0.22em] text-warmbrown">
+                  ACE Web Studio
                 </div>
-                <div className="mt-8 font-display text-[2.3rem] leading-none">{service.price}</div>
-                <p className={`mt-5 text-[0.97rem] leading-8 ${service.featured ? 'text-softwhite/68' : 'text-ink/64'}`}>
-                  {service.description}
+                <h3 className="mt-8 font-display text-[2.3rem] leading-none">{item.title}</h3>
+                <p className="mt-5 text-[0.97rem] leading-8 text-ink/64">
+                  {item.copy}
                 </p>
-                <ul className={`mt-8 grid gap-3 text-[0.95rem] leading-7 ${service.featured ? 'text-softwhite/80' : 'text-ink/72'}`}>
-                  {service.features.map(feature => (
-                    <li key={feature} className="flex gap-3">
-                      <span className={service.featured ? 'text-warmbrown-light' : 'text-warmbrown'}>•</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
                 <Link
-                  to={`/checkout?package=${service.slug}`}
-                  className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] transition hover:-translate-y-0.5 ${
-                    service.featured
-                      ? 'bg-softwhite text-ink hover:bg-warmbrown hover:text-softwhite'
-                      : 'bg-ink text-softwhite hover:bg-warmbrown'
-                  }`}
+                  to={item.to}
+                  className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
                 >
-                  Order Now
+                  {item.cta}
                 </Link>
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-20 sm:px-6 sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
-          <div>
-            <SectionIntro
-              label="FAQ"
-              title="Questions clients usually ask before they book."
-              copy="The essentials, clearly answered."
-            />
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Link
-                to="/faq"
-                className="rounded-full border border-ink px-7 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:bg-ink hover:text-softwhite"
-              >
-                Full FAQ
-              </Link>
-              <Link
-                to="/contact"
-                className="rounded-full bg-ink px-7 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:bg-warmbrown"
-              >
-                Get in Touch
-              </Link>
-            </div>
-          </div>
-
-          <FaqAccordion items={content.faqs.slice(0, 4)} openIndex={openFaq} onToggle={setOpenFaq} compact />
         </div>
       </section>
 
@@ -206,10 +166,10 @@ export default function Home() {
           </p>
           <div className="mt-10">
             <Link
-              to="/checkout"
+              to="/services"
               className="inline-flex rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
             >
-              Go to Checkout
+              View Services
             </Link>
           </div>
         </div>

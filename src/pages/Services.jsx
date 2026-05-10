@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
 import { useSiteContent } from '../hooks/useSiteContent'
 
@@ -97,6 +98,7 @@ export default function Services() {
 
   const [custPkg, setCustPkg] = useState(defaultPackage)
   const [customizerOpen, setCustomizerOpen] = useState(true)
+  const [openFaq, setOpenFaq] = useState(0)
   const [openAddon, setOpenAddon] = useState('additional-pages')
   const [extraPages, setExtraPages] = useState(0)
   const [ecommerce, setEcommerce] = useState(false)
@@ -586,6 +588,19 @@ export default function Services() {
               </tbody>
             </table>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-softwhite px-4 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr]">
+          <div>
+            <SectionIntro
+              label="FAQs"
+              title="Questions about packages, timelines, and what is included."
+              copy="Everything service-related stays here so clients can compare offers and get answers in one place."
+            />
+          </div>
+          <FaqAccordion items={content.faqs} openIndex={openFaq} onToggle={setOpenFaq} />
         </div>
       </section>
 
