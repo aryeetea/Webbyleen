@@ -19,6 +19,63 @@ function formatCurrencyRange([min, max]) {
   return `${formatCurrency(min)} - ${formatCurrency(max)}`
 }
 
+function AccordionPanel({ open, children }) {
+  return (
+    <div className={`grid transition-all duration-300 ease-out ${open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+      <div className="overflow-hidden">{children}</div>
+    </div>
+  )
+}
+
+function CheckoutAddonRow({ addon, checked, open, onToggleOpen, onToggleChecked }) {
+  const notes = {
+    'extra-pages': 'Add extra pages to expand the site beyond the package scope.',
+    ecommerce: 'Includes product pages, cart, and checkout setup.',
+    'logo-design': 'Includes 2 concepts, 1 revision, PNG and SVG files.',
+    'rush-delivery': 'Delivery time is cut in half.',
+    'monthly-maintenance': 'Up to 3 small changes per month after the free support period ends.',
+    'content-upload': 'We upload your text, images, and brand assets into the site for you.',
+  }
+
+  return (
+    <div className={`rounded-[24px] border transition ${checked || open ? 'border-ink bg-softwhite shadow-[0_18px_36px_rgba(26,26,26,0.05)]' : 'border-warmbrown-pale bg-transparent'}`}>
+      <button
+        type="button"
+        onClick={onToggleOpen}
+        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left"
+        aria-expanded={open}
+      >
+        <div>
+          <div className="text-[0.96rem] text-ink">{addon.label}</div>
+          <div className="mt-1 text-sm text-ink/55">{notes[addon.id] || `Starting at ${addon.price}`}</div>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-warmbrown">{addon.price}</span>
+          <span className={`flex h-9 w-9 items-center justify-center rounded-full border text-lg transition ${open ? 'border-ink bg-ink text-softwhite' : 'border-warmbrown-pale text-warmbrown'}`}>
+            {open ? '−' : '+'}
+          </span>
+        </div>
+      </button>
+
+      <AccordionPanel open={open}>
+        <div className="border-t border-warmbrown-pale/70 px-4 pb-4 pt-4">
+          <label className="flex items-center justify-between gap-4">
+            <span className="text-sm leading-7 text-ink/62">
+              {notes[addon.id] || `Add ${addon.label.toLowerCase()} to this order.`}
+            </span>
+            <input
+              type="checkbox"
+              checked={checked}
+              onChange={() => onToggleChecked(addon.id)}
+              className="h-5 w-5 accent-[var(--color-ink)]"
+            />
+          </label>
+        </div>
+      </AccordionPanel>
+    </div>
+  )
+}
+
 export default function Checkout() {
   const { content } = useSiteContent()
   const packages = content.packages
@@ -27,6 +84,7 @@ export default function Checkout() {
   const initialPackage = searchParams.get('package') || packages[0]?.slug || ''
   const [selectedPackageSlug, setSelectedPackageSlug] = useState(initialPackage)
   const [selectedAddonIds, setSelectedAddonIds] = useState([])
+  const [openAddonId, setOpenAddonId] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
@@ -67,6 +125,7 @@ export default function Checkout() {
     const nextSlug = event.target.value
     setSelectedPackageSlug(nextSlug)
     setSelectedAddonIds([])
+    setOpenAddonId('')
     setSearchParams(nextSlug ? { package: nextSlug } : {})
   }
 
@@ -180,28 +239,14 @@ export default function Checkout() {
                   const checked = selectedAddonIds.includes(addon.id)
 
                   return (
-                    <label
+                    <CheckoutAddonRow
                       key={addon.id}
-                      className={`flex cursor-pointer flex-col items-start gap-3 rounded-[22px] border px-4 py-4 transition sm:flex-row sm:justify-between sm:gap-4 ${
-                        checked
-                          ? 'border-warmbrown bg-softwhite'
-                          : 'border-warmbrown-pale bg-transparent hover:border-warmbrown'
-                      }`}
-                    >
-                      <div className="flex gap-3">
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => handleAddonToggle(addon.id)}
-                          className="mt-1 h-4 w-4 accent-[var(--color-warmbrown)]"
-                        />
-                        <div>
-                          <div className="text-[0.96rem] text-ink">{addon.label}</div>
-                          <div className="mt-1 text-sm text-ink/55">Starting at {addon.price}</div>
-                        </div>
-                      </div>
-                      <div className="text-sm text-warmbrown">{addon.price}</div>
-                    </label>
+                      addon={addon}
+                      checked={checked}
+                      open={openAddonId === addon.id}
+                      onToggleOpen={() => setOpenAddonId(current => (current === addon.id ? '' : addon.id))}
+                      onToggleChecked={handleAddonToggle}
+                    />
                   )
                 })}
               </div>
