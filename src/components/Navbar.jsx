@@ -13,7 +13,7 @@ export default function Navbar() {
   const { pathname } = useLocation()
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-6 sm:pt-6">
       <nav className="mx-auto max-w-7xl rounded-[28px] border border-warmbrown/10 bg-softwhite/82 px-3 py-3 shadow-[0_24px_60px_rgba(17,17,16,0.08)] backdrop-blur-2xl sm:px-5 sm:py-4 lg:px-7">
         <div className="flex items-center justify-between gap-3 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6">
           <Link to="/" className="shrink-0" aria-label="ACE Web Studio home">
