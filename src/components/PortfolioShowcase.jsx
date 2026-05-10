@@ -26,10 +26,16 @@ export default function PortfolioShowcase({ projects, loading }) {
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {[0, 1, 2].map(i => (
           <div key={i} className="overflow-hidden rounded-[30px] border border-warmbrown/12 bg-softwhite shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
-            <div className="relative flex aspect-[4/3] items-center justify-center bg-cream bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.18),transparent_48%),radial-gradient(circle_at_bottom_left,rgba(139,111,78,0.08),transparent_50%)]">
-              <span className="rounded-full border border-warmbrown-pale bg-softwhite/80 px-4 py-2 text-[0.65rem] uppercase tracking-[0.22em] text-ink/40">
-                Projects coming soon
-              </span>
+            <div className="flex aspect-[4/3] items-center justify-center bg-cream px-8 text-center">
+              <div>
+                <div className="text-[0.68rem] uppercase tracking-[0.22em] text-warmbrown">Portfolio</div>
+                <div className="mt-3 font-display text-[2rem] leading-none text-ink sm:text-[2.2rem]">
+                  Projects coming soon
+                </div>
+                <p className="mt-4 text-sm leading-7 text-ink/58">
+                  New client work will appear here once the portfolio feed is ready.
+                </p>
+              </div>
             </div>
             <div className="space-y-3 p-6">
               <div className="h-2.5 w-20 rounded-full bg-warmbrown-pale/80" />
@@ -63,7 +69,7 @@ export default function PortfolioShowcase({ projects, loading }) {
                   className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.04]"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(196,168,130,0.35),transparent_42%),linear-gradient(135deg,#111110,#4b3f35,#C4A882)] px-8 text-center font-display text-4xl text-softwhite">
+                <div className="flex h-full items-center justify-center bg-ink px-8 text-center font-display text-4xl text-softwhite">
                   {project.title}
                 </div>
               )}

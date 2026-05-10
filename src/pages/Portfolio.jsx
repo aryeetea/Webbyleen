@@ -39,7 +39,7 @@ export default function Portfolio() {
   return (
     <>
       <section className="relative overflow-hidden px-5 pb-20 pt-36 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.24),transparent_36%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_28%)]" />
+        <div className="absolute inset-0 bg-cream" />
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Portfolio"

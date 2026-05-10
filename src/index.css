@@ -26,11 +26,7 @@
   body {
     @apply m-0 bg-cream font-sans text-ink antialiased;
     overflow-x: clip;
-    background-image:
-      radial-gradient(circle at top left, rgba(201, 168, 124, 0.20), transparent 28%),
-      radial-gradient(circle at 85% 14%, rgba(184, 149, 106, 0.10), transparent 24%),
-      linear-gradient(180deg, #F8F4EF 0%, #FAF7F3 46%, #EFE9E1 100%);
-    background-attachment: fixed;
+    background-image: none;
   }
 
   body::before {
@@ -38,10 +34,10 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.32;
+    opacity: 0.18;
     background-image:
-      linear-gradient(rgba(184, 149, 106, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(184, 149, 106, 0.04) 1px, transparent 1px);
+      linear-gradient(rgba(224, 216, 207, 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(224, 216, 207, 0.5) 1px, transparent 1px);
     background-size: 96px 96px;
     mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 92%);
   }
@@ -87,7 +83,7 @@
   left: -90px;
   width: 280px;
   height: 280px;
-  background: rgba(201, 168, 124, 0.18);
+  background: rgba(184, 149, 106, 0.12);
 }
 
 .page-frame::after {
@@ -95,28 +91,24 @@
   bottom: 90px;
   width: 320px;
   height: 320px;
-  background: rgba(107, 78, 49, 0.10);
+  background: rgba(224, 216, 207, 0.5);
 }
 
 .surface-panel {
-  background:
-    linear-gradient(180deg, rgba(250, 247, 243, 0.98), rgba(248, 244, 239, 0.96));
+  background: rgba(250, 247, 243, 0.98);
   border: 1px solid rgba(184, 149, 106, 0.16);
   box-shadow:
     0 26px 60px rgba(26, 26, 26, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .surface-subtle {
-  background:
-    linear-gradient(180deg, rgba(245, 240, 235, 0.84), rgba(250, 247, 243, 0.74));
+  background: rgba(245, 240, 235, 0.9);
   border: 1px solid rgba(184, 149, 106, 0.12);
 }
 
 .surface-panel-dark {
-  background:
-    radial-gradient(circle at top, rgba(201, 168, 124, 0.11), transparent 36%),
-    linear-gradient(180deg, #1e1c1a 0%, #161412 100%);
+  background: #1A1A1A;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 28px 70px rgba(10, 8, 7, 0.28);
 }

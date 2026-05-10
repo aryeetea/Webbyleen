@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <>
       <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 sm:pb-24 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[660px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.28),transparent_34%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_26%)]" />
+        <div className="absolute inset-0 bg-cream" />
         <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <div className="animate-fade-up flex flex-wrap items-center gap-3 text-[0.68rem] font-medium uppercase editorial-kicker text-warmbrown sm:text-[0.72rem]">
@@ -153,14 +153,14 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  to={`/checkout?package=${service.tier.toLowerCase()}`}
+                  to={`/checkout?package=${service.slug}`}
                   className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] transition hover:-translate-y-0.5 ${
                     service.featured
                       ? 'bg-softwhite text-ink hover:bg-warmbrown hover:text-softwhite'
                       : 'bg-ink text-softwhite hover:bg-warmbrown'
                   }`}
                 >
-                  Order This Package
+                  Order Now
                 </Link>
               </article>
             ))}
@@ -196,18 +196,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-warmbrown px-4 py-16 text-center text-softwhite sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-4xl rounded-[34px] border border-softwhite/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-6 py-12 shadow-[0_28px_70px_rgba(20,16,13,0.2)] sm:px-10">
+      <section className="bg-cream px-4 py-16 text-center text-ink sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-4xl rounded-[34px] border border-warmbrown-pale bg-softwhite px-6 py-12 shadow-[0_28px_70px_rgba(20,16,13,0.08)] sm:px-10">
           <h2 className="text-balance font-display text-[2.15rem] leading-[1] sm:text-[3.6rem]">
             Ready for a website that looks as established as your business deserves?
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-softwhite/78">
+          <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-ink/66">
             Secure your project with a 50% deposit upfront, then pay the remaining 50% on completion once you are happy with the final result.
           </p>
           <div className="mt-10">
             <Link
               to="/checkout"
-              className="inline-flex rounded-full bg-softwhite px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-warmbrown transition hover:-translate-y-0.5 hover:bg-ink hover:text-softwhite"
+              className="inline-flex rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
             >
               Go to Checkout
             </Link>

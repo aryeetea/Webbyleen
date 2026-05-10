@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
@@ -28,6 +28,15 @@ export default function Contact() {
     timeline: '',
     message: summaryParam ? `My configured order:\n${summaryParam}\n\nAdditional message:\n` : '',
   })
+
+  useEffect(() => {
+    if (!summaryParam) return
+
+    setForm(current => ({
+      ...current,
+      message: `My configured order:\n${summaryParam}\n\nAdditional message:\n`,
+    }))
+  }, [summaryParam])
 
   const handleChange = event => {
     setForm(current => ({ ...current, [event.target.name]: event.target.value }))
@@ -88,7 +97,7 @@ export default function Contact() {
   return (
     <>
       <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_top_right,rgba(196,168,130,0.24),transparent_36%),radial-gradient(circle_at_left,rgba(139,111,78,0.12),transparent_28%)]" />
+        <div className="absolute inset-0 bg-cream" />
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Contact"
@@ -122,11 +131,11 @@ export default function Contact() {
                 </div>
                 <div className="pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Edwina — Art Direction</div>
-                  <a href="mailto:edwinaaryeeteya@gmail.com" className="text-anywhere mt-1.5 block text-[0.95rem] text-warmbrown transition hover:text-ink">
-                    edwinaaryeeteya@gmail.com
-                  </a>
+                  <div className="text-anywhere mt-1.5 block text-[0.95rem] text-warmbrown">
+                    Email coming soon
+                  </div>
                 </div>
-                <div className="pt-5">
+                <div className="border-t border-warmbrown-pale pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Reply Window</div>
                   <div className="mt-1.5 text-[0.95rem] text-ink">Within 24 hours</div>
                 </div>
@@ -222,14 +231,14 @@ export default function Contact() {
             Ready to order instead?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[1rem] leading-8 text-softwhite/62">
-            If you already know what you want, head to checkout to choose a package, add extras, and pay online.
+            If you already know what you want, start on the services page to choose your package, customize it, and continue to secure payment.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              to="/checkout"
+              to="/services"
               className="rounded-full border border-softwhite/20 px-8 py-4 text-center text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-softwhite hover:text-ink"
             >
-              Go to Checkout
+              View Services
             </Link>
             <Link
               to="/about"

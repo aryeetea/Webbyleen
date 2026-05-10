@@ -17,7 +17,7 @@ const team = [
   },
   {
     name: 'Edwina',
-    role: 'Art Director',
+    role: 'Art Direction',
     image: '/edwina-about.png',
     bio: 'Edwina sets the creative direction and protects the visual identity behind each project. She makes sure every website feels cohesive, intentional, and polished enough to leave a lasting impression.',
     rotation: 'rotate-[4deg] md:translate-y-12',
@@ -28,8 +28,8 @@ const team = [
 export default function PortraitCard() {
   return (
     <div className="relative mx-auto max-w-6xl">
-      <div className="absolute inset-x-10 top-10 h-28 rounded-full bg-[radial-gradient(circle,rgba(196,168,130,0.18),transparent_72%)] blur-3xl" />
-      <div className="absolute left-1/2 top-24 hidden h-40 w-40 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,244,227,0.75),transparent_72%)] blur-3xl md:block" />
+      <div className="absolute inset-x-10 top-10 h-28 rounded-full bg-warmbrown/10 blur-3xl" />
+      <div className="absolute left-1/2 top-24 hidden h-40 w-40 -translate-x-1/2 rounded-full bg-softwhite blur-3xl md:block" />
 
       <div className="relative grid gap-8 md:grid-cols-3 md:items-start">
         {team.map(member => (

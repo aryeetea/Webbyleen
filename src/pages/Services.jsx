@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import SectionIntro from '../components/SectionIntro'
 import { useSiteContent } from '../hooks/useSiteContent'
 
@@ -22,37 +22,82 @@ const BASE_PRICES = { basic: 150, standard: 300, premium: 550 }
 const RUSH_PRICES = { basic: 40, standard: 60, premium: 100 }
 const CONTENT_UPLOAD_INCLUDED = new Set(['standard', 'premium'])
 
-function AddonToggle({ checked, onChange, label, price, note }) {
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(amount)
+}
+
+function AccordionPanel({ open, children }) {
   return (
-    <label
-      className={`flex cursor-pointer flex-col gap-3 rounded-[22px] border px-5 py-4 transition sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
-        checked
-          ? 'border-ink bg-softwhite'
-          : 'border-warmbrown-pale bg-cream hover:border-warmbrown'
+    <div
+      className={`grid transition-all duration-300 ease-out ${open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+    >
+      <div className="overflow-hidden">{children}</div>
+    </div>
+  )
+}
+
+function AddonRow({
+  title,
+  priceLabel,
+  note,
+  open,
+  onToggle,
+  children,
+  active = false,
+  disabled = false,
+}) {
+  return (
+    <div
+      className={`rounded-[24px] border transition ${
+        active || open
+          ? 'border-ink bg-softwhite shadow-[0_18px_36px_rgba(26,26,26,0.05)]'
+          : 'border-warmbrown-pale bg-cream'
       }`}
     >
-      <div className="flex gap-3">
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={e => onChange(e.target.checked)}
-          className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-ink)]"
-        />
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+        aria-expanded={open}
+      >
         <div>
-          <div className="text-[0.96rem] text-ink">{label}</div>
-          {note && <div className="mt-0.5 text-sm text-ink/55">{note}</div>}
+          <div className="text-[0.98rem] text-ink">{title}</div>
+          {note ? <div className="mt-1 text-sm text-ink/56">{note}</div> : null}
         </div>
-      </div>
-      <div className={`shrink-0 text-sm font-medium ${checked ? 'text-warmbrown' : 'text-ink/45'}`}>{price}</div>
-    </label>
+        <div className="flex items-center gap-3">
+          <span className={`text-sm font-medium ${disabled ? 'text-ink/38' : 'text-warmbrown'}`}>{priceLabel}</span>
+          <span
+            className={`flex h-9 w-9 items-center justify-center rounded-full border text-lg transition ${
+              open ? 'border-ink bg-ink text-softwhite' : 'border-warmbrown-pale text-warmbrown'
+            }`}
+          >
+            {open ? '−' : '+'}
+          </span>
+        </div>
+      </button>
+      <AccordionPanel open={open}>
+        <div className="border-t border-warmbrown-pale/70 px-5 pb-5 pt-4">
+          {children}
+        </div>
+      </AccordionPanel>
+    </div>
   )
 }
 
 export default function Services() {
   const { content } = useSiteContent()
   const { packages, settings } = content
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialPackage = searchParams.get('package')
+  const defaultPackage = BASE_PRICES[initialPackage] ? initialPackage : 'basic'
 
-  const [custPkg, setCustPkg] = useState('basic')
+  const [custPkg, setCustPkg] = useState(defaultPackage)
+  const [customizerOpen, setCustomizerOpen] = useState(true)
+  const [openAddon, setOpenAddon] = useState('additional-pages')
   const [extraPages, setExtraPages] = useState(0)
   const [ecommerce, setEcommerce] = useState(false)
   const [logoDesign, setLogoDesign] = useState(false)
@@ -60,38 +105,49 @@ export default function Services() {
   const [monthlyMaintenance, setMonthlyMaintenance] = useState(false)
   const [contentUpload, setContentUpload] = useState(false)
 
-  function calcTotal() {
-    let total = BASE_PRICES[custPkg]
-    total += Math.max(0, extraPages) * 50
-    if (ecommerce) total += 150
-    if (logoDesign) total += 120
-    if (rushDelivery) total += RUSH_PRICES[custPkg]
-    if (contentUpload && !CONTENT_UPLOAD_INCLUDED.has(custPkg)) total += 30
-    return total
-  }
-
-  function buildSummary() {
-    const pkgLabel = custPkg.charAt(0).toUpperCase() + custPkg.slice(1)
-    const lines = [`Package: ${pkgLabel} — $${BASE_PRICES[custPkg]}`]
-    if (extraPages > 0) lines.push(`Additional pages: ${extraPages} — +$${extraPages * 50}`)
-    if (ecommerce) lines.push('E-commerce functionality — +$150')
-    if (logoDesign) lines.push('Logo design — +$120')
-    if (rushDelivery) lines.push(`Rush delivery — +$${RUSH_PRICES[custPkg]}`)
-    if (monthlyMaintenance) lines.push('Monthly maintenance — +$60/mo (after free support period)')
-    if (contentUpload && !CONTENT_UPLOAD_INCLUDED.has(custPkg)) lines.push('Content upload — +$30')
-    lines.push(`Estimated total: $${calcTotal()}${monthlyMaintenance ? ' + $60/mo maintenance' : ''}`)
-    return lines.join('\n')
-  }
-
   function handlePkgSelect(key) {
     setCustPkg(key)
-    setContentUpload(false)
+    setSearchParams({ package: key })
+    setCustomizerOpen(true)
+    if (CONTENT_UPLOAD_INCLUDED.has(key)) {
+      setContentUpload(false)
+    }
   }
+
+  function toggleAddon(key) {
+    setOpenAddon(current => (current === key ? '' : key))
+  }
+
+  const extraPagesSubtotal = Math.max(0, extraPages) * 50
+  const ecommercePrice = ecommerce ? 150 : 0
+  const logoPrice = logoDesign ? 120 : 0
+  const rushPrice = rushDelivery ? RUSH_PRICES[custPkg] : 0
+  const contentUploadPrice = contentUpload && !CONTENT_UPLOAD_INCLUDED.has(custPkg) ? 30 : 0
+  const basePrice = BASE_PRICES[custPkg]
+  const total = basePrice + extraPagesSubtotal + ecommercePrice + logoPrice + rushPrice + contentUploadPrice
+  const packageLabel = custPkg.charAt(0).toUpperCase() + custPkg.slice(1)
+
+  const summaryLines = useMemo(() => {
+    const lines = [
+      'Configured order',
+      `Package: ${packageLabel} — ${formatCurrency(basePrice)}`,
+    ]
+
+    if (extraPages > 0) lines.push(`Additional pages: ${extraPages} — ${formatCurrency(extraPagesSubtotal)}`)
+    if (ecommerce) lines.push('E-commerce functionality — $150')
+    if (logoDesign) lines.push('Logo design — $120')
+    if (rushDelivery) lines.push(`Rush delivery — ${formatCurrency(rushPrice)}`)
+    if (contentUploadPrice > 0) lines.push('Content upload — $30')
+    if (monthlyMaintenance) lines.push('Monthly maintenance — $60/month after free support')
+
+    lines.push(`Final total: ${formatCurrency(total)}${monthlyMaintenance ? ' + $60/month ongoing' : ''}`)
+    return lines.join('\n')
+  }, [basePrice, contentUploadPrice, ecommerce, extraPages, extraPagesSubtotal, logoDesign, monthlyMaintenance, packageLabel, rushDelivery, rushPrice, total])
 
   return (
     <>
       <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_top_right,rgba(201,168,124,0.22),transparent_36%),radial-gradient(circle_at_left,rgba(184,149,106,0.10),transparent_28%)]" />
+        <div className="absolute inset-0 bg-cream" />
         <div className="relative mx-auto max-w-6xl">
           <SectionIntro
             label="Services"
@@ -171,30 +227,27 @@ export default function Services() {
                     : 'bg-ink text-softwhite hover:bg-warmbrown'
                 }`}
               >
-                Order {pkg.name}
+                Order Now
               </Link>
             </article>
           ))}
         </div>
       </section>
 
-      {/* Order Customizer */}
       <section className="bg-cream px-4 py-20 sm:px-6 sm:py-24">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
             <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Custom Order</div>
             <h2 className="mt-5 font-display text-[2.3rem] leading-none text-ink sm:text-[3rem]">
-              Build your quote
+              Customize your order
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-8 text-ink/66">
-              Select a package and add what you need. Your total updates as you configure.
+              Choose your package first, then expand the customizer to build out your project and see the total update live.
             </p>
           </div>
 
-          <div className="rounded-[30px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_24px_56px_rgba(26,26,26,0.06)] sm:p-10">
-
-            {/* Step 1 — Package selector */}
-            <div>
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+            <div className="rounded-[30px] border border-warmbrown-pale bg-softwhite p-8 shadow-[0_24px_56px_rgba(26,26,26,0.06)] sm:p-10">
               <div className="mb-4 text-[0.72rem] uppercase tracking-[0.2em] text-warmbrown">Step 1 — Select your base package</div>
               <div className="grid gap-3 sm:grid-cols-3">
                 {[
@@ -222,160 +275,258 @@ export default function Services() {
                   </button>
                 ))}
               </div>
-            </div>
 
-            {/* Step 2 — Add-ons */}
-            <div className="mt-10">
-              <div className="mb-4 text-[0.72rem] uppercase tracking-[0.2em] text-warmbrown">Step 2 — Optional add-ons</div>
-              <div className="grid gap-3">
-
-                {/* Additional pages — number input */}
-                <div className={`flex flex-col gap-4 rounded-[22px] border px-5 py-4 transition sm:flex-row sm:items-center sm:justify-between ${
-                  extraPages > 0 ? 'border-ink bg-softwhite' : 'border-warmbrown-pale bg-cream'
-                }`}>
+              <div className="mt-10 rounded-[26px] border border-warmbrown-pale bg-cream/70">
+                <button
+                  type="button"
+                  onClick={() => setCustomizerOpen(current => !current)}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
+                  aria-expanded={customizerOpen}
+                >
                   <div>
-                    <div className="text-[0.96rem] text-ink">Additional pages</div>
-                    <div className="mt-0.5 text-sm text-ink/55">$50 per extra page</div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setExtraPages(p => Math.max(0, p - 1))}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-warmbrown-pale text-ink transition hover:border-ink"
-                    >−</button>
-                    <input
-                      type="number"
-                      min="0"
-                      value={extraPages}
-                      onChange={e => setExtraPages(Math.max(0, Number.parseInt(e.target.value, 10) || 0))}
-                      className="w-12 rounded-[8px] border border-warmbrown-pale bg-softwhite px-2 py-1 text-center text-[0.96rem] text-ink outline-none transition focus:border-warmbrown"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setExtraPages(p => p + 1)}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-warmbrown-pale text-ink transition hover:border-ink"
-                    >+</button>
-                    {extraPages > 0 && (
-                      <span className="min-w-[3rem] text-right text-sm font-medium text-warmbrown">+${extraPages * 50}</span>
-                    )}
-                  </div>
-                </div>
-
-                <AddonToggle
-                  checked={ecommerce}
-                  onChange={setEcommerce}
-                  label="E-commerce functionality"
-                  price="+$200"
-                  note="Includes product pages, cart, and checkout setup"
-                />
-
-                <AddonToggle
-                  checked={logoDesign}
-                  onChange={setLogoDesign}
-                  label="Logo design"
-                  price="+$120"
-                />
-
-                <AddonToggle
-                  checked={rushDelivery}
-                  onChange={setRushDelivery}
-                  label="Rush delivery"
-                  price={`+$${RUSH_PRICES[custPkg]}`}
-                />
-
-                <AddonToggle
-                  checked={monthlyMaintenance}
-                  onChange={setMonthlyMaintenance}
-                  label="Monthly maintenance"
-                  price="+$80/mo"
-                  note="Starts after the free 3 month support period ends"
-                />
-
-                {CONTENT_UPLOAD_INCLUDED.has(custPkg) ? (
-                  <div className="flex items-center justify-between rounded-[22px] border border-warmbrown-pale/60 bg-cream/60 px-5 py-4">
-                    <div>
-                      <div className="text-[0.96rem] text-ink/60">Content upload</div>
-                      <div className="mt-0.5 text-sm text-warmbrown">Already included in your package</div>
+                    <div className="text-[0.72rem] uppercase tracking-[0.2em] text-warmbrown">Step 2</div>
+                    <div className="mt-2 font-display text-[1.7rem] leading-none text-ink sm:text-[2rem]">
+                      Customize Your Order
                     </div>
                   </div>
-                ) : (
-                  <AddonToggle
-                    checked={contentUpload}
-                    onChange={setContentUpload}
-                    label="Content upload"
-                    price="+$50"
-                  />
-                )}
+                  <span className={`flex h-10 w-10 items-center justify-center rounded-full border text-lg transition ${customizerOpen ? 'border-ink bg-ink text-softwhite' : 'border-warmbrown-pale text-warmbrown'}`}>
+                    {customizerOpen ? '−' : '+'}
+                  </span>
+                </button>
+
+                <AccordionPanel open={customizerOpen}>
+                  <div className="border-t border-warmbrown-pale px-5 pb-5 pt-5 sm:px-6 sm:pb-6">
+                    <div className="grid gap-3">
+                      <AddonRow
+                        title="Additional pages"
+                        priceLabel="$50 per page"
+                        note="Add as many extra pages as you need."
+                        open={openAddon === 'additional-pages'}
+                        onToggle={() => toggleAddon('additional-pages')}
+                        active={extraPages > 0}
+                      >
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <p className="max-w-lg text-sm leading-7 text-ink/62">
+                            Use the buttons or type any number of extra pages. There is no maximum.
+                          </p>
+                          <div className="flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setExtraPages(current => Math.max(0, current - 1))}
+                              className="flex h-10 w-10 items-center justify-center rounded-full border border-warmbrown-pale text-lg text-ink transition hover:border-ink"
+                            >
+                              −
+                            </button>
+                            <input
+                              type="number"
+                              min="0"
+                              value={extraPages}
+                              onChange={event => setExtraPages(Math.max(0, Number.parseInt(event.target.value, 10) || 0))}
+                              className="w-20 rounded-[14px] border border-warmbrown-pale bg-softwhite px-3 py-2 text-center text-[1rem] text-ink outline-none transition focus:border-warmbrown"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setExtraPages(current => current + 1)}
+                              className="flex h-10 w-10 items-center justify-center rounded-full border border-warmbrown-pale text-lg text-ink transition hover:border-ink"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </AddonRow>
+
+                      <AddonRow
+                        title="E-commerce functionality"
+                        priceLabel="$150"
+                        note="Includes product pages, cart, and checkout setup."
+                        open={openAddon === 'ecommerce'}
+                        onToggle={() => toggleAddon('ecommerce')}
+                        active={ecommerce}
+                      >
+                        <label className="flex items-center justify-between gap-4">
+                          <span className="text-sm leading-7 text-ink/62">
+                            Add selling functionality to your site with a complete purchase flow.
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={ecommerce}
+                            onChange={event => setEcommerce(event.target.checked)}
+                            className="h-5 w-5 accent-[var(--color-ink)]"
+                          />
+                        </label>
+                      </AddonRow>
+
+                      <AddonRow
+                        title="Logo design"
+                        priceLabel="$120"
+                        note="Includes 2 concepts, 1 revision, PNG and SVG files."
+                        open={openAddon === 'logo-design'}
+                        onToggle={() => toggleAddon('logo-design')}
+                        active={logoDesign}
+                      >
+                        <label className="flex items-center justify-between gap-4">
+                          <span className="text-sm leading-7 text-ink/62">
+                            Add logo creation if you need a brand mark designed alongside the website.
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={logoDesign}
+                            onChange={event => setLogoDesign(event.target.checked)}
+                            className="h-5 w-5 accent-[var(--color-ink)]"
+                          />
+                        </label>
+                      </AddonRow>
+
+                      <AddonRow
+                        title="Rush delivery"
+                        priceLabel={formatCurrency(RUSH_PRICES[custPkg])}
+                        note="Delivery time is cut in half."
+                        open={openAddon === 'rush-delivery'}
+                        onToggle={() => toggleAddon('rush-delivery')}
+                        active={rushDelivery}
+                      >
+                        <label className="flex items-center justify-between gap-4">
+                          <span className="text-sm leading-7 text-ink/62">
+                            Subject to availability. We prioritize your project and compress the delivery timeline.
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={rushDelivery}
+                            onChange={event => setRushDelivery(event.target.checked)}
+                            className="h-5 w-5 accent-[var(--color-ink)]"
+                          />
+                        </label>
+                      </AddonRow>
+
+                      <AddonRow
+                        title="Monthly maintenance"
+                        priceLabel="$60/month"
+                        note="Up to 3 small changes per month, starts after the free 3 month support period ends."
+                        open={openAddon === 'monthly-maintenance'}
+                        onToggle={() => toggleAddon('monthly-maintenance')}
+                        active={monthlyMaintenance}
+                      >
+                        <label className="flex items-center justify-between gap-4">
+                          <span className="text-sm leading-7 text-ink/62">
+                            Keep the site updated after launch with light ongoing support once the free period ends.
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={monthlyMaintenance}
+                            onChange={event => setMonthlyMaintenance(event.target.checked)}
+                            className="h-5 w-5 accent-[var(--color-ink)]"
+                          />
+                        </label>
+                      </AddonRow>
+
+                      <AddonRow
+                        title="Content upload"
+                        priceLabel={CONTENT_UPLOAD_INCLUDED.has(custPkg) ? 'Included' : '$30'}
+                        note={
+                          CONTENT_UPLOAD_INCLUDED.has(custPkg)
+                            ? 'We upload your text, images and brand assets for you. This is already included in this package.'
+                            : 'We upload all your text, images and brand assets into the site for you.'
+                        }
+                        open={openAddon === 'content-upload'}
+                        onToggle={() => toggleAddon('content-upload')}
+                        active={contentUpload}
+                        disabled={CONTENT_UPLOAD_INCLUDED.has(custPkg)}
+                      >
+                        {CONTENT_UPLOAD_INCLUDED.has(custPkg) ? (
+                          <div className="text-sm leading-7 text-ink/62">
+                            No extra selection is needed here because content upload is already part of the {packageLabel} package.
+                          </div>
+                        ) : (
+                          <label className="flex items-center justify-between gap-4">
+                            <span className="text-sm leading-7 text-ink/62">
+                              Save time by having us place your content directly into the finished site for you.
+                            </span>
+                            <input
+                              type="checkbox"
+                              checked={contentUpload}
+                              onChange={event => setContentUpload(event.target.checked)}
+                              className="h-5 w-5 accent-[var(--color-ink)]"
+                            />
+                          </label>
+                        )}
+                      </AddonRow>
+                    </div>
+                  </div>
+                </AccordionPanel>
               </div>
             </div>
 
-            {/* Live total */}
-            <div className="mt-10 rounded-[24px] border border-warmbrown-pale bg-cream px-6 py-6">
-              <div className="mb-4 text-[0.72rem] uppercase tracking-[0.2em] text-warmbrown">Your estimate</div>
-              <div className="grid gap-2">
-                <div className="flex justify-between text-[0.96rem] text-ink/65">
-                  <span>{custPkg.charAt(0).toUpperCase() + custPkg.slice(1)} package</span>
-                  <span>${BASE_PRICES[custPkg]}</span>
+            <aside className="rounded-[30px] border border-ink bg-ink p-8 text-softwhite shadow-[0_24px_56px_rgba(26,26,26,0.12)] lg:sticky lg:top-28">
+              <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown-light">Live Order Summary</div>
+              <h3 className="mt-4 font-display text-[2.1rem] leading-none sm:text-[2.4rem]">
+                {packageLabel}
+              </h3>
+
+              <div className="mt-8 grid gap-4 rounded-[24px] border border-softwhite/10 bg-softwhite/6 p-5">
+                <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
+                  <span>Selected package</span>
+                  <span>{formatCurrency(basePrice)}</span>
                 </div>
                 {extraPages > 0 && (
-                  <div className="flex justify-between text-[0.96rem] text-ink/65">
+                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
                     <span>Additional pages ({extraPages})</span>
-                    <span>+${extraPages * 80}</span>
+                    <span>{formatCurrency(extraPagesSubtotal)}</span>
                   </div>
                 )}
                 {ecommerce && (
-                  <div className="flex justify-between text-[0.96rem] text-ink/65">
+                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
                     <span>E-commerce functionality</span>
-                    <span>+$200</span>
+                    <span>$150</span>
                   </div>
                 )}
                 {logoDesign && (
-                  <div className="flex justify-between text-[0.96rem] text-ink/65">
+                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
                     <span>Logo design</span>
-                    <span>+$120</span>
+                    <span>$120</span>
                   </div>
                 )}
                 {rushDelivery && (
-                  <div className="flex justify-between text-[0.96rem] text-ink/65">
+                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
                     <span>Rush delivery</span>
-                    <span>+${RUSH_PRICES[custPkg]}</span>
+                    <span>{formatCurrency(rushPrice)}</span>
                   </div>
                 )}
-                {contentUpload && !CONTENT_UPLOAD_INCLUDED.has(custPkg) && (
-                  <div className="flex justify-between text-[0.96rem] text-ink/65">
+                {contentUploadPrice > 0 && (
+                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/78">
                     <span>Content upload</span>
-                    <span>+$30</span>
+                    <span>$30</span>
                   </div>
                 )}
                 {monthlyMaintenance && (
-                  <div className="flex justify-between text-[0.96rem] text-ink/55">
-                    <span>Monthly maintenance (after 3 mo)</span>
-                    <span>+$60/mo</span>
+                  <div className="flex items-center justify-between gap-4 text-[0.96rem] text-softwhite/62">
+                    <span>Monthly maintenance</span>
+                    <span>$60/month</span>
                   </div>
                 )}
-                <div className="mt-2 flex items-baseline justify-between border-t border-warmbrown-pale pt-4">
-                  <span className="font-display text-[1.5rem] text-ink">Total</span>
-                  <span className="font-display text-[2rem] text-warmbrown">${calcTotal()}</span>
+                <div className="border-t border-softwhite/10 pt-4">
+                  <div className="flex items-end justify-between gap-4">
+                    <span className="font-display text-[1.5rem] text-softwhite">Final total</span>
+                    <span className="font-display text-[2.2rem] leading-none text-warmbrown-light">{formatCurrency(total)}</span>
+                  </div>
+                  {monthlyMaintenance ? (
+                    <div className="mt-2 text-right text-sm text-softwhite/55">
+                      + $60/month after the free 3 month support period
+                    </div>
+                  ) : null}
                 </div>
-                {monthlyMaintenance && (
-                  <div className="text-right text-sm text-ink/45">+ $60/mo after free support ends</div>
-                )}
               </div>
-            </div>
 
-            {/* Get Started */}
-            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm leading-7 text-ink/50">
-                This is an estimate only. Final pricing is confirmed once we review your project details.
+              <p className="mt-6 text-sm leading-7 text-softwhite/58">
+                This summary is pre-filled into the contact form so we can review the exact package and add-ons you selected.
               </p>
+
               <Link
-                to={`/contact?summary=${encodeURIComponent(buildSummary())}`}
-                className="shrink-0 rounded-full bg-ink px-8 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
+                to={`/contact?summary=${encodeURIComponent(summaryLines)}`}
+                className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-softwhite px-8 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:-translate-y-0.5 hover:bg-warmbrown hover:text-softwhite"
               >
                 Get Started
               </Link>
-            </div>
-
+            </aside>
           </div>
         </div>
       </section>

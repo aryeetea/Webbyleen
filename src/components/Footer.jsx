@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-ink px-5 py-20 text-softwhite sm:px-6">
-      <div className="absolute inset-x-0 top-0 h-56 bg-[radial-gradient(circle_at_top,rgba(209,173,132,0.2),transparent_50%)]" />
+      <div className="absolute inset-x-0 top-0 h-56 bg-ink" />
       <div className="relative mx-auto grid max-w-6xl gap-14 border-b border-softwhite/10 pb-14 lg:grid-cols-[1.6fr_0.9fr_0.9fr_1fr]">
         <div>
           <Link to="/" className="inline-block rounded-[20px] bg-softwhite/95 px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)]" aria-label="ACE Web Studio home">
@@ -38,8 +38,7 @@ export default function Footer() {
             <Link className="transition hover:text-softwhite" to="/faq">FAQ</Link>
             <a className="text-anywhere transition hover:text-softwhite" href="mailto:aileen.aryeetey@outlook.com">aileen.aryeetey@outlook.com</a>
             <a className="text-anywhere transition hover:text-softwhite" href="mailto:cowusuforkuo@gmail.com">cowusuforkuo@gmail.com</a>
-            <a className="text-anywhere transition hover:text-softwhite" href="mailto:edwinaaryeeteya@gmail.com">edwinaaryeeteya@gmail.com</a>
-            <Link className="transition hover:text-softwhite" to="/admin">Admin</Link>
+            <span className="text-anywhere text-softwhite/45">Edwina email coming soon</span>
           </div>
         </div>
       </div>

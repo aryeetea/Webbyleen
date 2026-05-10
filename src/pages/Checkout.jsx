@@ -108,12 +108,18 @@ export default function Checkout() {
   return (
     <>
       <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 sm:pt-40">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_right,rgba(196,168,130,0.32),transparent_34%),radial-gradient(circle_at_left,rgba(17,17,16,0.1),transparent_30%)]" />
+        <div className="absolute inset-0 bg-cream" />
         <div className="relative mx-auto max-w-6xl">
+          <Link
+            to="/services"
+            className="mb-6 inline-flex rounded-full border border-ink px-5 py-2.5 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:bg-ink hover:text-softwhite"
+          >
+            Back to Services
+          </Link>
           <SectionIntro
-            label="Order Online"
-            title="Choose your package, customize it, and pay online."
-            copy="This checkout is separate from contact so clients can configure their order, add extras, and pay a secure booking deposit like a real ecommerce flow."
+            label="Complete Order"
+            title="Finish your order and secure your booking."
+            copy="This page is the final order step after choosing your package on the services page. Review your package, add extras if needed, and pay your booking deposit securely."
           />
         </div>
       </section>
@@ -225,6 +231,13 @@ export default function Checkout() {
             >
               {submitting ? 'Redirecting to Payment...' : `Pay ${formatCurrency(pricing.amountDueToday)} Deposit`}
             </button>
+
+            <Link
+              to="/services"
+              className="mt-4 inline-flex rounded-full border border-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+            >
+              Return to Services
+            </Link>
           </form>
 
           <aside className="space-y-6">
@@ -262,16 +275,24 @@ export default function Checkout() {
             </div>
 
             <div className="rounded-[30px] border border-warmbrown/12 bg-softwhite p-7 shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
-              <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Need to ask something first?</div>
+              <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Need to change direction?</div>
               <p className="mt-5 text-[0.96rem] leading-8 text-ink/66">
-                The contact page is reserved for questions, collaborations, and general inquiries. Orders and payments stay inside checkout for a more professional booking process.
+                You can go back to the services page at any time to compare packages again, or head to contact if you want to ask questions before paying.
               </p>
-              <Link
-                to="/contact"
-                className="mt-6 inline-flex rounded-full border border-ink px-6 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:bg-ink hover:text-softwhite"
-              >
-                Go to Contact
-              </Link>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/services"
+                  className="inline-flex rounded-full border border-ink px-6 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:bg-ink hover:text-softwhite"
+                >
+                  Back to Services
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex rounded-full bg-ink px-6 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:bg-warmbrown"
+                >
+                  Go to Contact
+                </Link>
+              </div>
             </div>
           </aside>
         </div>
