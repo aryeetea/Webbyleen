@@ -38,7 +38,7 @@ export default function Footer() {
             <Link className="transition hover:text-softwhite" to="/faq">FAQ</Link>
             <a className="text-anywhere transition hover:text-softwhite" href="mailto:aileen.aryeetey@outlook.com">aileen.aryeetey@outlook.com</a>
             <a className="text-anywhere transition hover:text-softwhite" href="mailto:cowusuforkuo@gmail.com">cowusuforkuo@gmail.com</a>
-            <span className="text-anywhere text-softwhite/45">Edwina email coming soon</span>
+            <a className="text-anywhere transition hover:text-softwhite" href="mailto:edwinaryeeteya@gmail.com">edwinaryeeteya@gmail.com</a>
           </div>
         </div>
       </div>

@@ -97,9 +97,9 @@ export default function Services() {
   const defaultPackage = BASE_PRICES[initialPackage] ? initialPackage : 'basic'
 
   const [custPkg, setCustPkg] = useState(defaultPackage)
-  const [customizerOpen, setCustomizerOpen] = useState(true)
+  const [customizerOpen, setCustomizerOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState(0)
-  const [openAddon, setOpenAddon] = useState('additional-pages')
+  const [openAddon, setOpenAddon] = useState('')
   const [extraPages, setExtraPages] = useState(0)
   const [ecommerce, setEcommerce] = useState(false)
   const [logoDesign, setLogoDesign] = useState(false)

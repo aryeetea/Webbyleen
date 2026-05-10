@@ -129,9 +129,9 @@ export default function Contact() {
                 </div>
                 <div className="pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Edwina — Art Direction</div>
-                  <div className="text-anywhere mt-1.5 block text-[0.95rem] text-warmbrown">
-                    Email coming soon
-                  </div>
+                  <a href="mailto:edwinaryeeteya@gmail.com" className="text-anywhere mt-1.5 block text-[0.95rem] text-warmbrown transition hover:text-ink">
+                    edwinaryeeteya@gmail.com
+                  </a>
                 </div>
                 <div className="border-t border-warmbrown-pale pt-5">
                   <div className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Reply Window</div>

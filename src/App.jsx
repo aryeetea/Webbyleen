@@ -30,7 +30,7 @@ function RouteFallback() {
 export default function App() {
   const { pathname } = useLocation()
   const isStudioRoute = pathname.startsWith('/studio')
-  const showFooter = pathname !== '/' && !isStudioRoute
+  const showFooter = !isStudioRoute
 
   if (isStudioRoute) {
     return (
