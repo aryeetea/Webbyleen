@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import FaqAccordion from '../components/FaqAccordion'
 import SectionIntro from '../components/SectionIntro'
 import { createContactInquiry } from '../lib/api'
@@ -17,6 +17,8 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [emailWarning, setEmailWarning] = useState('')
+  const [searchParams] = useSearchParams()
+  const summaryParam = searchParams.get('summary')
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -24,7 +26,7 @@ export default function Contact() {
     businessName: '',
     website: '',
     timeline: '',
-    message: '',
+    message: summaryParam ? `My configured order:\n${summaryParam}\n\nAdditional message:\n` : '',
   })
 
   const handleChange = event => {
