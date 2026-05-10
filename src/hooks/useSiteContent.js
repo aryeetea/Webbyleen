@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
-import { defaultSiteContent, fetchSiteContent } from '../lib/siteContent'
-import { isSanityConfigured } from '../lib/sanity'
+import { defaultSiteContent, fetchSiteContent, hasRemoteSiteContent } from '../lib/siteContent'
 
 export function useSiteContent() {
   const [content, setContent] = useState(defaultSiteContent)
-  const [loading, setLoading] = useState(isSanityConfigured)
+  const [loading, setLoading] = useState(hasRemoteSiteContent)
 
   useEffect(() => {
     let cancelled = false
 
     async function loadContent() {
-      if (!isSanityConfigured) {
+      if (!hasRemoteSiteContent) {
         setLoading(false)
         return
       }

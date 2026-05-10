@@ -1,6 +1,11 @@
 import { faqs as fallbackFaqs } from '../data/faqs'
 import { packages as fallbackPackages } from '../data/packages'
-import { isSanityConfigured, sanityClient } from './sanity'
+
+const sanityProjectId = import.meta.env.VITE_SANITY_PROJECT_ID || ''
+const sanityDataset = import.meta.env.VITE_SANITY_DATASET || ''
+const sanityApiVersion = import.meta.env.VITE_SANITY_API_VERSION || '2025-05-08'
+
+export const hasRemoteSiteContent = Boolean(sanityProjectId && sanityDataset)
 
 export const defaultSiteContent = {
   settings: {
@@ -147,9 +152,17 @@ function normalizeFaqs(value) {
 }
 
 export async function fetchSiteContent() {
-  if (!isSanityConfigured || !sanityClient) {
+  if (!hasRemoteSiteContent) {
     return defaultSiteContent
   }
+
+  const { createClient } = await import('@sanity/client')
+  const sanityClient = createClient({
+    projectId: sanityProjectId,
+    dataset: sanityDataset,
+    apiVersion: sanityApiVersion,
+    useCdn: true,
+  })
 
   const result = await sanityClient.fetch(siteContentQuery)
   const fallbackSettings = defaultSiteContent.settings

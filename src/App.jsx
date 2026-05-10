@@ -4,17 +4,28 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
-import AboutUs from './pages/AboutUs'
-import Services from './pages/Services'
-import Portfolio from './pages/Portfolio'
-import Admin from './pages/Admin'
-import Contact from './pages/Contact'
-import Faq from './pages/Faq'
-import Checkout from './pages/Checkout'
-import CheckoutSuccess from './pages/CheckoutSuccess'
-import CheckoutCancel from './pages/CheckoutCancel'
 
+const AboutUs = lazy(() => import('./pages/AboutUs'))
+const Services = lazy(() => import('./pages/Services'))
+const Portfolio = lazy(() => import('./pages/Portfolio'))
+const Admin = lazy(() => import('./pages/Admin'))
+const Contact = lazy(() => import('./pages/Contact'))
+const Faq = lazy(() => import('./pages/Faq'))
+const Checkout = lazy(() => import('./pages/Checkout'))
+const CheckoutSuccess = lazy(() => import('./pages/CheckoutSuccess'))
+const CheckoutCancel = lazy(() => import('./pages/CheckoutCancel'))
 const StudioPage = lazy(() => import('./pages/StudioPage'))
+
+function RouteFallback() {
+  return (
+    <div className="px-4 pb-16 pt-36 sm:px-6 sm:pt-40">
+      <div className="mx-auto max-w-6xl rounded-[28px] border border-warmbrown/12 bg-softwhite p-8 text-center shadow-[0_24px_56px_rgba(17,17,16,0.06)]">
+        <div className="text-[0.72rem] uppercase tracking-[0.24em] text-warmbrown">Loading</div>
+        <p className="mt-4 text-[1rem] leading-8 text-ink/62">Preparing the page...</p>
+      </div>
+    </div>
+  )
+}
 
 export default function App() {
   const { pathname } = useLocation()
@@ -23,7 +34,7 @@ export default function App() {
 
   if (isStudioRoute) {
     return (
-      <Suspense fallback={null}>
+      <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/studio/*" element={<StudioPage />} />
         </Routes>
@@ -36,7 +47,7 @@ export default function App() {
       <ScrollToTop />
       <Navbar />
       <main className="relative">
-        <Suspense fallback={null}>
+        <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/"          element={<Home />} />
             <Route path="/about"     element={<AboutUs />} />

@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom'
 import SectionIntro from '../components/SectionIntro'
 import { createContactInquiry } from '../lib/api'
 import { useSiteContent } from '../hooks/useSiteContent'
-import emailjs from '@emailjs/browser'
 
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || ''
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ''
@@ -57,6 +56,7 @@ export default function Contact() {
     // Send email via EmailJS
     if (EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY) {
       try {
+        const emailjs = await import('@emailjs/browser')
         await emailjs.send(
           EMAILJS_SERVICE_ID,
           EMAILJS_TEMPLATE_ID,
