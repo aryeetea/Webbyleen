@@ -11,6 +11,7 @@ const links = [
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+  const isHome = pathname === '/'
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-6 sm:pt-6">
@@ -42,6 +43,25 @@ export default function Navbar() {
             })}
           </div>
 
+          {isHome ? (
+            <div className="hidden items-center gap-4 lg:flex">
+              <Link
+                to="/contact"
+                className="inline-flex min-w-[170px] items-center justify-center rounded-full bg-warmbrown px-7 py-3.5 text-center text-[0.82rem] font-semibold tracking-[0.01em] text-softwhite shadow-[0_12px_24px_rgba(184,149,106,0.24)] transition hover:-translate-y-0.5 hover:bg-warmbrown-light"
+              >
+                Contact Us
+              </Link>
+              <Link
+                to="/checkout"
+                className="inline-flex min-w-[170px] items-center justify-center rounded-full bg-ink px-7 py-3.5 text-center text-[0.82rem] font-semibold tracking-[0.01em] text-softwhite shadow-[0_12px_24px_rgba(26,26,26,0.16)] transition hover:-translate-y-0.5 hover:bg-warmbrown"
+              >
+                Order Now
+              </Link>
+            </div>
+          ) : (
+            <div className="hidden lg:block" />
+          )}
+
           <button
             type="button"
             onClick={() => setOpen(current => !current)}
@@ -72,6 +92,24 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {isHome ? (
+              <>
+                <Link
+                  to="/contact"
+                  onClick={() => setOpen(false)}
+                  className="rounded-[18px] bg-warmbrown px-4 py-3 text-sm font-medium uppercase tracking-[0.14em] text-softwhite transition hover:bg-warmbrown-light"
+                >
+                  Contact Us
+                </Link>
+                <Link
+                  to="/checkout"
+                  onClick={() => setOpen(false)}
+                  className="rounded-[18px] bg-ink px-4 py-3 text-sm font-medium uppercase tracking-[0.14em] text-softwhite transition hover:bg-warmbrown"
+                >
+                  Order Now
+                </Link>
+              </>
+            ) : null}
           </div>
         )}
       </nav>

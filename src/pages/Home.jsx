@@ -18,76 +18,50 @@ function renderHeroTitle(title, highlight) {
   )
 }
 
-function getHomepageCtas(homeHero) {
-  return [
-    {
-      label: 'Order Now',
-      to: '/checkout',
-      className:
-        'inline-flex min-w-[170px] items-center justify-center rounded-full bg-ink px-7 py-3.5 text-center text-[0.82rem] font-semibold tracking-[0.01em] text-softwhite shadow-[0_12px_24px_rgba(26,26,26,0.16)] transition hover:-translate-y-0.5 hover:bg-warmbrown sm:min-w-[190px]',
-    },
-    {
-      label: 'Contact Us',
-      to: '/contact',
-      className:
-        'inline-flex min-w-[170px] items-center justify-center rounded-full bg-warmbrown px-7 py-3.5 text-center text-[0.82rem] font-semibold tracking-[0.01em] text-softwhite shadow-[0_12px_24px_rgba(184,149,106,0.24)] transition hover:-translate-y-0.5 hover:bg-warmbrown-light sm:min-w-[190px]',
-    },
-  ]
-}
-
 export default function Home() {
   const { content } = useSiteContent()
   const { homeHero } = content.settings
-  const homepageCtas = getHomepageCtas(homeHero)
 
   return (
     <>
       <section className="relative overflow-hidden px-4 pb-20 pt-36 sm:px-6 sm:pb-24 sm:pt-44">
         <div className="absolute inset-0 bg-cream" />
         <div className="relative mx-auto max-w-6xl">
-          <div className="animate-fade-up mb-8 flex flex-col gap-3 opacity-0 sm:flex-row lg:absolute lg:right-0 lg:top-3 lg:z-10 lg:mb-0">
-            {homepageCtas.map(cta => (
-              <Link key={cta.label} to={cta.to} className={cta.className}>
-                {cta.label}
-              </Link>
-            ))}
-          </div>
-
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:pt-24">
-          <div>
-            <div className="animate-fade-up flex flex-wrap items-center gap-3 text-[0.68rem] font-medium uppercase editorial-kicker text-warmbrown sm:text-[0.72rem]">
-              <span className="rounded-full border border-warmbrown/12 bg-softwhite/80 px-3 py-1 shadow-[0_10px_24px_rgba(23,20,17,0.05)]">Luxury feel</span>
-              <span className="h-px w-8 bg-warmbrown/70" />
-              <span>{homeHero.eyebrow}</span>
+            <div>
+              <div className="animate-fade-up flex flex-wrap items-center gap-3 text-[0.68rem] font-medium uppercase editorial-kicker text-warmbrown sm:text-[0.72rem]">
+                <span className="rounded-full border border-warmbrown/12 bg-softwhite/80 px-3 py-1 shadow-[0_10px_24px_rgba(23,20,17,0.05)]">Luxury feel</span>
+                <span className="h-px w-8 bg-warmbrown/70" />
+                <span>{homeHero.eyebrow}</span>
+              </div>
+              <h1 className="text-balance animate-fade-up mt-6 max-w-5xl font-display text-[2.7rem] leading-[0.94] text-ink opacity-0 [animation-delay:120ms] sm:text-[4.4rem] lg:text-[5.5rem]">
+                {renderHeroTitle(homeHero.title, homeHero.highlight)}
+              </h1>
+              <p className="animate-fade-up mt-6 max-w-3xl text-[1rem] leading-7 text-ink/66 opacity-0 [animation-delay:240ms] sm:mt-7 sm:text-[1.08rem] sm:leading-8">
+                {homeHero.description}
+              </p>
             </div>
-            <h1 className="text-balance animate-fade-up mt-6 max-w-5xl font-display text-[2.7rem] leading-[0.94] text-ink opacity-0 [animation-delay:120ms] sm:text-[4.4rem] lg:text-[5.5rem]">
-              {renderHeroTitle(homeHero.title, homeHero.highlight)}
-            </h1>
-            <p className="animate-fade-up mt-6 max-w-3xl text-[1rem] leading-7 text-ink/66 opacity-0 [animation-delay:240ms] sm:mt-7 sm:text-[1.08rem] sm:leading-8">
-              {homeHero.description}
-            </p>
-          </div>
 
-          <div className="animate-fade-up opacity-0 [animation-delay:420ms]">
-            <div className="surface-panel relative rounded-[34px] p-6">
-              <div className="absolute right-6 top-6 rounded-full border border-warmbrown/12 bg-warmbrown-pale/28 px-3 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-warmbrown">
-                Editorial polish
-              </div>
-              <div className="grid gap-5 pt-14">
-                {[
-                  ['Custom coded', 'No templates. Every layout is shaped around your business.'],
-                  ['Professional pacing', 'Typography, spacing, and hierarchy tuned to feel premium.'],
-                  ['Ready to launch', 'Structured, mobile-responsive, and built for modern trust signals.'],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-[24px] border border-warmbrown/10 bg-softwhite/70 p-5">
-                    <div className="text-[0.68rem] uppercase tracking-[0.2em] text-warmbrown">{label}</div>
-                    <p className="mt-3 text-[0.96rem] leading-7 text-ink/66">{value}</p>
-                  </div>
-                ))}
+            <div className="animate-fade-up opacity-0 [animation-delay:420ms]">
+              <div className="surface-panel relative rounded-[34px] p-6">
+                <div className="absolute right-6 top-6 rounded-full border border-warmbrown/12 bg-warmbrown-pale/28 px-3 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-warmbrown">
+                  Editorial polish
+                </div>
+                <div className="grid gap-5 pt-14">
+                  {[
+                    ['Custom coded', 'No templates. Every layout is shaped around your business.'],
+                    ['Professional pacing', 'Typography, spacing, and hierarchy tuned to feel premium.'],
+                    ['Ready to launch', 'Structured, mobile-responsive, and built for modern trust signals.'],
+                  ].map(([label, value]) => (
+                    <div key={label} className="rounded-[24px] border border-warmbrown/10 bg-softwhite/70 p-5">
+                      <div className="text-[0.68rem] uppercase tracking-[0.2em] text-warmbrown">{label}</div>
+                      <p className="mt-3 text-[0.96rem] leading-7 text-ink/66">{value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </section>
 
