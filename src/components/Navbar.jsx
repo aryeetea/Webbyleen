@@ -11,7 +11,6 @@ const links = [
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
-  const isHome = pathname === '/'
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-6 sm:pt-6">
@@ -43,24 +42,20 @@ export default function Navbar() {
             })}
           </div>
 
-          {isHome ? (
-            <div className="hidden items-center gap-4 lg:flex">
-              <Link
-                to="/contact"
-                className="btn-pill btn-pill-accent btn-pill-sm min-w-[158px]"
-              >
-                Contact Us
-              </Link>
-              <Link
-                to="/checkout"
-                className="btn-pill btn-pill-primary btn-pill-sm min-w-[158px]"
-              >
-                Order Now
-              </Link>
-            </div>
-          ) : (
-            <div className="hidden lg:block" />
-          )}
+          <div className="hidden items-center gap-4 lg:flex">
+            <Link
+              to="/contact"
+              className="btn-pill btn-pill-accent btn-pill-sm min-w-[158px]"
+            >
+              Contact Us
+            </Link>
+            <Link
+              to="/checkout"
+              className="btn-pill btn-pill-primary btn-pill-sm min-w-[158px]"
+            >
+              Order Now
+            </Link>
+          </div>
 
           <button
             type="button"
@@ -92,24 +87,22 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {isHome ? (
-              <>
-                <Link
-                  to="/contact"
-                  onClick={() => setOpen(false)}
-                  className="btn-pill btn-pill-accent"
-                >
-                  Contact Us
-                </Link>
-                <Link
-                  to="/checkout"
-                  onClick={() => setOpen(false)}
-                  className="btn-pill btn-pill-primary"
-                >
-                  Order Now
-                </Link>
-              </>
-            ) : null}
+            <>
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="btn-pill btn-pill-accent"
+              >
+                Contact Us
+              </Link>
+              <Link
+                to="/checkout"
+                onClick={() => setOpen(false)}
+                className="btn-pill btn-pill-primary"
+              >
+                Order Now
+              </Link>
+            </>
           </div>
         )}
       </nav>
