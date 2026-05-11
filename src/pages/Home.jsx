@@ -134,7 +134,7 @@ export default function Home() {
                 </p>
                 <Link
                   to={item.to}
-                  className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-center text-[0.75rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary mt-8 w-full"
                 >
                   {item.cta}
                 </Link>
@@ -155,7 +155,7 @@ export default function Home() {
           <div className="mt-10">
             <Link
               to="/services"
-              className="inline-flex rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
+              className="btn-pill btn-pill-primary"
             >
               View Services
             </Link>

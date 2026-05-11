@@ -27,13 +27,13 @@ export default function CheckoutCancel() {
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               to={selectedPackage ? `/services?package=${selectedPackage}` : '/services'}
-              className="rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown"
+              className="btn-pill btn-pill-primary"
             >
               Return to Services
             </Link>
             <Link
               to="/contact"
-              className="rounded-full border border-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+              className="btn-pill btn-pill-outline"
             >
               Contact Instead
             </Link>

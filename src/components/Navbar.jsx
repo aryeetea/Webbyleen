@@ -47,13 +47,13 @@ export default function Navbar() {
             <div className="hidden items-center gap-4 lg:flex">
               <Link
                 to="/contact"
-                className="inline-flex min-w-[170px] items-center justify-center rounded-full bg-warmbrown px-7 py-3.5 text-center text-[0.82rem] font-semibold tracking-[0.01em] text-softwhite shadow-[0_12px_24px_rgba(184,149,106,0.24)] transition hover:-translate-y-0.5 hover:bg-warmbrown-light"
+                className="btn-pill btn-pill-accent btn-pill-sm min-w-[158px]"
               >
                 Contact Us
               </Link>
               <Link
                 to="/checkout"
-                className="inline-flex min-w-[170px] items-center justify-center rounded-full bg-ink px-7 py-3.5 text-center text-[0.82rem] font-semibold tracking-[0.01em] text-softwhite shadow-[0_12px_24px_rgba(26,26,26,0.16)] transition hover:-translate-y-0.5 hover:bg-warmbrown"
+                className="btn-pill btn-pill-primary btn-pill-sm min-w-[158px]"
               >
                 Order Now
               </Link>
@@ -97,14 +97,14 @@ export default function Navbar() {
                 <Link
                   to="/contact"
                   onClick={() => setOpen(false)}
-                  className="rounded-[18px] bg-warmbrown px-4 py-3 text-sm font-medium uppercase tracking-[0.14em] text-softwhite transition hover:bg-warmbrown-light"
+                  className="btn-pill btn-pill-accent"
                 >
                   Contact Us
                 </Link>
                 <Link
                   to="/checkout"
                   onClick={() => setOpen(false)}
-                  className="rounded-[18px] bg-ink px-4 py-3 text-sm font-medium uppercase tracking-[0.14em] text-softwhite transition hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary"
                 >
                   Order Now
                 </Link>

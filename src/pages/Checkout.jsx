@@ -171,7 +171,7 @@ export default function Checkout() {
         <div className="relative mx-auto max-w-6xl">
           <Link
             to="/services"
-            className="mb-6 inline-flex rounded-full border border-ink px-5 py-2.5 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:bg-ink hover:text-softwhite"
+            className="btn-pill btn-pill-outline btn-pill-sm mb-6"
           >
             Back to Services
           </Link>
@@ -272,14 +272,14 @@ export default function Checkout() {
             <button
               type="submit"
               disabled={submitting}
-              className="mt-8 rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-pill btn-pill-primary mt-8 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting ? 'Redirecting to Payment...' : `Pay ${formatCurrency(pricing.amountDueToday)} Deposit`}
             </button>
 
             <Link
               to="/services"
-              className="mt-4 inline-flex rounded-full border border-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+              className="btn-pill btn-pill-outline mt-4"
             >
               Return to Services
             </Link>
@@ -327,13 +327,13 @@ export default function Checkout() {
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link
                   to="/services"
-                  className="inline-flex rounded-full border border-ink px-6 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink transition hover:bg-ink hover:text-softwhite"
+                  className="btn-pill btn-pill-outline btn-pill-sm"
                 >
                   Back to Services
                 </Link>
                 <Link
                   to="/contact"
-                  className="inline-flex rounded-full bg-ink px-6 py-3 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary btn-pill-sm"
                 >
                   Go to Contact
                 </Link>

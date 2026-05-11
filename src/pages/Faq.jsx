@@ -47,7 +47,7 @@ export default function Faq() {
               </p>
               <Link
                 to="/contact"
-                className="mt-8 inline-flex rounded-full bg-ink px-7 py-4 text-[0.74rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown"
+                className="btn-pill btn-pill-primary mt-8"
               >
                 Start an Inquiry
               </Link>

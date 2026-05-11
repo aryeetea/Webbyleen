@@ -105,7 +105,7 @@ export default function PortfolioShowcase({ projects, loading }) {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex rounded-full bg-ink px-5 py-3 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-softwhite transition hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary btn-pill-sm"
                 >
                   Visit Project
                 </a>

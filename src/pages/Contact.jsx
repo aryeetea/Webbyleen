@@ -200,7 +200,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="mt-3 rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:-translate-y-0.5 hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary mt-3 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting ? 'Sending...' : 'Send Message'}
                 </button>

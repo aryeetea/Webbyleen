@@ -75,13 +75,13 @@ export default function CheckoutSuccess() {
               <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
                   to="/contact"
-                  className="rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary"
                 >
                   Contact Us
                 </Link>
                 <Link
                   to="/checkout"
-                  className="rounded-full border border-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+                  className="btn-pill btn-pill-outline"
                 >
                   Back to Checkout
                 </Link>
@@ -109,13 +109,13 @@ export default function CheckoutSuccess() {
               <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
                 <Link
                   to="/portfolio"
-                  className="rounded-full bg-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-softwhite transition hover:bg-warmbrown"
+                  className="btn-pill btn-pill-primary"
                 >
                   View Work
                 </Link>
                 <Link
                   to="/contact"
-                  className="rounded-full border border-ink px-8 py-4 text-[0.76rem] font-medium uppercase tracking-[0.2em] text-ink transition hover:bg-ink hover:text-softwhite"
+                  className="btn-pill btn-pill-outline"
                 >
                   Ask a Question
                 </Link>
